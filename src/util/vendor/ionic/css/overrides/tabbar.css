@@ -1,0 +1,13 @@
+/* Fix tab bar top border disappearing on scroll:
+   box-shadow replaces the border to avoid stacking context issues,
+   and z-index keeps the tab bar above the scroll layer. */
+ion-tab-bar {
+  box-shadow: 0 -1px 0 var(--ion-border-color, #e0e0e0);
+  border-top: none;
+  position: relative;
+  z-index: 10;
+}
+
+.ion-palette-dark ion-tab-bar {
+  box-shadow: 0 -1px 0 var(--ion-border-color, #333333);
+}

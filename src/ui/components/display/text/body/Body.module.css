@@ -1,0 +1,9 @@
+.balance {
+  display: inline-block;
+  text-wrap: balance;
+}
+
+.pretty {
+  display: inline-block;
+  text-wrap: pretty;
+}

@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "types": ["vite-plugin-pwa/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path aliases - add new apps following the same pattern */
+    "paths": {
+      "@base-content/*": ["./src/apps/base/content/*"],
+      "@base-routes/*": ["./src/apps/base/routes/*"],
+      "@admin-content/*": ["./src/apps/admin/content/*"],
+      "@admin-routes/*": ["./src/apps/admin/routes/*"],
+      "@proclaimer-content/*": ["./src/apps/proclaimer/content/*"],
+      "@proclaimer-routes/*": ["./src/apps/proclaimer/routes/*"],
+      "@proclaimer-shared/*": ["./src/apps/proclaimer/shared/*"],
+      "@subbie-content/*": ["./src/apps/subbie/content/*"],
+      "@subbie-routes/*": ["./src/apps/subbie/routes/*"],
+      "@shared/*": ["./src/apps/shared/*"],
+      "@ui/*": ["./src/ui/*"],
+      "@util/*": ["./src/util/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["example-code"]
+}

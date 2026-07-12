@@ -1,0 +1,11 @@
+:root {
+  /* LIGHT THEME */
+  --toolbar-background: #ddd;
+  --toolbar-border: #c7c7c7;
+  --content-background: #fff;
+
+  /* DARK THEME */
+  --toolbar-background-dark: #272727;
+  --toolbar-border-dark: #444;
+  --content-background-dark: #111;
+}

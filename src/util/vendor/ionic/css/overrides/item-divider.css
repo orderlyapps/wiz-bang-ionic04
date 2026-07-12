@@ -1,0 +1,9 @@
+/* Light mode - use grey background */
+ion-item-divider {
+  --background: var(--content-background);
+}
+
+/* Dark mode - use dark background */
+.ion-palette-dark ion-item-divider {
+  --background: var(--content-background-dark);
+}

@@ -1,0 +1,166 @@
+:root {
+  /* Background of the Tab Bar */
+  --ion-tab-bar-background: var(--toolbar-background);
+  /* Border color of the Tab Bar */
+  --ion-tab-bar-border-color: var(--toolbar-border);
+  /* Background of the Toolbar */
+  --ion-toolbar-background: var(--toolbar-background);
+  /* Border color of the Toolbar */
+  --ion-toolbar-border-color: var(--toolbar-border);
+
+  /* --ion-background-color: "#red";                       Background color of the entire app */
+  /* --ion-background-color-rgb: "0, 255, 255";            Background color of the entire app, rgb format */
+  /* --ion-text-color: "#00F";                             Text color of the entire app */
+  /* --ion-text-color-rgb: "0, 0, 0";                      Text color of the entire app, rgb format */
+  /* --ion-backdrop-color: "#000";                         Color of the Backdrop component */
+  /* --ion-backdrop-opacity: "0.5";                        Opacity of the Backdrop component */
+  /* --ion-overlay-background-color: "#fff";               Background color of the overlays */
+  /* --ion-border-color: "red";                            Border color */
+  /* --ion-box-shadow-color: "red";                        Box shadow color */
+  /* --ion-tab-bar-background-focused: "red";              Background of the focused Tab Bar */
+  /* --ion-tab-bar-color: "red";                           Color of the Tab Bar */
+  /* --ion-tab-bar-color-selected: "red";                  Color of the selected Tab Button */
+  /* --ion-toolbar-color: "red";                           Color of the components in the Toolbar */
+  /* --ion-toolbar-segment-color: "red";                   Color of the Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-color-checked: "red";           Color of the checked Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-background: "red";              Background of the Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-background-checked: "red";      Background of the Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-indicator-color: "red";         Color of the Segment Button indicator in the Toolbar */
+  /* --ion-item-background: "red";                         Background of the Item */
+  /* --ion-item-border-color: "red";                       Border color of the Item */
+  /* --ion-item-color: "red";                              Color of the components in the Item */
+  /* --ion-placeholder-color: "red";                       Color of the placeholder in Inputs */
+
+  /* STEPPED COLORS */
+  /* --ion-background-color: #dddddd; */
+  /* --ion-background-color-rgb: 221,221,221; */
+  /* --ion-text-color: #000000; */
+  /* --ion-text-color-rgb: 0,0,0; */
+
+  /* --ion-text-color-step-50: #0b0b0b; */
+  /* --ion-text-color-step-100: #161616; */
+  /* --ion-text-color-step-150: #212121; */
+  /* --ion-text-color-step-200: #2c2c2c; */
+  /* --ion-text-color-step-250: #373737; */
+  /* --ion-text-color-step-300: #424242; */
+  /* --ion-text-color-step-350: #4d4d4d; */
+  /* --ion-text-color-step-400: #585858; */
+  /* --ion-text-color-step-450: #636363; */
+  /* --ion-text-color-step-500: #6f6f6f; */
+  /* --ion-text-color-step-550: #7a7a7a; */
+  /* --ion-text-color-step-600: #858585; */
+  /* --ion-text-color-step-650: #909090; */
+  /* --ion-text-color-step-700: #9b9b9b; */
+  /* --ion-text-color-step-750: #a6a6a6; */
+  /* --ion-text-color-step-800: #b1b1b1; */
+  /* --ion-text-color-step-850: #bcbcbc; */
+  /* --ion-text-color-step-900: #c7c7c7; */
+  /* --ion-text-color-step-950: #d2d2d2; */
+
+  /* --ion-background-color-step-50: #d2d2d2; */
+  /* --ion-background-color-step-100: #c7c7c7; */
+  /* --ion-background-color-step-150: #bcbcbc; */
+  /* --ion-background-color-step-200: #b1b1b1; */
+  /* --ion-background-color-step-250: #a6a6a6; */
+  /* --ion-background-color-step-300: #9b9b9b; */
+  /* --ion-background-color-step-350: #909090; */
+  /* --ion-background-color-step-400: #858585; */
+  /* --ion-background-color-step-450: #7a7a7a; */
+  /* --ion-background-color-step-500: #6f6f6f; */
+  /* --ion-background-color-step-550: #636363; */
+  /* --ion-background-color-step-600: #585858; */
+  /* --ion-background-color-step-650: #4d4d4d; */
+  /* --ion-background-color-step-700: #424242; */
+  /* --ion-background-color-step-750: #373737; */
+  /* --ion-background-color-step-800: #2c2c2c; */
+  /* --ion-background-color-step-850: #212121; */
+  /* --ion-background-color-step-900: #161616; */
+  /* --ion-background-color-step-950: #0b0b0b; */
+}
+
+.ion-palette-dark.md,
+.ion-palette-dark.ios {
+  /* Background of the Tab Bar */
+  --ion-tab-bar-background: var(--toolbar-background-dark);
+  /* Border color of the Tab Bar */
+  --ion-tab-bar-border-color: var(--toolbar-border-dark);
+  /* Background of the Toolbar */
+  --ion-toolbar-background: var(--toolbar-background-dark);
+  /* Border color of the Toolbar */
+  --ion-toolbar-border-color: var(--toolbar-border-dark);
+  /* Background of the Item */
+  --ion-item-background: var(--content-background-dark);
+  /* Background color of the entire app */
+  --ion-background-color: var(--content-background-dark);
+
+  ion-content {
+    --background: var(--content-background-dark);
+  }
+
+  /* --ion-background-color-rgb: "0, 255, 255";                   Background color of the entire app, rgb format */
+  /* --ion-text-color: "#00F";                                    Text color of the entire app */
+  /* --ion-text-color-rgb: "0, 0, 0";                             Text color of the entire app, rgb format */
+  /* --ion-backdrop-color: "#000";                                Color of the Backdrop component */
+  /* --ion-backdrop-opacity: "0.5";                               Opacity of the Backdrop component */
+  /* --ion-overlay-background-color: "#fff";                      Background color of the overlays */
+  /* --ion-border-color: "red";                                   Border color */
+  /* --ion-box-shadow-color: "red";                               Box shadow color */
+  /* --ion-tab-bar-background-focused: "red";                     Background of the focused Tab Bar */
+  /* --ion-tab-bar-color: "red";                                  Color of the Tab Bar */
+  /* --ion-tab-bar-color-selected: "red";                         Color of the selected Tab Button */
+  /* --ion-toolbar-color: "red";                                  Color of the components in the Toolbar */
+  /* --ion-toolbar-segment-color: "red";                          Color of the Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-color-checked: "red";                  Color of the checked Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-background: "red";                     Background of the Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-background-checked: "red";             Background of the Segment Buttons in the Toolbar */
+  /* --ion-toolbar-segment-indicator-color: "red";                Color of the Segment Button indicator in the Toolbar */
+  /* --ion-item-border-color: "red";                              Border color of the Item */
+  /* --ion-item-color: "red";                                     Color of the components in the Item */
+  /* --ion-placeholder-color: "red";                              Color of the placeholder in Inputs */
+
+  /* STEPPED COLORS */
+  /* --ion-background-color: #551111; */
+  /* --ion-background-color-rgb: 85,17,17; */
+  /* --ion-text-color: #FFFFFF; */
+  /* --ion-text-color-rgb: 255,255,255; * 
+
+    /* --ion-text-color-step-50: #f7f3f3; */
+  /* --ion-text-color-step-100: #eee7e7; */
+  /* --ion-text-color-step-150: #e6dbdb; */
+  /* --ion-text-color-step-200: #ddcfcf; */
+  /* --ion-text-color-step-250: #d5c4c4; */
+  /* --ion-text-color-step-300: #ccb8b8; */
+  /* --ion-text-color-step-350: #c4acac; */
+  /* --ion-text-color-step-400: #bba0a0; */
+  /* --ion-text-color-step-450: #b39494; */
+  /* --ion-text-color-step-500: #aa8888; */
+  /* --ion-text-color-step-550: #a27c7c; */
+  /* --ion-text-color-step-600: #997070; */
+  /* --ion-text-color-step-650: #916464; */
+  /* --ion-text-color-step-700: #885858; */
+  /* --ion-text-color-step-750: #804d4d; */
+  /* --ion-text-color-step-800: #774141; */
+  /* --ion-text-color-step-850: #6f3535; */
+  /* --ion-text-color-step-900: #662929; */
+  /* --ion-text-color-step-950: #5e1d1d; *    
+
+    /* --ion-background-color-step-50: #5e1d1d; */
+  /* --ion-background-color-step-100: #662929; */
+  /* --ion-background-color-step-150: #6f3535; */
+  /* --ion-background-color-step-200: #774141; */
+  /* --ion-background-color-step-250: #804d4d; */
+  /* --ion-background-color-step-300: #885858; */
+  /* --ion-background-color-step-350: #916464; */
+  /* --ion-background-color-step-400: #997070; */
+  /* --ion-background-color-step-450: #a27c7c; */
+  /* --ion-background-color-step-500: #aa8888; */
+  /* --ion-background-color-step-550: #b39494; */
+  /* --ion-background-color-step-600: #bba0a0; */
+  /* --ion-background-color-step-650: #c4acac; */
+  /* --ion-background-color-step-700: #ccb8b8; */
+  /* --ion-background-color-step-750: #d5c4c4; */
+  /* --ion-background-color-step-800: #ddcfcf; */
+  /* --ion-background-color-step-850: #e6dbdb; */
+  /* --ion-background-color-step-900: #eee7e7; */
+  /* --ion-background-color-step-950: #f7f3f3; */
+}

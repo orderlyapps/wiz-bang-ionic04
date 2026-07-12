@@ -1,0 +1,32 @@
+/*
+ * Responsive content container.
+ *
+ * On mobile, content fills the viewport with a small gutter.
+ * On larger screens, content is capped at --content-max-width and centered.
+ * Override per page by setting a width modifier class on <IonContent>:
+ *   - default          -> 720px  (forms, settings, reading)
+ *   - .content-wide    -> 1200px (lists, dashboards)
+ *   - .content-full    -> no cap (maps, canvases)
+ * The mobile gutter is set by --content-gutter (default 1rem).
+ */
+ion-content {
+  --content-max-width: 720px;
+  --content-gutter: 1rem;
+}
+
+ion-content.content-wide {
+  --content-max-width: 1200px;
+}
+
+/* Full-bleed content (maps, fullscreen canvases). */
+ion-content.content-full::part(scroll),
+ion-content#fullscreen::part(scroll) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ion-modal content stays full-bleed so the modal itself defines the width. */
+ion-modal ion-content::part(scroll) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

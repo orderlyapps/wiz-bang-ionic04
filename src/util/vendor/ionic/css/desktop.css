@@ -1,0 +1,34 @@
+/*
+ * Desktop affordances. Only applied on pointer:fine + hover-capable devices
+ * to avoid breaking mobile touch interactions.
+ */
+
+/* Visible focus rings for keyboard users. */
+ion-button:focus-visible,
+ion-tab-button:focus-visible,
+ion-item.item-interactive:focus-visible,
+ion-item[button]:focus-visible {
+  outline: 2px solid var(--ion-color-primary, #3880ff);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+ion-input:focus-within,
+ion-textarea:focus-within,
+ion-select:focus-within {
+  --highlight-color-focused: var(--ion-color-primary, #3880ff);
+}
+
+/* Hover affordances only on devices that actually have hover. */
+@media (hover: hover) and (pointer: fine) {
+  ion-item[button]:hover,
+  ion-item.item-interactive:hover {
+    --background-hover: var(--ion-color-step-50, rgba(0, 0, 0, 0.04));
+    --background-hover-opacity: 1;
+    cursor: pointer;
+  }
+
+  ion-tab-button:hover {
+    --color-hover: var(--ion-color-primary, #3880ff);
+  }
+}

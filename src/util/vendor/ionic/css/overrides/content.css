@@ -1,0 +1,17 @@
+ion-content {
+  --padding-bottom: 15rem;
+  --padding-top: 2rem;
+}
+
+ion-content.remove-padding {
+  --padding-bottom: 0;
+  --padding-top: 0;
+}
+
+ion-content.remove-bottom-padding {
+  --padding-bottom: 0;
+}
+
+ion-content.remove-top-padding {
+  --padding-top: 0;
+}

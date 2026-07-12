@@ -1,0 +1,30 @@
+:root {
+  --ion-safe-area-top: env(safe-area-inset-top);
+  --ion-safe-area-bottom: env(safe-area-inset-bottom);
+  --ion-safe-area-left: env(safe-area-inset-left);
+  --ion-safe-area-right: env(safe-area-inset-right);
+}
+
+/* Apply safe area insets for notch handling in all orientations */
+/* ion-header {
+  padding-left: var(--ion-safe-area-left);
+  padding-right: var(--ion-safe-area-right);
+} */
+
+ion-footer {
+  padding-left: var(--ion-safe-area-left);
+  padding-right: var(--ion-safe-area-right);
+}
+
+ion-content::part(scroll) {
+  padding-left: max(
+    var(--content-gutter, 1rem),
+    calc((100% - var(--content-max-width, 720px)) / 2),
+    var(--ion-safe-area-left)
+  );
+  padding-right: max(
+    var(--content-gutter, 1rem),
+    calc((100% - var(--content-max-width, 720px)) / 2),
+    var(--ion-safe-area-right)
+  );
+}

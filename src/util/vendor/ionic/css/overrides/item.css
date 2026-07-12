@@ -1,0 +1,6 @@
+ion-item {
+  /* Prevent theme switch glitches */
+  --transition: none;
+  max-width: 480px;
+  margin-inline: auto;
+}
