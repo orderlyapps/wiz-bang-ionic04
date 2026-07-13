@@ -52,7 +52,9 @@ export function usePioneerStats(entries: MinistryTimeEntry[]): PioneerStatsData 
     const months_remaining = current_month <= 7 ? 7 - current_month + 1 : 20 - current_month;
 
     const avg_per_week = hours_remaining / weeks_remaining;
-    const avg_per_month = hours_remaining / months_remaining;
+    const hours_remaining_excluding_current = hours_remaining + current_month_hours;
+    // const months_remaining_excluding_current = Math.max(1, months_remaining - 1);
+    const avg_per_month = hours_remaining_excluding_current / months_remaining;
 
     const hours_needed_this_month_for_avg = Math.max(0, avg_per_month - current_month_hours);
 
