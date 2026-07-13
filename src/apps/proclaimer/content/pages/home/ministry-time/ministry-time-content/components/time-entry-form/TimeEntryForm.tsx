@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IonItem, IonList } from "@ionic/react";
 import { DateInput } from "@ui/components/inputs/date/DateInput";
 import { TimeInput } from "@ui/components/inputs/time/TimeInput";
-import { TextInput } from "@ui/components/inputs/text/TextInput";
+import { TextareaInput } from "@ui/components/inputs/textarea/TextareaInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { Space } from "@ui/components/layout/space/Space";
 import { Body } from "@ui/components/display/text/body/Body";
@@ -56,7 +56,7 @@ export function TimeEntryForm({ on_add, initial_values }: TimeEntryFormProps) {
           </Body>
         </IonItem>
       )}
-      <TextInput label="Note" placeholder="Optional" value={note} on_change={set_note} />
+      <TextareaInput label="Note" placeholder="Optional" value={note} on_change={set_note} />
       <Space size="lg" />
       <SaveTextButton
         label={initial_values ? "Update Entry" : "Add Entry"}
