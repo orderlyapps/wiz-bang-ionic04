@@ -7,6 +7,7 @@ import {
   IonContent,
   IonToast,
   useIonAlert,
+  IonItem,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
@@ -24,6 +25,7 @@ import type { PersonDetails } from "./handlers/handleUpdatePersonDetails";
 import type { VisitLogEntry } from "@shared/database/schemas/return-visit";
 import type { ReturnVisit } from "../layers/return-visit-source/types";
 import { useReturnVisitLive } from "./hooks/useReturnVisitLive";
+import { Heading } from "@ui/components/display/text/heading/Heading";
 
 type ReturnVisitModalProps = {
   selected: ReturnVisit | null;
@@ -119,6 +121,12 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
             phone_number={liveRecord?.phone_number ?? ""}
             notes={liveRecord?.notes ?? ""}
           />
+
+          <Space />
+          
+          <IonItem>
+            <Heading>Visits</Heading>
+          </IonItem>
           {showAddForm || editingVisit ? (
             <AddVisitForm
               onSave={handleSave}
