@@ -11,6 +11,10 @@ import {
   ministryTimeSchemaLiteral,
   type MinistryTimeLocal,
 } from "@shared/database/rxdb/collections/ministry-time";
+import {
+  settingsSchemaLiteral,
+  type SettingsLocal,
+} from "@shared/database/rxdb/collections/settings";
 
 if (import.meta.env.DEV) addRxPlugin(RxDBDevModePlugin);
 
@@ -27,5 +31,8 @@ await rxdb.addCollections({
   },
   ministry_time: {
     schema: ministryTimeSchemaLiteral as RxJsonSchema<MinistryTimeLocal>,
+  },
+  settings: {
+    schema: settingsSchemaLiteral as RxJsonSchema<SettingsLocal>,
   },
 });

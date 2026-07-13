@@ -1,15 +1,10 @@
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { getServiceYear, getServiceYearStart } from "@util/format/service-year";
 import type { MinistryTimeEntry } from "./useMinistryTime";
+import { usePioneerSettings } from "./usePioneerSettings";
 
-const REGULAR_PIONEER_YEARLY_HOURS = 600;
 const CONTINUOUS_AUXILIARY_MONTHLY_HOURS = 30;
 const SPECIAL_PIONEER_MONTHLY_HOURS = 100;
-
-function getPioneerYearStart(now: Date): Date {
-  const year = now.getFullYear();
-  const sep1 = new Date(year, 8, 1);
-  return now >= sep1 ? sep1 : new Date(year - 1, 8, 1);
-}
 
 function toISODate(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -26,9 +21,11 @@ export interface PioneerStatsData {
 
 export function usePioneerStats(entries: MinistryTimeEntry[]): PioneerStatsData | null {
   const my_publisher = useStoredPublisher();
+  const { getCurrentServiceYearHours } = usePioneerSettings();
   if (!my_publisher) return null;
 
   const now = new Date();
+  const regular_pioneer_yearly_hours = getCurrentServiceYearHours();
   const current_month_prefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   const current_month_hours =
     entries
@@ -38,14 +35,14 @@ export function usePioneerStats(entries: MinistryTimeEntry[]): PioneerStatsData 
   const type = my_publisher.type;
 
   if (type === "regular_pioneer") {
-    const pioneer_start = getPioneerYearStart(now);
+    const pioneer_start = getServiceYearStart(getServiceYear(now));
     const pioneer_start_str = toISODate(pioneer_start);
 
     const year_hours =
       entries.filter((e) => e.date >= pioneer_start_str).reduce((sum, e) => sum + e.minutes, 0) /
       60;
 
-    const hours_remaining = Math.max(0, REGULAR_PIONEER_YEARLY_HOURS - year_hours);
+    const hours_remaining = Math.max(0, regular_pioneer_yearly_hours - year_hours);
 
     const pioneer_end = new Date(pioneer_start.getFullYear() + 1, 7, 30);
     const ms_per_week = 7 * 24 * 60 * 60 * 1000;

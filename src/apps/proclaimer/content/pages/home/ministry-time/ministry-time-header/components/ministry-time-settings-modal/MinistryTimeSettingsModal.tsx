@@ -1,5 +1,6 @@
 import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { PioneerHoursSettings } from "../../../ministry-time-content/components/pioneer-stats/adjust-hours-modal/PioneerHoursSettings";
 
 interface MinistryTimeSettingsModalProps {
   isOpen: boolean;
@@ -17,7 +18,9 @@ export function MinistryTimeSettingsModal({ isOpen, on_close }: MinistryTimeSett
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent />
+      <IonContent>
+        <PioneerHoursSettings />
+      </IonContent>
     </ResponsiveModal>
   );
 }
