@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { IonItem, IonLabel, IonList, IonText } from "@ionic/react";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
 import { MonthNavigation } from "./components/month-navigation/MonthNavigation";
@@ -49,30 +50,24 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
       ) : (
         <IonList>
           {monthEntries.map((entry) => (
-            <IonItem key={entry.id} button onClick={() => on_edit(entry)}>
-              <IonLabel>
-                <Body bold>{formatDate(entry.date)}</Body>
-                <IonText color="medium">
-                  <p style={{ margin: 0 }}>
-                    {entry.start_time} – {entry.end_time}
-                  </p>
-                </IonText>
-                {entry.note && (
-                  <IonText color="medium">
-                    <p style={{ margin: 0 }}>{entry.note}</p>
-                  </IonText>
-                )}
-              </IonLabel>
-              <IonText slot="end" color="primary">
-                <Body>{formatMinutes(entry.minutes)}</Body>
-              </IonText>
-              <DeleteIconButton
-                slot="end"
-                alert_header="Delete Entry"
-                alert_message="Delete this ministry time entry?"
-                on_click={() => on_delete(entry.id)}
-              />
-            </IonItem>
+            <LabelValueItem
+              key={entry.id}
+              label={formatDate(entry.date)}
+              value={`${entry.start_time} – ${entry.end_time}`}
+              value_2={entry.note || undefined}
+              value_2_color="medium"
+              on_click={() => on_edit(entry)}
+              end_detail={
+                <>
+                  <Body color="primary">{formatMinutes(entry.minutes)}</Body>
+                  <DeleteIconButton
+                    alert_header="Delete Entry"
+                    alert_message="Delete this ministry time entry?"
+                    on_click={() => on_delete(entry.id)}
+                  />
+                </>
+              }
+            />
           ))}
         </IonList>
       )}

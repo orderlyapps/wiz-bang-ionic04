@@ -86,7 +86,11 @@ export function LabelValueItem({
           </div>
         )}
       </IonLabel>
-      {end_detail}
+      {end_detail && (
+        <div slot="end" onClick={(e) => e.stopPropagation()} style={{ display: "contents" }}>
+          {end_detail}
+        </div>
+      )}
     </IonItem>
   );
 }
