@@ -112,12 +112,8 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">{address}</IonTitle>
-            </IonToolbar>
-          </IonHeader>
           <PersonDetailsSection
+            address={address}
             first_name={liveRecord?.first_name ?? ""}
             last_name={liveRecord?.last_name ?? ""}
             phone_number={liveRecord?.phone_number ?? ""}
