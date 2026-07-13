@@ -15,6 +15,10 @@ export const returnVisitSchema = z.object({
   street_id: z.uuid(),
   house_number: z.string(),
   unit_number: z.string().nullable().optional(),
+  first_name: z.string(),
+  last_name: z.string(),
+  phone_number: z.string(),
+  notes: z.string(),
   visit_log: z.array(visitLogEntrySchema),
   match_data: z.unknown(),
 });

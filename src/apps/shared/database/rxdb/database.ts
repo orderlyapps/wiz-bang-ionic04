@@ -49,5 +49,14 @@ await rxdb.addCollections({
   },
   return_visit: {
     schema: returnVisitSchemaLiteral as RxJsonSchema<ReturnVisitLocal>,
+    migrationStrategies: {
+      1: (oldDoc) => ({
+        ...oldDoc,
+        first_name: oldDoc.first_name ?? "",
+        last_name: oldDoc.last_name ?? "",
+        phone_number: oldDoc.phone_number ?? "",
+        notes: oldDoc.notes ?? "",
+      }),
+    },
   },
 });

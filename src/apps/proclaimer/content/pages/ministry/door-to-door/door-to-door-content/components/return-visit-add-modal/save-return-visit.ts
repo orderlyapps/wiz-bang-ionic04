@@ -43,6 +43,10 @@ export async function saveReturnVisit(data: SaveReturnVisitData): Promise<[numbe
     street_id,
     house_number: data.house_number,
     unit_number: data.unit_number.trim() || undefined,
+    first_name: "",
+    last_name: "",
+    phone_number: "",
+    notes: "",
     visit_log: [
       {
         id: crypto.randomUUID(),

@@ -15,8 +15,12 @@ import { Space } from "@ui/components/layout/space/Space";
 import { returnVisitCollection } from "@shared/database/collections/return-visit";
 import { VisitList } from "./components/visit-list/VisitList";
 import { AddVisitForm } from "./components/add-visit-form/AddVisitForm";
+import { PersonDetailsForm } from "./components/person-details-form/PersonDetailsForm";
+import { PersonDetailsSection } from "./components/person-details-section/PersonDetailsSection";
 import { handleAddVisit } from "./handlers/handleAddVisit";
 import { handleEditVisit } from "./handlers/handleEditVisit";
+import { handleUpdatePersonDetails } from "./handlers/handleUpdatePersonDetails";
+import type { PersonDetails } from "./handlers/handleUpdatePersonDetails";
 import type { VisitLogEntry } from "@shared/database/schemas/return-visit";
 import type { ReturnVisit } from "../layers/return-visit-source/types";
 import { useReturnVisitLive } from "./hooks/useReturnVisitLive";
@@ -28,6 +32,7 @@ type ReturnVisitModalProps = {
 
 export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showPersonDetails, setShowPersonDetails] = useState(false);
   const [editingVisit, setEditingVisit] = useState<VisitLogEntry | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [presentAlert] = useIonAlert();
@@ -60,6 +65,16 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
   function handleCancelForm() {
     setShowAddForm(false);
     setEditingVisit(null);
+  }
+
+  function handleSavePersonDetails(details: PersonDetails) {
+    if (!selected?.id) return;
+    try {
+      handleUpdatePersonDetails(selected.id, details);
+      setShowPersonDetails(false);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Failed to save details");
+    }
   }
 
   function handleDelete() {
@@ -102,17 +117,40 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
               <IonTitle size="large">{address}</IonTitle>
             </IonToolbar>
           </IonHeader>
+          <PersonDetailsSection
+            first_name={liveRecord?.first_name ?? ""}
+            last_name={liveRecord?.last_name ?? ""}
+            phone_number={liveRecord?.phone_number ?? ""}
+            notes={liveRecord?.notes ?? ""}
+          />
           {showAddForm || editingVisit ? (
             <AddVisitForm
               onSave={handleSave}
               onCancel={handleCancelForm}
               initialVisit={editingVisit ?? undefined}
             />
+          ) : showPersonDetails ? (
+            <PersonDetailsForm
+              initial={{
+                first_name: liveRecord?.first_name ?? "",
+                last_name: liveRecord?.last_name ?? "",
+                phone_number: liveRecord?.phone_number ?? "",
+                notes: liveRecord?.notes ?? "",
+              }}
+              onSave={handleSavePersonDetails}
+              onCancel={() => setShowPersonDetails(false)}
+            />
           ) : (
             <>
               <VisitList visits={visitLog} onEditVisit={handleEditVisitClick} />
               <Space />
               <TextButton label="Add Visit" fill="outline" on_click={() => setShowAddForm(true)} />
+              <Space />
+              <TextButton
+                label="Person Details"
+                fill="outline"
+                on_click={() => setShowPersonDetails(true)}
+              />
               <Space />
               <TextButton
                 label="Delete Return Visit"

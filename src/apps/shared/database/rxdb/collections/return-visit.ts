@@ -11,7 +11,7 @@ const visitLogEntry = {
 } as const;
 
 export const returnVisitSchemaLiteral = {
-  version: 0,
+  version: 1,
   primaryKey: "id",
   type: "object",
   properties: {
@@ -31,6 +31,10 @@ export const returnVisitSchemaLiteral = {
     street_id: { type: "string" },
     house_number: { type: "string" },
     unit_number: { type: "string" },
+    first_name: { type: "string" },
+    last_name: { type: "string" },
+    phone_number: { type: "string" },
+    notes: { type: "string" },
     visit_log: {
       type: "array",
       items: visitLogEntry,
@@ -47,6 +51,10 @@ export const returnVisitSchemaLiteral = {
     "suburb_id",
     "street_id",
     "house_number",
+    "first_name",
+    "last_name",
+    "phone_number",
+    "notes",
     "visit_log",
     "match_data",
   ],
