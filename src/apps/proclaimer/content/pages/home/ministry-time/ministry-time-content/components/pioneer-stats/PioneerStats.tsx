@@ -2,6 +2,7 @@ import { IonGrid, IonRow, IonCol } from "@ionic/react";
 import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
 import { usePioneerStats } from "../../hooks/usePioneerStats";
 import { StatItem } from "./stat-item/StatItem";
+import { Space } from "@ui/components/layout/space/Space";
 
 interface PioneerStatsProps {
   entries: MinistryTimeEntry[];
@@ -22,6 +23,7 @@ export function PioneerStats({ entries }: PioneerStatsProps) {
             <StatItem label="Avg / Week" value={`${stats.avg_per_week?.toFixed(1)}h`} />
           </IonCol>
         </IonRow>
+        <Space size="xs" />
         <IonRow>
           <IonCol>
             <StatItem label="Avg / Month" value={`${stats.avg_per_month?.toFixed(1)}h`} />
