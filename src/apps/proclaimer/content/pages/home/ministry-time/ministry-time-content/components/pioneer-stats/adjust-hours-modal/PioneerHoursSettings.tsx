@@ -1,16 +1,18 @@
 import { IonList, IonItem, IonText } from "@ionic/react";
 import { getServiceYear } from "@util/format/service-year";
 import { usePioneerSettings } from "../../../hooks/usePioneerSettings";
-import { ServiceYearRow } from "./service-year-row/ServiceYearRow";
+import { ServiceYearInput } from "./service-year-input/ServiceYearInput";
 
 export function PioneerHoursSettings() {
-  const { getHoursForServiceYear, setPioneerHours } = usePioneerSettings();
+  const { settings, getHoursForServiceYear, setPioneerHours } = usePioneerSettings();
   const currentServiceYear = getServiceYear(new Date());
-  const currentStartYear = parseInt(currentServiceYear.split("-")[0], 10);
-  const serviceYears = Array.from({ length: 5 }, (_, i) => {
-    const start = currentStartYear - 2 + i;
-    return `${start}-${start + 1}`;
-  });
+
+  const previousYearsWithData = settings
+    .filter((s) => s.service_year < currentServiceYear)
+    .map((s) => s.service_year)
+    .sort((a, b) => b.localeCompare(a));
+
+  const serviceYears = [currentServiceYear, ...previousYearsWithData];
 
   return (
     <IonList>
@@ -23,7 +25,7 @@ export function PioneerHoursSettings() {
         </IonText>
       </IonItem>
       {serviceYears.map((sy) => (
-        <ServiceYearRow
+        <ServiceYearInput
           key={sy}
           service_year={sy}
           hours={getHoursForServiceYear(sy)}
