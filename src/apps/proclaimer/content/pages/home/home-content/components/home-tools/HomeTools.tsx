@@ -2,6 +2,7 @@ import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@io
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { useChairmanWeeks } from "@proclaimer-content/pages/home/clam-chairman/useChairmanWeeks";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
@@ -13,6 +14,11 @@ const CLASSNAME = "ion-text-end";
 export function HomeTools() {
   const permissions = usePermissions();
   const canSeeAll = permissions.has_congregation_admin || permissions.is_super_admin;
+  const publisher = useStoredPublisher();
+  const isPioneer =
+    publisher?.type === "regular_pioneer" ||
+    publisher?.type === "special_pioneer" ||
+    publisher?.type === "continuous_auxiliary";
 
   const { is_chairman } = useChairmanWeeks();
   const { value, onIonChange } = useAccordionState(localStorageKeys.homeToolsAccordion, "tools");
@@ -34,7 +40,8 @@ export function HomeTools() {
     permissions.has_reminders ||
     permissions.has_events ||
     permissions.has_ministerial_servant ||
-    is_chairman;
+    is_chairman ||
+    isPioneer;
 
   if (!permissions.is_loaded || !hasAnyTool) {
     return null;
@@ -237,6 +244,17 @@ export function HomeTools() {
                 label_class={CLASSNAME}
                 label="Data Sharing"
                 to="/home/data-sharing"
+              />
+            )}
+
+            {isPioneer && (
+              <NavItem
+                color={COLOR}
+                size="md"
+                lines="none"
+                label_class={CLASSNAME}
+                label="Ministry Time"
+                to="/home/ministry-time"
               />
             )}
           </IonList>

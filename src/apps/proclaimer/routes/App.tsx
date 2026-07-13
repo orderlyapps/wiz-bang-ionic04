@@ -117,6 +117,7 @@ import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/p
 import RemindersPage from "@proclaimer-routes/pages/home/reminders/Reminders";
 import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
+import MinistryTimePage from "@proclaimer-routes/pages/home/ministry-time/MinistryTime";
 import { Icon } from "@ui/components/icons/Icon";
 import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
 // import { getPlatforms } from "@ionic/react";
@@ -381,6 +382,7 @@ function App() {
         <Route path="/home/reminders" component={RemindersPage} exact />
         <Route path="/home/clam/:week_id?" component={ClamPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
+        <Route path="/home/ministry-time" component={MinistryTimePage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />
         <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />
