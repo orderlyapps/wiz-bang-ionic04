@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { IonItem, IonLabel, IonList, IonText } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
+import { MonthNavigation } from "./components/month-navigation/MonthNavigation";
 
 interface TimeEntryListProps {
   entries: MinistryTimeEntry[];
@@ -26,45 +28,54 @@ function formatMinutes(min: number): string {
   return `${h}h ${m}m`;
 }
 
+function currentMonthStr(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+}
+
 export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProps) {
-  if (entries.length === 0) {
-    return (
-      <IonItem lines="none" className="ion-padding ion-text-center">
-        <IonLabel>
-          <Body color="medium">No entries yet. Add your first one above.</Body>
-        </IonLabel>
-      </IonItem>
-    );
-  }
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthStr());
+  const monthEntries = entries.filter((e) => e.date.startsWith(selectedMonth));
 
   return (
-    <IonList>
-      {entries.map((entry) => (
-        <IonItem key={entry.id} button onClick={() => on_edit(entry)}>
+    <>
+      <MonthNavigation month={selectedMonth} on_change={setSelectedMonth} />
+      {monthEntries.length === 0 ? (
+        <IonItem lines="none" className="ion-padding ion-text-center">
           <IonLabel>
-            <Body bold>{formatDate(entry.date)}</Body>
-            <IonText color="medium">
-              <p style={{ margin: 0 }}>
-                {entry.start_time} – {entry.end_time}
-              </p>
-            </IonText>
-            {entry.note && (
-              <IonText color="medium">
-                <p style={{ margin: 0 }}>{entry.note}</p>
-              </IonText>
-            )}
+            <Body color="medium">No entries for this month.</Body>
           </IonLabel>
-          <IonText slot="end" color="primary">
-            <Body>{formatMinutes(entry.minutes)}</Body>
-          </IonText>
-          <DeleteIconButton
-            slot="end"
-            alert_header="Delete Entry"
-            alert_message="Delete this ministry time entry?"
-            on_click={() => on_delete(entry.id)}
-          />
         </IonItem>
-      ))}
-    </IonList>
+      ) : (
+        <IonList>
+          {monthEntries.map((entry) => (
+            <IonItem key={entry.id} button onClick={() => on_edit(entry)}>
+              <IonLabel>
+                <Body bold>{formatDate(entry.date)}</Body>
+                <IonText color="medium">
+                  <p style={{ margin: 0 }}>
+                    {entry.start_time} – {entry.end_time}
+                  </p>
+                </IonText>
+                {entry.note && (
+                  <IonText color="medium">
+                    <p style={{ margin: 0 }}>{entry.note}</p>
+                  </IonText>
+                )}
+              </IonLabel>
+              <IonText slot="end" color="primary">
+                <Body>{formatMinutes(entry.minutes)}</Body>
+              </IonText>
+              <DeleteIconButton
+                slot="end"
+                alert_header="Delete Entry"
+                alert_message="Delete this ministry time entry?"
+                on_click={() => on_delete(entry.id)}
+              />
+            </IonItem>
+          ))}
+        </IonList>
+      )}
+    </>
   );
 }
