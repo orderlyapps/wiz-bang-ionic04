@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { IonList } from "@ionic/react";
+import { IonItem, IonList } from "@ionic/react";
 import { DateInput } from "@ui/components/inputs/date/DateInput";
 import { TimeInput } from "@ui/components/inputs/time/TimeInput";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { Space } from "@ui/components/layout/space/Space";
+import { Body } from "@ui/components/display/text/body/Body";
 
 interface TimeEntryFormInitialValues {
   date: string;
@@ -32,7 +33,13 @@ export function TimeEntryForm({ on_add, initial_values }: TimeEntryFormProps) {
   const [end_time, set_end_time] = useState(initial_values?.end_time ?? "");
   const [note, set_note] = useState(initial_values?.note ?? "");
 
+  const time_error =
+    start_time && end_time && end_time < start_time
+      ? "Finish time cannot be before start time"
+      : null;
+
   function handleSubmit() {
+    if (time_error) return;
     on_add(date, start_time, end_time, note.trim());
     set_note("");
   }
@@ -42,12 +49,20 @@ export function TimeEntryForm({ on_add, initial_values }: TimeEntryFormProps) {
       <DateInput label="Date" value={date} on_change={set_date} />
       <TimeInput label="Start" value={start_time} on_change={set_start_time} />
       <TimeInput label="Finish" value={end_time} on_change={set_end_time} />
+      {time_error && (
+        <IonItem lines="none">
+          <Body color="danger" size="sm">
+            {time_error}
+          </Body>
+        </IonItem>
+      )}
       <TextInput label="Note" placeholder="Optional" value={note} on_change={set_note} />
       <Space size="lg" />
       <SaveTextButton
         label={initial_values ? "Update Entry" : "Add Entry"}
         variant="save"
         skip_confirmation
+        disabled={!!time_error}
         on_click={handleSubmit}
       />
       <Space size="lg" />
