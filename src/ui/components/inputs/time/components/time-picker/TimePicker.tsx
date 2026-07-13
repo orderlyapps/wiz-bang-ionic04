@@ -28,8 +28,15 @@ export function TimePicker({ is_open, value, on_change, on_close }: TimePickerPr
   const [period, set_period] = useState<"AM" | "PM">("AM");
 
   function handle_open() {
-    if (!value) return;
-    const [h, m] = value.split(":").map(Number);
+    let h: number;
+    let m: number;
+    if (value) {
+      [h, m] = value.split(":").map(Number);
+    } else {
+      const now = new Date();
+      h = now.getHours();
+      m = now.getMinutes();
+    }
     set_period(h >= 12 ? "PM" : "AM");
     set_hour(h % 12 === 0 ? 12 : h % 12);
     set_minute((Math.round(m / 5) * 5) % 60);
