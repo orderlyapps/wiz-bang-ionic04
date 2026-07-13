@@ -6,8 +6,16 @@ import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { Space } from "@ui/components/layout/space/Space";
 
+interface TimeEntryFormInitialValues {
+  date: string;
+  start_time: string;
+  end_time: string;
+  note: string;
+}
+
 interface TimeEntryFormProps {
   on_add: (date: string, start_time: string, end_time: string, note: string) => void;
+  initial_values?: TimeEntryFormInitialValues;
 }
 
 function todayISO(): string {
@@ -18,11 +26,11 @@ function todayISO(): string {
   return `${year}-${month}-${day}`;
 }
 
-export function TimeEntryForm({ on_add }: TimeEntryFormProps) {
-  const [date, set_date] = useState(todayISO());
-  const [start_time, set_start_time] = useState("");
-  const [end_time, set_end_time] = useState("");
-  const [note, set_note] = useState("");
+export function TimeEntryForm({ on_add, initial_values }: TimeEntryFormProps) {
+  const [date, set_date] = useState(initial_values?.date ?? todayISO());
+  const [start_time, set_start_time] = useState(initial_values?.start_time ?? "");
+  const [end_time, set_end_time] = useState(initial_values?.end_time ?? "");
+  const [note, set_note] = useState(initial_values?.note ?? "");
 
   function handleSubmit() {
     on_add(date, start_time, end_time, note.trim());
@@ -36,7 +44,12 @@ export function TimeEntryForm({ on_add }: TimeEntryFormProps) {
       <TimeInput label="Finish" value={end_time} on_change={set_end_time} />
       <TextInput label="Note" placeholder="Optional" value={note} on_change={set_note} />
       <Space size="lg" />
-      <SaveTextButton label="Add Entry" variant="save" skip_confirmation on_click={handleSubmit} />
+      <SaveTextButton
+        label={initial_values ? "Update Entry" : "Add Entry"}
+        variant="save"
+        skip_confirmation
+        on_click={handleSubmit}
+      />
       <Space size="lg" />
     </IonList>
   );

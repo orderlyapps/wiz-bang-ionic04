@@ -64,6 +64,20 @@ export function useMinistryTime() {
     [],
   );
 
+  const updateEntry = useCallback(
+    (id: string, date: string, start_time: string, end_time: string, note: string) => {
+      const minutes = computeMinutes(start_time, end_time);
+      setEntries((prev) => {
+        const next = prev
+          .map((e) => (e.id === id ? { ...e, date, start_time, end_time, minutes, note } : e))
+          .sort((a, b) => a.date.localeCompare(b.date));
+        saveEntries(next);
+        return next;
+      });
+    },
+    [],
+  );
+
   const deleteEntry = useCallback((id: string) => {
     setEntries((prev) => {
       const next = prev.filter((e) => e.id !== id);
@@ -78,5 +92,5 @@ export function useMinistryTime() {
   const total_minutes = month_entries.reduce((sum, e) => sum + e.minutes, 0);
   const total_hours = (total_minutes / 60).toFixed(1);
 
-  return { entries, addEntry, deleteEntry, total_minutes, total_hours };
+  return { entries, addEntry, updateEntry, deleteEntry, total_minutes, total_hours };
 }

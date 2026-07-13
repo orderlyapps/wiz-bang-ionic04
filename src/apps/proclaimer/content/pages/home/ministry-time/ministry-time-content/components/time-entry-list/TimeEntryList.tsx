@@ -6,6 +6,7 @@ import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
 interface TimeEntryListProps {
   entries: MinistryTimeEntry[];
   on_delete: (id: string) => void;
+  on_edit: (entry: MinistryTimeEntry) => void;
 }
 
 function formatDate(iso: string): string {
@@ -25,7 +26,7 @@ function formatMinutes(min: number): string {
   return `${h}h ${m}m`;
 }
 
-export function TimeEntryList({ entries, on_delete }: TimeEntryListProps) {
+export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProps) {
   if (entries.length === 0) {
     return (
       <IonItem lines="none" className="ion-padding ion-text-center">
@@ -39,7 +40,7 @@ export function TimeEntryList({ entries, on_delete }: TimeEntryListProps) {
   return (
     <IonList>
       {entries.map((entry) => (
-        <IonItem key={entry.id}>
+        <IonItem key={entry.id} button onClick={() => on_edit(entry)}>
           <IonLabel>
             <Body bold>{formatDate(entry.date)}</Body>
             <IonText color="medium">
