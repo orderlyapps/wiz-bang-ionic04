@@ -5,6 +5,7 @@ import { LabelValueItem } from "@ui/components/display/data/label-value/LabelVal
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
 import { MonthNavigation } from "./components/month-navigation/MonthNavigation";
+import { Space } from "@ui/components/layout/space/Space";
 
 interface TimeEntryListProps {
   entries: MinistryTimeEntry[];
@@ -43,7 +44,10 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
   return (
     <>
       <MonthNavigation month={selectedMonth} on_change={setSelectedMonth} />
-      <IonItem lines="none" className="ion-padding-start ion-padding-end ion-padding-top ion-text-center">
+      <IonItem
+        lines="none"
+        className="ion-padding-start ion-padding-end ion-padding-top ion-text-center"
+      >
         <IonLabel>
           <Body color="medium" size="sm">
             Monthly Total: {formatMinutes(totalMinutes)}
@@ -78,6 +82,7 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
               }
             />
           ))}
+          <Space size="2xl" />
         </IonList>
       )}
     </>
