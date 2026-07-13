@@ -78,7 +78,7 @@
     "vite": "catalog:",
     "vite-plugin-pwa": "^1.0.0",
     "vite-plus": "catalog:",
-    "wrangler": "^4.90.0"
+    "wrangler": "^4.110.0"
   },
   "packageManager": "pnpm@11.0.8"
 }
