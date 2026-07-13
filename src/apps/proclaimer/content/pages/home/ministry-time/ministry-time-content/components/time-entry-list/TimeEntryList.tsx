@@ -38,9 +38,18 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
   const [selectedMonth, setSelectedMonth] = useState(currentMonthStr());
   const monthEntries = entries.filter((e) => e.date.startsWith(selectedMonth));
 
+  const totalMinutes = monthEntries.reduce((sum, e) => sum + e.minutes, 0);
+
   return (
     <>
       <MonthNavigation month={selectedMonth} on_change={setSelectedMonth} />
+      <IonItem lines="none" className="ion-padding-start ion-padding-end ion-padding-top ion-text-center">
+        <IonLabel>
+          <Body color="medium" size="sm">
+            Monthly Total: {formatMinutes(totalMinutes)}
+          </Body>
+        </IonLabel>
+      </IonItem>
       {monthEntries.length === 0 ? (
         <IonItem lines="none" className="ion-padding ion-text-center">
           <IonLabel>
