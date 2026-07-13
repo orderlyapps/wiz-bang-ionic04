@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IonItem, IonNote } from "@ionic/react";
 import { Space } from "@ui/components/layout/space/Space";
 import { useMinistryTime, type MinistryTimeEntry } from "./hooks/useMinistryTime";
 import { AddEntryFab } from "./components/add-entry-fab/AddEntryFab";
@@ -12,6 +13,14 @@ export function MinistryTimeContent() {
 
   return (
     <>
+      <IonItem>
+        <IonNote color="medium" className="ion-padding-horizontal">
+          Your ministry time entries and pioneer hour settings are stored locally on this device.
+          Use the settings icon above to export a copy for safekeeping or transfer to another
+          device.
+        </IonNote>
+      </IonItem>
+      <Space size="sm" />
       <PioneerStats entries={entries} />
       <Space size="sm" />
       <TimeEntryList entries={entries} on_delete={deleteEntry} on_edit={set_editing_entry} />
