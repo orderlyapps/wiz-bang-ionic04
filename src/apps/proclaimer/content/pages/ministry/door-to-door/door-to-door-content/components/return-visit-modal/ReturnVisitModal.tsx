@@ -16,6 +16,8 @@ import { returnVisitCollection } from "@shared/database/collections/return-visit
 import { VisitList } from "./components/visit-list/VisitList";
 import { AddVisitForm } from "./components/add-visit-form/AddVisitForm";
 import { handleAddVisit } from "./handlers/handleAddVisit";
+import { handleEditVisit } from "./handlers/handleEditVisit";
+import type { VisitLogEntry } from "@shared/database/schemas/return-visit";
 import type { ReturnVisit } from "../layers/return-visit-source/types";
 import { useReturnVisitLive } from "./hooks/useReturnVisitLive";
 
@@ -26,6 +28,7 @@ type ReturnVisitModalProps = {
 
 export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps) {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editingVisit, setEditingVisit] = useState<VisitLogEntry | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [presentAlert] = useIonAlert();
   const liveRecord = useReturnVisitLive(selected?.id);
@@ -38,11 +41,25 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
   function handleSave(visited_at: string, notes: string) {
     if (!selected?.id) return;
     try {
-      handleAddVisit(selected.id, { visited_at, notes });
-      setShowAddForm(false);
+      if (editingVisit) {
+        handleEditVisit(selected.id, editingVisit.id, { visited_at, notes });
+        setEditingVisit(null);
+      } else {
+        handleAddVisit(selected.id, { visited_at, notes });
+        setShowAddForm(false);
+      }
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Failed to add visit");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to save visit");
     }
+  }
+
+  function handleEditVisitClick(visit: VisitLogEntry) {
+    setEditingVisit(visit);
+  }
+
+  function handleCancelForm() {
+    setShowAddForm(false);
+    setEditingVisit(null);
   }
 
   function handleDelete() {
@@ -85,11 +102,15 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
               <IonTitle size="large">{address}</IonTitle>
             </IonToolbar>
           </IonHeader>
-          {showAddForm ? (
-            <AddVisitForm onSave={handleSave} onCancel={() => setShowAddForm(false)} />
+          {showAddForm || editingVisit ? (
+            <AddVisitForm
+              onSave={handleSave}
+              onCancel={handleCancelForm}
+              initialVisit={editingVisit ?? undefined}
+            />
           ) : (
             <>
-              <VisitList visits={visitLog} />
+              <VisitList visits={visitLog} onEditVisit={handleEditVisitClick} />
               <Space />
               <TextButton label="Add Visit" fill="outline" on_click={() => setShowAddForm(true)} />
               <Space />

@@ -5,19 +5,29 @@ import { TextareaInput } from "@ui/components/inputs/textarea/TextareaInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { Space } from "@ui/components/layout/space/Space";
+import type { VisitLogEntry } from "@shared/database/schemas/return-visit";
 
 type AddVisitFormProps = {
   onSave: (visited_at: string, notes: string) => void;
   onCancel: () => void;
+  initialVisit?: VisitLogEntry;
 };
 
-export function AddVisitForm({ onSave, onCancel }: AddVisitFormProps) {
-  const today = new Date().toISOString().substring(0, 10);
-  const [date, setDate] = useState(today);
-  const [time, setTime] = useState(
-    new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-  );
-  const [notes, setNotes] = useState("");
+export function AddVisitForm({ onSave, onCancel, initialVisit }: AddVisitFormProps) {
+  const initialDate = initialVisit
+    ? initialVisit.visited_at.substring(0, 10)
+    : new Date().toISOString().substring(0, 10);
+  const initialTime = initialVisit
+    ? new Date(initialVisit.visited_at).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+    : new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+
+  const [date, setDate] = useState(initialDate);
+  const [time, setTime] = useState(initialTime);
+  const [notes, setNotes] = useState(initialVisit?.notes ?? "");
 
   function handleSave() {
     const visited_at = new Date(`${date}T${time}`).toISOString();
