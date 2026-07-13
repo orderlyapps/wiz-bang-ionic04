@@ -20,8 +20,8 @@ function todayISO(): string {
 
 export function TimeEntryForm({ on_add }: TimeEntryFormProps) {
   const [date, set_date] = useState(todayISO());
-  const [start_time, set_start_time] = useState("09:00");
-  const [end_time, set_end_time] = useState("10:00");
+  const [start_time, set_start_time] = useState("");
+  const [end_time, set_end_time] = useState("");
   const [note, set_note] = useState("");
 
   function handleSubmit() {
