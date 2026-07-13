@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -8,7 +8,11 @@ import {
   IonToast,
   useIonAlert,
   IonItem,
+  IonFab,
+  IonFabButton,
+  IonIcon,
 } from "@ionic/react";
+import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
@@ -19,9 +23,6 @@ import { AddVisitForm } from "./components/add-visit-form/AddVisitForm";
 import { PersonDetailsForm } from "./components/person-details-form/PersonDetailsForm";
 import { PersonDetailsSection } from "./components/person-details-section/PersonDetailsSection";
 import { handleAddVisit } from "./handlers/handleAddVisit";
-import { handleEditVisit } from "./handlers/handleEditVisit";
-import { handleUpdatePersonDetails } from "./handlers/handleUpdatePersonDetails";
-import type { PersonDetails } from "./handlers/handleUpdatePersonDetails";
 import type { VisitLogEntry } from "@shared/database/schemas/return-visit";
 import type { ReturnVisit } from "../layers/return-visit-source/types";
 import { useReturnVisitLive } from "./hooks/useReturnVisitLive";
@@ -40,6 +41,23 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
   const [presentAlert] = useIonAlert();
   const liveRecord = useReturnVisitLive(selected?.id);
   const visitLog = liveRecord?.visit_log ?? selected?.visit_log ?? [];
+  const isDismissedRef = useRef(false);
+
+  useEffect(() => {
+    if (selected) {
+      isDismissedRef.current = false;
+    }
+  }, [selected]);
+
+  function handleDismiss() {
+    if (isDismissedRef.current) return;
+    isDismissedRef.current = true;
+    setShowAddForm(false);
+    setShowPersonDetails(false);
+    setEditingVisit(null);
+    setErrorMessage(null);
+    onDismiss();
+  }
 
   const address = selected
     ? `${selected.house_number}${selected.unit_number ? `/${selected.unit_number}` : ""} ${selected.street}, ${selected.suburb}`
@@ -48,13 +66,8 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
   function handleSave(visited_at: string, notes: string) {
     if (!selected?.id) return;
     try {
-      if (editingVisit) {
-        handleEditVisit(selected.id, editingVisit.id, { visited_at, notes });
-        setEditingVisit(null);
-      } else {
-        handleAddVisit(selected.id, { visited_at, notes });
-        setShowAddForm(false);
-      }
+      handleAddVisit(selected.id, { visited_at, notes });
+      setShowAddForm(false);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Failed to save visit");
     }
@@ -67,16 +80,6 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
   function handleCancelForm() {
     setShowAddForm(false);
     setEditingVisit(null);
-  }
-
-  function handleSavePersonDetails(details: PersonDetails) {
-    if (!selected?.id) return;
-    try {
-      handleUpdatePersonDetails(selected.id, details);
-      setShowPersonDetails(false);
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Failed to save details");
-    }
   }
 
   function handleDelete() {
@@ -92,7 +95,7 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
           handler: () => {
             try {
               returnVisitCollection.delete(selected.id!);
-              onDismiss();
+              handleDismiss();
             } catch (error) {
               setErrorMessage(error instanceof Error ? error.message : "Failed to delete");
             }
@@ -104,58 +107,61 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
 
   return (
     <>
-      <ResponsiveModal isOpen={!!selected} onDidDismiss={onDismiss}>
+      <ResponsiveModal isOpen={!!selected} onDidDismiss={handleDismiss}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Return Visit</IonTitle>
             <IonButtons slot="end">
-              <CloseIconButton on_click={onDismiss} skip_confirmation />
+              <CloseIconButton on_click={handleDismiss} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <PersonDetailsSection
-            address={address}
-            first_name={liveRecord?.first_name ?? ""}
-            last_name={liveRecord?.last_name ?? ""}
-            phone_number={liveRecord?.phone_number ?? ""}
-            notes={liveRecord?.notes ?? ""}
-          />
-
-          <Space />
-          
-          <IonItem>
-            <Heading>Visits</Heading>
-          </IonItem>
-          {showAddForm || editingVisit ? (
-            <AddVisitForm
-              onSave={handleSave}
-              onCancel={handleCancelForm}
-              initialVisit={editingVisit ?? undefined}
-            />
-          ) : showPersonDetails ? (
+          {!showPersonDetails && !showAddForm && !editingVisit ? (
+            <>
+              <PersonDetailsSection
+                address={address}
+                first_name={liveRecord?.first_name ?? ""}
+                last_name={liveRecord?.last_name ?? ""}
+                phone_number={liveRecord?.phone_number ?? ""}
+                notes={liveRecord?.notes ?? ""}
+              />
+              <TextButton label="Edit" fill="clear" on_click={() => setShowPersonDetails(true)} />
+            </>
+          ) : selected && !showAddForm && !editingVisit ? (
             <PersonDetailsForm
+              id={selected.id!}
               initial={{
                 first_name: liveRecord?.first_name ?? "",
                 last_name: liveRecord?.last_name ?? "",
                 phone_number: liveRecord?.phone_number ?? "",
                 notes: liveRecord?.notes ?? "",
               }}
-              onSave={handleSavePersonDetails}
               onCancel={() => setShowPersonDetails(false)}
+              onError={(msg) => setErrorMessage(msg)}
             />
-          ) : (
+          ) : null}
+
+          <Space size="md" />
+
+          {showAddForm || editingVisit ? (
+            <AddVisitForm
+              onSave={handleSave}
+              onCancel={handleCancelForm}
+              initialVisit={editingVisit ?? undefined}
+              returnVisitId={selected?.id}
+              onError={(msg) => setErrorMessage(msg)}
+              onDelete={handleCancelForm}
+            />
+          ) : showPersonDetails ? null : (
             <>
+              <IonItem>
+                <Heading>Visits</Heading>
+              </IonItem>
               <VisitList visits={visitLog} onEditVisit={handleEditVisitClick} />
-              <Space />
-              <TextButton label="Add Visit" fill="outline" on_click={() => setShowAddForm(true)} />
-              <Space />
-              <TextButton
-                label="Person Details"
-                fill="outline"
-                on_click={() => setShowPersonDetails(true)}
-              />
-              <Space />
+
+              <Space size="lg" />
+
               <TextButton
                 label="Delete Return Visit"
                 color="danger"
@@ -163,6 +169,14 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
                 on_click={handleDelete}
               />
             </>
+          )}
+
+          {!showPersonDetails && !showAddForm && !editingVisit && (
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+              <IonFabButton onClick={() => setShowAddForm(true)}>
+                <IonIcon icon={addOutline} />
+              </IonFabButton>
+            </IonFab>
           )}
         </IonContent>
       </ResponsiveModal>

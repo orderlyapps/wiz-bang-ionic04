@@ -1,65 +1,94 @@
-import { useState } from "react";
-import { TextInput } from "@ui/components/inputs/text/TextInput";
+import { useEffect, useRef, useState } from "react";
+import { NameInput } from "@ui/components/inputs/name/NameInput";
+import type { NameValue } from "@ui/components/inputs/name/NameInput";
+import { AlertPhoneInput } from "@ui/components/inputs/alert-phone/AlertPhoneInput";
 import { TextareaInput } from "@ui/components/inputs/textarea/TextareaInput";
-import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { Space } from "@ui/components/layout/space/Space";
+import { returnVisitCollection } from "@shared/database/collections/return-visit";
 import type { PersonDetails } from "../../handlers/handleUpdatePersonDetails";
 
 type PersonDetailsFormProps = {
+  id: string;
   initial: PersonDetails;
-  onSave: (details: PersonDetails) => void;
   onCancel: () => void;
+  onError?: (message: string) => void;
 };
 
-export function PersonDetailsForm({ initial, onSave, onCancel }: PersonDetailsFormProps) {
-  const [firstName, setFirstName] = useState(initial.first_name);
-  const [lastName, setLastName] = useState(initial.last_name);
+export function PersonDetailsForm({ id, initial, onCancel, onError }: PersonDetailsFormProps) {
+  const [name, setName] = useState<NameValue>({
+    first_name: initial.first_name,
+    middle_name: null,
+    last_name: initial.last_name,
+    display_name: null,
+  });
   const [phoneNumber, setPhoneNumber] = useState(initial.phone_number);
   const [notes, setNotes] = useState(initial.notes);
+  const notesDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  function handleSave() {
-    onSave({
-      first_name: firstName.trim(),
-      last_name: lastName.trim(),
-      phone_number: phoneNumber.trim(),
-      notes: notes.trim(),
-    });
-  }
+  useEffect(() => {
+    return () => {
+      if (notesDebounceRef.current) clearTimeout(notesDebounceRef.current);
+    };
+  }, []);
+
+  const displayValue = [name.first_name, name.last_name].filter(Boolean).join(" ");
 
   return (
     <>
-      <TextInput
-        label="First Name"
-        value={firstName}
-        placeholder="First name..."
-        on_change={setFirstName}
-        autocomplete="given-name"
+      <NameInput
+        label="Name"
+        value={name}
+        display_value={displayValue}
+        placeholder="Enter name..."
+        show_optional_fields={false}
+        on_change={(value) => {
+          setName(value);
+          try {
+            returnVisitCollection.update(id, (draft) => {
+              draft.first_name = value.first_name;
+              draft.last_name = value.last_name;
+            });
+          } catch (error) {
+            onError?.(error instanceof Error ? error.message : "Failed to save name");
+          }
+        }}
       />
-      <TextInput
-        label="Last Name"
-        value={lastName}
-        placeholder="Last name..."
-        on_change={setLastName}
-        autocomplete="family-name"
-      />
-      <TextInput
+      <AlertPhoneInput
         label="Phone Number"
         value={phoneNumber}
         placeholder="Phone number..."
-        on_change={setPhoneNumber}
-        autocomplete="tel"
+        on_change={(value) => {
+          setPhoneNumber(value);
+          try {
+            returnVisitCollection.update(id, (draft) => {
+              draft.phone_number = value;
+            });
+          } catch (error) {
+            onError?.(error instanceof Error ? error.message : "Failed to save phone number");
+          }
+        }}
       />
       <TextareaInput
         label="Notes"
         value={notes}
         placeholder="Person notes..."
-        on_change={setNotes}
+        on_change={(value) => {
+          setNotes(value);
+          if (notesDebounceRef.current) clearTimeout(notesDebounceRef.current);
+          notesDebounceRef.current = setTimeout(() => {
+            try {
+              returnVisitCollection.update(id, (draft) => {
+                draft.notes = value.trim();
+              });
+            } catch (error) {
+              onError?.(error instanceof Error ? error.message : "Failed to save notes");
+            }
+          }, 500);
+        }}
       />
       <Space />
-      <SaveTextButton on_click={handleSave} />
-      <Space />
-      <TextButton label="Cancel" fill="clear" on_click={onCancel} />
+      <TextButton label="Close" fill="clear" on_click={onCancel} />
     </>
   );
 }

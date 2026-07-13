@@ -62,7 +62,7 @@ export function PersonDetailsSection({
         <IonItem lines="full">
           <IonLabel>
             <IonText color="medium">
-              <p>{notes}</p>
+              <p style={{ whiteSpace: "pre-wrap" }}>{notes}</p>
             </IonText>
           </IonLabel>
         </IonItem>

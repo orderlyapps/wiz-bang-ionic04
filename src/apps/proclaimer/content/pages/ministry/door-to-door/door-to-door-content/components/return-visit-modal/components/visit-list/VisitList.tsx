@@ -48,7 +48,7 @@ export function VisitList({ visits, onEditVisit }: VisitListProps) {
               </h3>
               {visit.notes && (
                 <IonText color="medium">
-                  <p>{visit.notes}</p>
+                  <p style={{ whiteSpace: "pre-wrap" }}>{visit.notes}</p>
                 </IonText>
               )}
             </IonLabel>
