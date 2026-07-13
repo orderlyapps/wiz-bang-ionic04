@@ -7,6 +7,7 @@ import { WarningBanner } from "./components/warning-banner/WarningBanner";
 import { AddEntryFab } from "./components/add-entry-fab/AddEntryFab";
 import { TimeEntryList } from "./components/time-entry-list/TimeEntryList";
 import { EditEntryModal } from "./components/edit-entry-modal/EditEntryModal";
+import { PioneerStats } from "./components/pioneer-stats/PioneerStats";
 
 export function MinistryTimeContent() {
   const { entries, addEntry, updateEntry, deleteEntry, total_hours } = useMinistryTime();
@@ -25,6 +26,7 @@ export function MinistryTimeContent() {
           </Heading>
         </IonLabel>
       </IonItem>
+      <PioneerStats entries={entries} />
       <Space size="sm" />
       <TimeEntryList entries={entries} on_delete={deleteEntry} on_edit={set_editing_entry} />
       <AddEntryFab on_add={addEntry} />

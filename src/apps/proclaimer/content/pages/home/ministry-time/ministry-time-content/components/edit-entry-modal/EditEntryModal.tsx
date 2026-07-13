@@ -1,11 +1,4 @@
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonButton,
-  IonContent,
-} from "@ionic/react";
+import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TimeEntryForm } from "../time-entry-form/TimeEntryForm";
 import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
