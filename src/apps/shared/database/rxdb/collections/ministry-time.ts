@@ -11,6 +11,20 @@ const version = {
   required: ["created_by", "updated_by", "created_at", "updated_at"],
 } as const;
 
+export const MINISTRY_TYPES = [
+  "door_to_door",
+  "public",
+  "cart",
+  "return_visit",
+  "informal",
+  "shop",
+  "street",
+  "business",
+  "rural",
+] as const;
+
+export type MinistryType = (typeof MINISTRY_TYPES)[number];
+
 export const ministryTimeSchemaLiteral = {
   version: 0,
   primaryKey: "entry_id",
@@ -24,10 +38,20 @@ export const ministryTimeSchemaLiteral = {
     start_time: { type: "string" },
     end_time: { type: "string" },
     minutes: { type: "number" },
+    ministry_type: { type: "string" },
     note: { type: "string" },
     version,
   },
-  required: ["entry_id", "date", "start_time", "end_time", "minutes", "note", "version"],
+  required: [
+    "entry_id",
+    "date",
+    "start_time",
+    "end_time",
+    "minutes",
+    "ministry_type",
+    "note",
+    "version",
+  ],
 } as const;
 
 export const schemaTyped = toTypedRxJsonSchema(ministryTimeSchemaLiteral);

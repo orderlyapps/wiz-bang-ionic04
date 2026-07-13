@@ -1,6 +1,9 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { ministryTimeLocalCollection } from "@shared/database/collections/ministry-time-local";
-import type { MinistryTimeLocal } from "@shared/database/rxdb/collections/ministry-time";
+import type {
+  MinistryTimeLocal,
+  MinistryType,
+} from "@shared/database/rxdb/collections/ministry-time";
 
 export type MinistryTimeEntry = MinistryTimeLocal;
 
@@ -27,7 +30,13 @@ export function useMinistryTime() {
   );
   const entries = (data as MinistryTimeEntry[] | undefined) ?? [];
 
-  function addEntry(date: string, start_time: string, end_time: string, note: string) {
+  function addEntry(
+    date: string,
+    start_time: string,
+    end_time: string,
+    ministry_type: MinistryType,
+    note: string,
+  ) {
     const minutes = computeMinutes(start_time, end_time);
     ministryTimeLocalCollection.insert({
       entry_id: crypto.randomUUID(),
@@ -35,6 +44,7 @@ export function useMinistryTime() {
       start_time,
       end_time,
       minutes,
+      ministry_type,
       note,
       version: versionData(),
     });
@@ -45,6 +55,7 @@ export function useMinistryTime() {
     date: string,
     start_time: string,
     end_time: string,
+    ministry_type: MinistryType,
     note: string,
   ) {
     const minutes = computeMinutes(start_time, end_time);
@@ -53,6 +64,7 @@ export function useMinistryTime() {
       draft.start_time = start_time;
       draft.end_time = end_time;
       draft.minutes = minutes;
+      draft.ministry_type = ministry_type;
       draft.note = note;
       draft.version.updated_at = Date.now();
     });

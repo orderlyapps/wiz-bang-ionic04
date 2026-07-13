@@ -13,16 +13,29 @@ import {
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TimeEntryForm } from "../time-entry-form/TimeEntryForm";
+import type { MinistryType } from "@shared/database/rxdb/collections/ministry-time";
 
 interface AddEntryFabProps {
-  on_add: (date: string, start_time: string, end_time: string, note: string) => void;
+  on_add: (
+    date: string,
+    start_time: string,
+    end_time: string,
+    ministry_type: MinistryType,
+    note: string,
+  ) => void;
 }
 
 export function AddEntryFab({ on_add }: AddEntryFabProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function handleAdd(date: string, start_time: string, end_time: string, note: string) {
-    on_add(date, start_time, end_time, note);
+  function handleAdd(
+    date: string,
+    start_time: string,
+    end_time: string,
+    ministry_type: MinistryType,
+    note: string,
+  ) {
+    on_add(date, start_time, end_time, ministry_type, note);
     setIsOpen(false);
   }
 
