@@ -1,8 +1,8 @@
-import { IonDatetime, IonModal } from "@ionic/react";
 import { useState } from "react";
 import { InputWrapper } from "@ui/components/display/input/InputWrapper";
 import { Body } from "@ui/components/display/text/body/Body";
 import { useThemeColorWhileOpen } from "@ui/components/inputs/date/hooks/useThemeColorWhileOpen";
+import { TimePicker } from "@ui/components/inputs/time/components/time-picker/TimePicker";
 
 interface TimeInputProps {
   label: string;
@@ -13,14 +13,7 @@ interface TimeInputProps {
 
 export function TimeInput({ label, value, disabled = false, on_change }: TimeInputProps) {
   const [is_open, set_is_open] = useState(false);
-  const iso_value = value ? `1970-01-01T${value}:00` : undefined;
   useThemeColorWhileOpen(is_open);
-
-  function handleChange(detail_value: string | string[] | null | undefined) {
-    if (!detail_value || Array.isArray(detail_value)) return;
-    const time = detail_value.substring(11, 16);
-    on_change(time);
-  }
 
   return (
     <InputWrapper label={label}>
@@ -37,14 +30,12 @@ export function TimeInput({ label, value, disabled = false, on_change }: TimeInp
         </Body>
       </div>
 
-      <IonModal id="time-picker" isOpen={is_open} onDidDismiss={() => set_is_open(false)}>
-        <IonDatetime
-          presentation="time"
-          value={iso_value}
-          showDefaultButtons
-          onIonChange={(e) => handleChange(e.detail.value)}
-        />
-      </IonModal>
+      <TimePicker
+        is_open={is_open}
+        value={value}
+        on_change={on_change}
+        on_close={() => set_is_open(false)}
+      />
     </InputWrapper>
   );
 }
