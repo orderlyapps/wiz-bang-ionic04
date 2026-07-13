@@ -16,6 +16,10 @@ import {
   settingsSchemaLiteral,
   type SettingsLocal,
 } from "@shared/database/rxdb/collections/settings";
+import {
+  returnVisitSchemaLiteral,
+  type ReturnVisitLocal,
+} from "@shared/database/rxdb/collections/return-visit";
 
 addRxPlugin(RxDBMigrationSchemaPlugin);
 if (import.meta.env.DEV) addRxPlugin(RxDBDevModePlugin);
@@ -42,5 +46,8 @@ await rxdb.addCollections({
   },
   settings: {
     schema: settingsSchemaLiteral as RxJsonSchema<SettingsLocal>,
+  },
+  return_visit: {
+    schema: returnVisitSchemaLiteral as RxJsonSchema<ReturnVisitLocal>,
   },
 });

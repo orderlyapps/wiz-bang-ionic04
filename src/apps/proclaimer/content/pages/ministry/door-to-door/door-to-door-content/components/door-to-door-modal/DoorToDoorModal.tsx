@@ -14,6 +14,7 @@ import { SuburbSelect } from "./suburb-select/SuburbSelect";
 import { StreetSelect } from "./street-select/StreetSelect";
 import { VisitTypeSelect } from "./components/visit-type-select/VisitTypeSelect";
 import { saveNotAtHome } from "./save-not-at-home";
+import { saveReturnVisit } from "../return-visit-add-modal/save-return-visit";
 import { useDoorToDoorForm } from "./use-door-to-door-form";
 
 type DoorToDoorModalProps = {
@@ -39,13 +40,21 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
 
   async function handleSave() {
     if (!selectedSuburb || !selectedStreet) return;
-    const coordinates = await saveNotAtHome({
-      suburb: selectedSuburb,
-      street: selectedStreet,
-      house_number: houseNumber,
-      unit_number: unitNumber,
-      visit_type: visitType,
-    });
+    const coordinates =
+      visitType === "return_visit"
+        ? await saveReturnVisit({
+            suburb: selectedSuburb,
+            street: selectedStreet,
+            house_number: houseNumber,
+            unit_number: unitNumber,
+          })
+        : await saveNotAtHome({
+            suburb: selectedSuburb,
+            street: selectedStreet,
+            house_number: houseNumber,
+            unit_number: unitNumber,
+            visit_type: visitType,
+          });
     if (coordinates) {
       resetAfterSave();
       onSave(coordinates);

@@ -4,6 +4,7 @@ import { ResponsiveModal } from "@ui/components/display/responsive-modal/Respons
 import { MapDisplaySetting } from "./components/MapDisplaySetting";
 import { MapStyleSetting } from "./components/MapStyleSetting";
 import { QuickLinksSetting } from "./components/QuickLinksSetting";
+import { ReturnVisitDataManagement } from "./components/return-visit-data-management/ReturnVisitDataManagement";
 
 interface SettingsModalProps {
   is_open: boolean;
@@ -25,6 +26,7 @@ export function SettingsModal({ is_open, on_dismiss }: SettingsModalProps) {
         <MapStyleSetting />
         <MapDisplaySetting />
         <QuickLinksSetting />
+        <ReturnVisitDataManagement />
       </IonContent>
     </ResponsiveModal>
   );

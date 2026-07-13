@@ -7,7 +7,7 @@ export type DoorToDoorFormState = {
   street?: Street;
   house_number: string;
   unit_number: string;
-  visit_type: "letter" | "return";
+  visit_type: "letter" | "return" | "return_visit";
 };
 
 function storageKey(): string {

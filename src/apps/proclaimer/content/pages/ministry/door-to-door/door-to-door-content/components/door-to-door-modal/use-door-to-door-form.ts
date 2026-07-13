@@ -26,12 +26,12 @@ export type UseDoorToDoorFormResult = {
   selectedStreet: Street | undefined;
   houseNumber: string;
   unitNumber: string;
-  visitType: "letter" | "return";
+  visitType: "letter" | "return" | "return_visit";
   handleSuburbSelect: (suburb: Suburb) => void;
   handleStreetSelect: (street: Street) => void;
   handleHouseNumberChange: (value: string) => void;
   handleUnitNumberChange: (value: string) => void;
-  handleVisitTypeChange: (value: "letter" | "return") => void;
+  handleVisitTypeChange: (value: "letter" | "return" | "return_visit") => void;
   resetAfterSave: () => void;
 };
 
@@ -41,7 +41,9 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
   const [selectedStreet, setSelectedStreet] = useState<Street | undefined>(initialState.street);
   const [houseNumber, setHouseNumber] = useState(initialState.house_number);
   const [unitNumber, setUnitNumber] = useState(initialState.unit_number);
-  const [visitType, setVisitType] = useState<"letter" | "return">(initialState.visit_type);
+  const [visitType, setVisitType] = useState<"letter" | "return" | "return_visit">(
+    initialState.visit_type,
+  );
 
   useEffect(() => {
     saveDoorToDoorForm({
@@ -75,7 +77,7 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
     setUnitNumber(value);
   }
 
-  function handleVisitTypeChange(value: "letter" | "return") {
+  function handleVisitTypeChange(value: "letter" | "return" | "return_visit") {
     setVisitType(value);
   }
 

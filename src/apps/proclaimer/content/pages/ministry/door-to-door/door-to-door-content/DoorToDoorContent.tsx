@@ -22,6 +22,10 @@ import { useMapStyle } from "@proclaimer-content/pages/ministry/door-to-door/sha
 import { useQuickLinks } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useQuickLinksContext";
 import { QuickLinksFab } from "./components/quick-links-fab/QuickLinksFab";
 import { useNotAtHomeLocationEditor } from "./hooks/useNotAtHomeLocationEditor";
+import { ReturnVisitSource } from "./components/layers/return-visit-source/ReturnVisitSource";
+import type { ReturnVisit } from "./components/layers/return-visit-source/types";
+import { ReturnVisitModal } from "./components/return-visit-modal/ReturnVisitModal";
+import { ReturnVisitUnitModal } from "./components/layers/return-visit-source/components/return-visit-unit-modal/ReturnVisitUnitModal";
 
 type ShareLocation = {
   lat: number;
@@ -34,6 +38,10 @@ export function DoorToDoorContent() {
   const [selectedUnitsKey, setSelectedUnitsKey] = useState<string | null>(null);
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const [selectedDoNotCall, setSelectedDoNotCall] = useState<DoNotCall | null>(null);
+  const [selectedReturnVisit, setSelectedReturnVisit] = useState<ReturnVisit | null>(null);
+  const [selectedReturnVisitGroupKey, setSelectedReturnVisitGroupKey] = useState<string | null>(
+    null,
+  );
   const {
     isEditing,
     editingCoordinates,
@@ -59,6 +67,10 @@ export function DoorToDoorContent() {
         <MapsLayer />
         <BlocksLayer />
         <DoNotCallSource onSelect={setSelectedDoNotCall} />
+        <ReturnVisitSource
+          onSelect={setSelectedReturnVisit}
+          onSelectGroup={setSelectedReturnVisitGroupKey}
+        />
         <NotAtHomeSource onSelect={setSelectedNotAtHome} onSelectUnits={setSelectedUnitsKey} />
         {editingCoordinates && (
           <NotAtHomeEditLocationMarker
@@ -85,6 +97,15 @@ export function DoorToDoorContent() {
           setIsModalOpen(false);
           zoomToRef.current?.(coordinates);
         }}
+      />
+
+      <ReturnVisitModal
+        selected={selectedReturnVisit}
+        onDismiss={() => setSelectedReturnVisit(null)}
+      />
+      <ReturnVisitUnitModal
+        groupKey={selectedReturnVisitGroupKey}
+        onDismiss={() => setSelectedReturnVisitGroupKey(null)}
       />
 
       <DoNotCallAlert selected={selectedDoNotCall} onDismiss={() => setSelectedDoNotCall(null)} />
