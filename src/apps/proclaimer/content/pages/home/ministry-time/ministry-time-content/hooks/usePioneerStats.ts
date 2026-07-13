@@ -1,7 +1,4 @@
-import { useLiveQuery } from "@tanstack/react-db";
-import { publisherCollection } from "@shared/database/collections/publisher";
-import { useAuthSession } from "@util/app/auth/useAuthSession";
-import type { Publisher } from "@shared/database/schemas/publisher";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import type { MinistryTimeEntry } from "./useMinistryTime";
 
 const REGULAR_PIONEER_YEARLY_HOURS = 600;
@@ -19,7 +16,7 @@ function toISODate(date: Date): string {
 }
 
 export interface PioneerStatsData {
-  type: Publisher["type"];
+  type: "regular_pioneer" | "special_pioneer" | "continuous_auxiliary";
   hours_needed_this_month: number;
   hours_remaining?: number;
   avg_per_week?: number;
@@ -28,14 +25,7 @@ export interface PioneerStatsData {
 }
 
 export function usePioneerStats(entries: MinistryTimeEntry[]): PioneerStatsData | null {
-  const session = useAuthSession();
-  const auth_user_id = session?.user?.id;
-  const { data: publishers } = useLiveQuery((q) => q.from({ p: publisherCollection }));
-
-  const my_publisher = (publishers as Publisher[] | undefined)?.find(
-    (p) => p.auth_id === auth_user_id,
-  );
-
+  const my_publisher = useStoredPublisher();
   if (!my_publisher) return null;
 
   const now = new Date();
