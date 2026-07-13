@@ -11,9 +11,10 @@ interface EditEntryModalProps {
 
 export function EditEntryModal({ entry, on_update, on_close }: EditEntryModalProps) {
   if (!entry) return null;
+  const entry_id = entry.entry_id;
 
   function handleUpdate(date: string, start_time: string, end_time: string, note: string) {
-    on_update(entry.id, date, start_time, end_time, note);
+    on_update(entry_id, date, start_time, end_time, note);
     on_close();
   }
 

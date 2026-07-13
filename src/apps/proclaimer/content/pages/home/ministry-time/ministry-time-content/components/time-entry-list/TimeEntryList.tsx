@@ -51,7 +51,7 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
         <IonList>
           {monthEntries.map((entry) => (
             <LabelValueItem
-              key={entry.id}
+              key={entry.entry_id}
               label={formatDate(entry.date)}
               value={`${entry.start_time} – ${entry.end_time}`}
               value_2={entry.note || undefined}
@@ -63,7 +63,7 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
                   <DeleteIconButton
                     alert_header="Delete Entry"
                     alert_message="Delete this ministry time entry?"
-                    on_click={() => on_delete(entry.id)}
+                    on_click={() => on_delete(entry.entry_id)}
                   />
                 </>
               }

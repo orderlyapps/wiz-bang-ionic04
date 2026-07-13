@@ -7,6 +7,10 @@ import {
   publisherSchemaLiteral,
   type PublisherLocal,
 } from "@shared/database/rxdb/collections/publisher";
+import {
+  ministryTimeSchemaLiteral,
+  type MinistryTimeLocal,
+} from "@shared/database/rxdb/collections/ministry-time";
 
 if (import.meta.env.DEV) addRxPlugin(RxDBDevModePlugin);
 
@@ -20,5 +24,8 @@ export const rxdb = await createRxDatabase({
 await rxdb.addCollections({
   publisher: {
     schema: publisherSchemaLiteral as RxJsonSchema<PublisherLocal>,
+  },
+  ministry_time: {
+    schema: ministryTimeSchemaLiteral as RxJsonSchema<MinistryTimeLocal>,
   },
 });

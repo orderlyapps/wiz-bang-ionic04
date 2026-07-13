@@ -1,16 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useLiveQuery } from "@tanstack/react-db";
+import { ministryTimeLocalCollection } from "@shared/database/collections/ministry-time-local";
+import type { MinistryTimeLocal } from "@shared/database/rxdb/collections/ministry-time";
 
-export interface MinistryTimeEntry {
-  id: string;
-  date: string;
-  start_time: string;
-  end_time: string;
-  minutes: number;
-  note: string;
-}
-
-const STORAGE_KEY = localStorageKeys.ministryTimeTracker;
+export type MinistryTimeEntry = MinistryTimeLocal;
 
 function computeMinutes(start_time: string, end_time: string): number {
   const [sh, sm] = start_time.split(":").map(Number);
@@ -19,72 +11,56 @@ function computeMinutes(start_time: string, end_time: string): number {
   return Math.max(0, Math.round(diff / 5) * 5);
 }
 
-function loadEntries(): MinistryTimeEntry[] {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (!stored) return [];
-  try {
-    return JSON.parse(stored) as MinistryTimeEntry[];
-  } catch {
-    return [];
-  }
-}
-
-function saveEntries(entries: MinistryTimeEntry[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+function versionData() {
+  const now = Date.now();
+  return {
+    created_by: "",
+    updated_by: "",
+    created_at: now,
+    updated_at: now,
+  };
 }
 
 export function useMinistryTime() {
-  const [entries, setEntries] = useState<MinistryTimeEntry[]>(loadEntries);
-
-  useEffect(() => {
-    function handleStorage() {
-      setEntries(loadEntries());
-    }
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
-
-  const addEntry = useCallback(
-    (date: string, start_time: string, end_time: string, note: string) => {
-      const minutes = computeMinutes(start_time, end_time);
-      const entry: MinistryTimeEntry = {
-        id: crypto.randomUUID(),
-        date,
-        start_time,
-        end_time,
-        minutes,
-        note,
-      };
-      setEntries((prev) => {
-        const next = [...prev, entry].sort((a, b) => a.date.localeCompare(b.date));
-        saveEntries(next);
-        return next;
-      });
-    },
-    [],
+  const { data } = useLiveQuery((q) =>
+    q.from({ mt: ministryTimeLocalCollection }).orderBy(({ mt }) => mt.date),
   );
+  const entries = (data as MinistryTimeEntry[] | undefined) ?? [];
 
-  const updateEntry = useCallback(
-    (id: string, date: string, start_time: string, end_time: string, note: string) => {
-      const minutes = computeMinutes(start_time, end_time);
-      setEntries((prev) => {
-        const next = prev
-          .map((e) => (e.id === id ? { ...e, date, start_time, end_time, minutes, note } : e))
-          .sort((a, b) => a.date.localeCompare(b.date));
-        saveEntries(next);
-        return next;
-      });
-    },
-    [],
-  );
-
-  const deleteEntry = useCallback((id: string) => {
-    setEntries((prev) => {
-      const next = prev.filter((e) => e.id !== id);
-      saveEntries(next);
-      return next;
+  function addEntry(date: string, start_time: string, end_time: string, note: string) {
+    const minutes = computeMinutes(start_time, end_time);
+    ministryTimeLocalCollection.insert({
+      entry_id: crypto.randomUUID(),
+      date,
+      start_time,
+      end_time,
+      minutes,
+      note,
+      version: versionData(),
     });
-  }, []);
+  }
+
+  function updateEntry(
+    entry_id: string,
+    date: string,
+    start_time: string,
+    end_time: string,
+    note: string,
+  ) {
+    const minutes = computeMinutes(start_time, end_time);
+    ministryTimeLocalCollection.update(entry_id, (draft) => {
+      draft.date = date;
+      draft.start_time = start_time;
+      draft.end_time = end_time;
+      draft.minutes = minutes;
+      draft.note = note;
+      draft.version.updated_at = Date.now();
+    });
+  }
+
+  function deleteEntry(entry_id: string) {
+    ministryTimeLocalCollection.delete(entry_id);
+  }
 
   const now = new Date();
   const current_month_prefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
