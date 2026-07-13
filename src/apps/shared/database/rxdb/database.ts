@@ -2,6 +2,7 @@ import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { addRxPlugin, type RxJsonSchema } from "rxdb/plugins/core";
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
+import { RxDBMigrationSchemaPlugin } from "rxdb/plugins/migration-schema";
 import { createRxDatabase } from "rxdb/plugins/core";
 import {
   publisherSchemaLiteral,
@@ -16,6 +17,7 @@ import {
   type SettingsLocal,
 } from "@shared/database/rxdb/collections/settings";
 
+addRxPlugin(RxDBMigrationSchemaPlugin);
 if (import.meta.env.DEV) addRxPlugin(RxDBDevModePlugin);
 
 const storage = getRxStorageDexie();
@@ -31,6 +33,12 @@ await rxdb.addCollections({
   },
   ministry_time: {
     schema: ministryTimeSchemaLiteral as RxJsonSchema<MinistryTimeLocal>,
+    migrationStrategies: {
+      1: (oldDoc) => ({
+        ...oldDoc,
+        ministry_type: oldDoc.ministry_type ?? "door_to_door",
+      }),
+    },
   },
   settings: {
     schema: settingsSchemaLiteral as RxJsonSchema<SettingsLocal>,

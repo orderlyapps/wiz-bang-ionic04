@@ -26,7 +26,7 @@ export const MINISTRY_TYPES = [
 export type MinistryType = (typeof MINISTRY_TYPES)[number];
 
 export const ministryTimeSchemaLiteral = {
-  version: 0,
+  version: 1,
   primaryKey: "entry_id",
   type: "object",
   properties: {
