@@ -7,7 +7,7 @@ import {
   exportReturnVisitData,
   importReturnVisitData,
   generateReturnVisitExportFilename,
-} from "@shared/database/helper/returnVisitExportImport";
+} from "@shared/database/rxdb/helper/returnVisitExportImport";
 
 export function ReturnVisitDataManagement() {
   const [presentAlert] = useIonAlert();
