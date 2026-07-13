@@ -13,6 +13,7 @@ import { useReturnVisitMarkers } from "../../hooks/useReturnVisitMarkers";
 import { returnVisitCollection } from "@shared/database/collections/return-visit";
 import type { ReturnVisit } from "../../types";
 import { UnitSection } from "./components/unit-section/UnitSection";
+import { ReturnVisitModal } from "../../../../return-visit-modal/ReturnVisitModal";
 
 type ReturnVisitUnitModalProps = {
   groupKey: string | null;
@@ -21,6 +22,7 @@ type ReturnVisitUnitModalProps = {
 
 export function ReturnVisitUnitModal({ groupKey, onDismiss }: ReturnVisitUnitModalProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState<ReturnVisit | null>(null);
   const groupedByAddress = useReturnVisitMarkers();
 
   const units = (groupKey && groupedByAddress?.[groupKey]) || [];
@@ -53,9 +55,10 @@ export function ReturnVisitUnitModal({ groupKey, onDismiss }: ReturnVisitUnitMod
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <UnitSection units={units} onDelete={handleDeleteUnit} />
+          <UnitSection units={units} onSelect={setSelectedUnit} onDelete={handleDeleteUnit} />
         </IonContent>
       </ResponsiveModal>
+      <ReturnVisitModal selected={selectedUnit} onDismiss={() => setSelectedUnit(null)} />
       <IonToast
         isOpen={!!errorMessage}
         message={errorMessage ?? ""}
