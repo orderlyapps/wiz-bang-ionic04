@@ -10,7 +10,6 @@ import {
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { useReturnVisitMarkers } from "../../hooks/useReturnVisitMarkers";
-import { returnVisitCollection } from "@shared/database/collections/return-visit";
 import type { ReturnVisit } from "../../types";
 import { UnitSection } from "./components/unit-section/UnitSection";
 import { ReturnVisitModal } from "../../../../return-visit-modal/ReturnVisitModal";
@@ -31,18 +30,6 @@ export function ReturnVisitUnitModal({ groupKey, onDismiss }: ReturnVisitUnitMod
     ? `${firstUnit.house_number} ${firstUnit.street}, ${firstUnit.suburb}`
     : "";
 
-  function handleDeleteUnit(unit: ReturnVisit) {
-    try {
-      if (!unit.id) return;
-      returnVisitCollection.delete(unit.id);
-      if (units.length === 1) {
-        onDismiss();
-      }
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Failed to delete unit");
-    }
-  }
-
   return (
     <>
       <ResponsiveModal isOpen={!!groupKey && units.length > 0} onDidDismiss={onDismiss}>
@@ -55,7 +42,7 @@ export function ReturnVisitUnitModal({ groupKey, onDismiss }: ReturnVisitUnitMod
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <UnitSection units={units} onSelect={setSelectedUnit} onDelete={handleDeleteUnit} />
+          <UnitSection units={units} onSelect={setSelectedUnit} />
         </IonContent>
       </ResponsiveModal>
       <ReturnVisitModal selected={selectedUnit} onDismiss={() => setSelectedUnit(null)} />
