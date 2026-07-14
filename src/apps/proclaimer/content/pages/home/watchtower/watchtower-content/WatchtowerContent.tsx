@@ -49,6 +49,11 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
   const current = timer.current_section;
   const is_overtime = timer.section_remaining_seconds < 0;
 
+  const remaining_sections_total = settings.sections
+    .slice(timer.current_section_index)
+    .reduce((sum, s) => sum + s.duration_seconds, 0);
+  const time_difference = timer.overall_remaining_seconds - remaining_sections_total;
+
   return (
     <>
       <SettingsModal
@@ -142,7 +147,16 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
 
         <div style={{ margin: "1.5rem 0" }}>
           <Body size="2xl" color="medium">
-            {formatCountdown(timer.overall_remaining_seconds)}
+            {formatCountdown(timer.overall_remaining_seconds)}{" "}
+            <span
+              style={{
+                color:
+                  time_difference >= 0 ? "var(--ion-color-success)" : "var(--ion-color-danger)",
+              }}
+            >
+              ({time_difference >= 0 ? "+" : ""}
+              {formatCountdown(time_difference)})
+            </span>
           </Body>
         </div>
 
