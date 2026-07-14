@@ -122,6 +122,7 @@ export function SettingsModal({
 
       <SectionEditModal
         section={editing_section}
+        sections={sections}
         is_open={editing_section !== null}
         on_dismiss={handle_section_edit_dismiss}
         on_update_duration={on_update_duration}

@@ -16,6 +16,7 @@ import type { WatchtowerSection } from "@proclaimer-content/pages/home/watchtowe
 
 interface SectionEditModalProps {
   section: WatchtowerSection | null;
+  sections: WatchtowerSection[];
   is_open: boolean;
   on_dismiss: () => void;
   on_update_duration: (section_id: string, duration_seconds: number) => void;
@@ -42,6 +43,7 @@ function getSectionLabel(section: WatchtowerSection): string {
 
 export function SectionEditModal({
   section,
+  sections,
   is_open,
   on_dismiss,
   on_update_duration,
@@ -54,8 +56,12 @@ export function SectionEditModal({
 
   const is_numbered = section.type === "numbered";
   const is_review = section.type === "review";
-  const can_add_or_delete = is_numbered || is_review;
-  const can_merge = is_numbered && section.merged_count === 0;
+  const same_type = sections.filter((s) => s.type === section.type);
+  const is_last_of_type =
+    (is_numbered || is_review) && same_type[same_type.length - 1].id === section.id;
+  const can_add = is_last_of_type;
+  const can_delete = is_last_of_type && same_type.length > 1;
+  const can_merge = is_numbered && !is_last_of_type;
   const can_unmerge = is_numbered && section.merged_count > 0;
 
   return (
@@ -78,16 +84,18 @@ export function SectionEditModal({
           on_change={(value) => on_update_duration(section.id, value)}
         />
 
-        {can_add_or_delete && (
+        {can_add && (
           <IonList inset>
             <IonItem button detail={false} onClick={() => on_add_after(section.id)}>
               <IonIcon slot="start" icon={add} />
               <IonLabel>Add section after</IonLabel>
             </IonItem>
-            <IonItem button detail={false} onClick={() => on_delete(section.id)}>
-              <IonIcon slot="start" icon={trash} color="danger" />
-              <IonLabel color="danger">Delete section</IonLabel>
-            </IonItem>
+            {can_delete && (
+              <IonItem button detail={false} onClick={() => on_delete(section.id)}>
+                <IonIcon slot="start" icon={trash} color="danger" />
+                <IonLabel color="danger">Delete section</IonLabel>
+              </IonItem>
+            )}
           </IonList>
         )}
 

@@ -256,9 +256,10 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
 
       const new_sections = [...sections];
       const next = new_sections[idx + 1];
+      const absorbed_count = next.merged_count + 1;
       new_sections[idx] = {
         ...target,
-        merged_count: target.merged_count + 1,
+        merged_count: target.merged_count + absorbed_count,
         duration_seconds: target.duration_seconds + next.duration_seconds,
       };
       new_sections.splice(idx + 1, 1);
