@@ -125,6 +125,8 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
                 last_name={liveRecord?.last_name ?? ""}
                 phone_number={liveRecord?.phone_number ?? ""}
                 notes={liveRecord?.notes ?? ""}
+                lat={selected?.coordinates?.[1]}
+                lng={selected?.coordinates?.[0]}
               />
               <TextButton label="Edit" fill="clear" on_click={() => setShowPersonDetails(true)} />
             </>
@@ -172,7 +174,7 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
           )}
 
           {!showPersonDetails && !showAddForm && !editingVisit && (
-            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+            <IonFab vertical="bottom" horizontal="end" slot="fixed" className="ion-margin">
               <IonFabButton onClick={() => setShowAddForm(true)}>
                 <IonIcon icon={addOutline} />
               </IonFabButton>
