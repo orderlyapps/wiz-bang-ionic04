@@ -17,9 +17,8 @@ export function MinistryTimeContent() {
       <IonItem>
         <IonLabel className="ion-text-center">
           <Body size="xs" color="medium">
-            Your time entries and pioneer hour settings are stored locally on this device.
-            Use the settings icon above to export a copy for safekeeping or to transfer to another
-            device.
+            Your time entries and pioneer hour settings are stored locally on this device. Use the
+            settings icon above to export a copy for safekeeping or to transfer to another device.
           </Body>
         </IonLabel>
       </IonItem>

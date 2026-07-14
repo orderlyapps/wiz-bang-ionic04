@@ -27,6 +27,7 @@ export function PermissionsContent() {
       <NavItem label="Weekend" to="/home/congregation-admin/permissions/weekend" />
       <NavItem label="Reminders" to="/home/congregation-admin/permissions/reminders" />
       <NavItem label="Events" to="/home/congregation-admin/permissions/events" />
+      <NavItem label="Watchtower" to="/home/congregation-admin/permissions/watchtower" />
     </IonList>
   );
 }

@@ -9,11 +9,7 @@ type SortControlProps = {
 
 export function SortControl({ value, on_change }: SortControlProps) {
   return (
-    <IonSegment
-      value={value}
-      onIonChange={(e) => on_change(e.detail.value as SortMode)}
-      scrollable
-    >
+    <IonSegment value={value} onIonChange={(e) => on_change(e.detail.value as SortMode)} scrollable>
       <IonSegmentButton value="recent">
         <IonLabel>Longest Since Visit</IonLabel>
       </IonSegmentButton>

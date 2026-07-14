@@ -43,8 +43,8 @@ export function AdjustHoursModal({ isOpen, on_close }: AdjustHoursModalProps) {
           <IonItem>
             <IonText color="medium">
               <p>
-                Set the yearly hour requirement for regular pioneers per service year
-                (Sep 1 – Aug 31). Default is 600h.
+                Set the yearly hour requirement for regular pioneers per service year (Sep 1 – Aug
+                31). Default is 600h.
               </p>
             </IonText>
           </IonItem>

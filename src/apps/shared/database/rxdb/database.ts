@@ -20,6 +20,10 @@ import {
   returnVisitSchemaLiteral,
   type ReturnVisitLocal,
 } from "@shared/database/rxdb/collections/return-visit";
+import {
+  watchtowerSchemaLiteral,
+  type WatchtowerLocal,
+} from "@shared/database/rxdb/collections/watchtower";
 
 addRxPlugin(RxDBMigrationSchemaPlugin);
 if (import.meta.env.DEV) addRxPlugin(RxDBDevModePlugin);
@@ -58,6 +62,9 @@ await rxdb.addCollections({
         notes: oldDoc.notes ?? "",
       }),
     },
+  },
+  watchtower: {
+    schema: watchtowerSchemaLiteral as RxJsonSchema<WatchtowerLocal>,
   },
 });
 

@@ -25,9 +25,15 @@ export function ServiceYearRow({ service_year, hours, is_current, on_save }: Ser
       <IonLabel>
         <h2>
           {service_year}
-          {is_current && <IonBadge color="primary" style={{ marginLeft: 8 }}>Current</IonBadge>}
+          {is_current && (
+            <IonBadge color="primary" style={{ marginLeft: 8 }}>
+              Current
+            </IonBadge>
+          )}
         </h2>
-        {is_default && <IonNote color="medium">Default: {DEFAULT_REGULAR_PIONEER_YEARLY_HOURS}h</IonNote>}
+        {is_default && (
+          <IonNote color="medium">Default: {DEFAULT_REGULAR_PIONEER_YEARLY_HOURS}h</IonNote>
+        )}
       </IonLabel>
       <IonInput
         slot="end"

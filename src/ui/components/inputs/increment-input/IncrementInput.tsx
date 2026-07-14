@@ -12,6 +12,7 @@ export interface IncrementInputProps {
   step?: number;
   color?: IonicColor;
   disabled?: boolean;
+  display_value?: string;
   on_change: (value: number) => void;
 }
 
@@ -23,6 +24,7 @@ export function IncrementInput({
   step = 1,
   color,
   disabled = false,
+  display_value,
   on_change,
 }: IncrementInputProps) {
   const handle_decrement = () => {
@@ -55,7 +57,7 @@ export function IncrementInput({
           <IonIcon slot="icon-only" icon={remove} />
         </IonButton>
         <Body size="xl" className="ion-margin-horizontal" style={{ opacity: disabled ? 0.3 : 1 }}>
-          {value}
+          {display_value ?? value}
         </Body>
         <IonButton
           color={color}

@@ -52,6 +52,7 @@ import SpeakerPermissionsPage from "@proclaimer-routes/pages/home/congregation-a
 import WeekendPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/weekend/Weekend";
 import RemindersPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reminders/Reminders";
 import EventsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/events/Events";
+import WatchtowerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/watchtower/Watchtower";
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
@@ -118,6 +119,7 @@ import RemindersPage from "@proclaimer-routes/pages/home/reminders/Reminders";
 import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import MinistryTimePage from "@proclaimer-routes/pages/home/ministry-time/MinistryTime";
+import WatchtowerToolPage from "@proclaimer-routes/pages/home/watchtower/Watchtower";
 import { Icon } from "@ui/components/icons/Icon";
 import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
 // import { getPlatforms } from "@ionic/react";
@@ -218,6 +220,11 @@ function App() {
         <Route
           path="/home/congregation-admin/permissions/events"
           component={EventsPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/watchtower"
+          component={WatchtowerPermissionsPage}
           exact
         />
         <Route path="/home/elder" component={ElderPage} exact />
@@ -383,6 +390,7 @@ function App() {
         <Route path="/home/clam/:week_id?" component={ClamPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         <Route path="/home/ministry-time" component={MinistryTimePage} exact />
+        <Route path="/home/watchtower" component={WatchtowerToolPage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />
         <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />

@@ -39,6 +39,7 @@ export function HomeTools() {
     permissions.has_weekend ||
     permissions.has_reminders ||
     permissions.has_events ||
+    permissions.has_watchtower ||
     permissions.has_ministerial_servant ||
     is_chairman ||
     isPioneer;
@@ -230,6 +231,17 @@ export function HomeTools() {
                 label_class={CLASSNAME}
                 label="Events"
                 to="/home/events"
+              />
+            )}
+
+            {(canSeeAll || permissions.has_watchtower) && (
+              <NavItem
+                color={COLOR}
+                size="md"
+                lines="none"
+                label_class={CLASSNAME}
+                label="Watchtower"
+                to="/home/watchtower"
               />
             )}
 

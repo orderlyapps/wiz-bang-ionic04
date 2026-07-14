@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonContent,
-  IonList,
-} from "@ionic/react";
+import { IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonList } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { useAllReturnVisits } from "./hooks/useAllReturnVisits";
@@ -20,7 +13,11 @@ type ReturnVisitListModalProps = {
   on_select: (rv: ReturnVisit) => void;
 };
 
-export function ReturnVisitListModal({ is_open, on_dismiss, on_select }: ReturnVisitListModalProps) {
+export function ReturnVisitListModal({
+  is_open,
+  on_dismiss,
+  on_select,
+}: ReturnVisitListModalProps) {
   const [sort_mode, set_sort_mode] = useState<SortMode>("recent");
   const return_visits = useAllReturnVisits();
 

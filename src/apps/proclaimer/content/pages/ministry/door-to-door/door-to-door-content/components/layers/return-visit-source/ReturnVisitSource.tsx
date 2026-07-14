@@ -27,22 +27,24 @@ export function ReturnVisitSource({ onSelect, onSelectGroup }: ReturnVisitSource
   const groupedByAddress = useReturnVisitMarkers();
   if (!groupedByAddress) return null;
 
-  const features: ReturnVisitFeature[] = Object.entries(groupedByAddress).map(([groupKey, group]) => {
-    const firstItem = group[0];
-    return {
-      type: "Feature",
-      id: firstItem.id,
-      properties: {
-        ...firstItem,
-        unit_count: group.length,
-        group_key: groupKey,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: firstItem.coordinates,
-      },
-    };
-  });
+  const features: ReturnVisitFeature[] = Object.entries(groupedByAddress).map(
+    ([groupKey, group]) => {
+      const firstItem = group[0];
+      return {
+        type: "Feature",
+        id: firstItem.id,
+        properties: {
+          ...firstItem,
+          unit_count: group.length,
+          group_key: groupKey,
+        },
+        geometry: {
+          type: "Point",
+          coordinates: firstItem.coordinates,
+        },
+      };
+    },
+  );
 
   const geojson: GeoJSON.FeatureCollection = {
     type: "FeatureCollection",
