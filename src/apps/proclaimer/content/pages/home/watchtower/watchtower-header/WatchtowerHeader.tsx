@@ -1,5 +1,5 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton, IonButton, IonIcon } from "@ionic/react";
-import { settings } from "ionicons/icons";
+import { settingsOutline } from "ionicons/icons";
 
 interface WatchtowerHeaderProps {
   on_settings: () => void;
@@ -14,7 +14,7 @@ export function WatchtowerHeader({ on_settings }: WatchtowerHeaderProps) {
       <IonTitle>Watchtower</IonTitle>
       <IonButtons slot="end">
         <IonButton onClick={on_settings}>
-          <IonIcon slot="icon-only" icon={settings} />
+          <IonIcon slot="icon-only" icon={settingsOutline} />
         </IonButton>
       </IonButtons>
     </IonToolbar>
