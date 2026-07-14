@@ -260,7 +260,7 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
       new_sections[idx] = {
         ...target,
         merged_count: target.merged_count + absorbed_count,
-        duration_seconds: target.duration_seconds + next.duration_seconds,
+        duration_seconds: DEFAULT_NUMBERED_DURATION,
       };
       new_sections.splice(idx + 1, 1);
 
@@ -278,8 +278,6 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
       if (target.type !== "numbered" || target.merged_count <= 0) return;
 
       const merged_count = target.merged_count;
-      const per_section_duration = Math.floor(target.duration_seconds / (merged_count + 1));
-      const remainder = target.duration_seconds - per_section_duration * (merged_count + 1);
 
       const unmerged: WatchtowerSection[] = [];
       for (let i = 0; i <= merged_count; i++) {
@@ -287,7 +285,7 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
           id: `${target.id}-unmerged-${i}`,
           type: "numbered",
           number: (target.number ?? 0) + i,
-          duration_seconds: per_section_duration + (i === 0 ? remainder : 0),
+          duration_seconds: DEFAULT_NUMBERED_DURATION,
           merged_count: 0,
         });
       }
