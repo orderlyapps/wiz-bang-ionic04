@@ -64,14 +64,17 @@ export function SettingsModal({
   on_set_end_time,
   on_reset,
 }: SettingsModalProps) {
-  const [editing_section, setEditingSection] = useState<WatchtowerSection | null>(null);
+  const [editing_section_id, setEditingSectionId] = useState<string | null>(null);
+  const editing_section = editing_section_id
+    ? (sections.find((s) => s.id === editing_section_id) ?? null)
+    : null;
 
   const handle_section_click = (section: WatchtowerSection) => {
-    setEditingSection(section);
+    setEditingSectionId(section.id);
   };
 
   const handle_section_edit_dismiss = () => {
-    setEditingSection(null);
+    setEditingSectionId(null);
   };
 
   return (

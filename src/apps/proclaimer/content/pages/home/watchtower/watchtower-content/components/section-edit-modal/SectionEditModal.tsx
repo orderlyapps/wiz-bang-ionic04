@@ -6,6 +6,8 @@ import {
   IonIcon,
   IonHeader,
   IonContent,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
 import { close, add, trash, gitMerge, gitBranch } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
@@ -58,20 +60,13 @@ export function SectionEditModal({
 
   return (
     <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
-      <IonHeader
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 16px",
-          height: "56px",
-          borderBottom: "1px solid var(--ion-color-light)",
-        }}
-      >
-        <strong style={{ fontSize: "1.1rem" }}>{getSectionLabel(section)}</strong>
-        <IonButton fill="clear" onClick={on_dismiss}>
-          <IonIcon slot="icon-only" icon={close} />
-        </IonButton>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>{getSectionLabel(section)}</IonTitle>
+          <IonButton fill="clear" onClick={on_dismiss} slot="end">
+            <IonIcon slot="icon-only" icon={close} />
+          </IonButton>
+        </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
         <TimeIncrementInput
