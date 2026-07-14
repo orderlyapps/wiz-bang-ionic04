@@ -58,16 +58,16 @@ export function DoNotCallAlert({
       },
     });
   }
-  buttons.unshift({
-    text: "Info",
-    handler: () => {
-      window.open(
-        "https://www.jw.org/finder?srcid=jwlshare&wtlocale=E&prefer=lang&docid=201994204",
-        "_blank",
-      );
-      onDismiss();
-    },
-  });
+  // buttons.unshift({
+  //   text: "Info",
+  //   handler: () => {
+  //     window.open(
+  //       "https://www.jw.org/finder?srcid=jwlshare&wtlocale=E&prefer=lang&docid=201994204",
+  //       "_blank",
+  //     );
+  //     onDismiss();
+  //   },
+  // });
 
   function handleConfirmDelete() {
     const id = selected?.id ?? selectedIdRef.current;

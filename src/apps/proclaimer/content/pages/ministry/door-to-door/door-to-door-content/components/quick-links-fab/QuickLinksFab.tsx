@@ -29,6 +29,13 @@ export function QuickLinksFab() {
     { text: "Cancel", role: "cancel" },
   ];
 
+  const currentDate = new Date();
+  const endOfNextYear = new Date(currentDate.getFullYear() + 2, 0, 0);
+
+  if (currentDate < endOfNextYear) {
+    return null;
+  }
+
   return (
     <>
       <IonFab vertical="top" horizontal="start" slot="fixed">
