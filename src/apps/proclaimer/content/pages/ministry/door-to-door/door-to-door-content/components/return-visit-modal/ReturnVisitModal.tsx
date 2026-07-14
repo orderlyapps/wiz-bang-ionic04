@@ -31,9 +31,10 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 type ReturnVisitModalProps = {
   selected: ReturnVisit | null;
   onDismiss: () => void;
+  onEditLocation?: (rv: ReturnVisit) => void;
 };
 
-export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps) {
+export function ReturnVisitModal({ selected, onDismiss, onEditLocation }: ReturnVisitModalProps) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showPersonDetails, setShowPersonDetails] = useState(false);
   const [editingVisit, setEditingVisit] = useState<VisitLogEntry | null>(null);
@@ -141,6 +142,14 @@ export function ReturnVisitModal({ selected, onDismiss }: ReturnVisitModalProps)
               }}
               onCancel={() => setShowPersonDetails(false)}
               onError={(msg) => setErrorMessage(msg)}
+              onEditLocation={
+                onEditLocation
+                  ? () => {
+                      handleDismiss();
+                      onEditLocation(selected);
+                    }
+                  : undefined
+              }
             />
           ) : null}
 

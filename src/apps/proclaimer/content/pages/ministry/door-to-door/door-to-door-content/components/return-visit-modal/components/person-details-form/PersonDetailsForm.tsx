@@ -13,9 +13,16 @@ type PersonDetailsFormProps = {
   initial: PersonDetails;
   onCancel: () => void;
   onError?: (message: string) => void;
+  onEditLocation?: () => void;
 };
 
-export function PersonDetailsForm({ id, initial, onCancel, onError }: PersonDetailsFormProps) {
+export function PersonDetailsForm({
+  id,
+  initial,
+  onCancel,
+  onError,
+  onEditLocation,
+}: PersonDetailsFormProps) {
   const [name, setName] = useState<NameValue>({
     first_name: initial.first_name,
     middle_name: null,
@@ -36,6 +43,9 @@ export function PersonDetailsForm({ id, initial, onCancel, onError }: PersonDeta
 
   return (
     <>
+      {onEditLocation && (
+        <TextButton label="Edit Location" fill="clear" on_click={onEditLocation} />
+      )}
       <NameInput
         label="Name"
         value={name}

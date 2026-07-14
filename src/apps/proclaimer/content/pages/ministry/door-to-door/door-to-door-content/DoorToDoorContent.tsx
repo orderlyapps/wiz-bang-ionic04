@@ -22,6 +22,7 @@ import { useMapStyle } from "@proclaimer-content/pages/ministry/door-to-door/sha
 import { useQuickLinks } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useQuickLinksContext";
 import { QuickLinksFab } from "./components/quick-links-fab/QuickLinksFab";
 import { useNotAtHomeLocationEditor } from "./hooks/useNotAtHomeLocationEditor";
+import { useReturnVisitLocationEditor } from "./hooks/useReturnVisitLocationEditor";
 import { ReturnVisitSource } from "./components/layers/return-visit-source/ReturnVisitSource";
 import type { ReturnVisit } from "./components/layers/return-visit-source/types";
 import { ReturnVisitModal } from "./components/return-visit-modal/ReturnVisitModal";
@@ -42,14 +43,9 @@ export function DoorToDoorContent() {
   const [selectedReturnVisitGroupKey, setSelectedReturnVisitGroupKey] = useState<string | null>(
     null,
   );
-  const {
-    isEditing,
-    editingCoordinates,
-    startEditing,
-    updateCoordinates,
-    saveEditing,
-    cancelEditing,
-  } = useNotAtHomeLocationEditor();
+  const nahLocationEditor = useNotAtHomeLocationEditor();
+  const rvLocationEditor = useReturnVisitLocationEditor();
+  const activeEditor = nahLocationEditor.isEditing ? nahLocationEditor : rvLocationEditor;
   const { zoomToRef } = useMapZoom();
   const { styleId } = useMapStyle();
   const { fabVisible } = useQuickLinks();
@@ -72,10 +68,10 @@ export function DoorToDoorContent() {
           onSelectGroup={setSelectedReturnVisitGroupKey}
         />
         <NotAtHomeSource onSelect={setSelectedNotAtHome} onSelectUnits={setSelectedUnitsKey} />
-        {editingCoordinates && (
+        {activeEditor.editingCoordinates && (
           <NotAtHomeEditLocationMarker
-            coordinates={editingCoordinates}
-            onChange={updateCoordinates}
+            coordinates={activeEditor.editingCoordinates}
+            onChange={activeEditor.updateCoordinates}
           />
         )}
         <MapZoomToController zoomToRef={zoomToRef} />
@@ -88,7 +84,12 @@ export function DoorToDoorContent() {
       </IonFab>
 
       {fabVisible && <QuickLinksFab />}
-      {isEditing && <NotAtHomeEditLocationFabs onSave={saveEditing} onCancel={cancelEditing} />}
+      {activeEditor.isEditing && (
+        <NotAtHomeEditLocationFabs
+          onSave={activeEditor.saveEditing}
+          onCancel={activeEditor.cancelEditing}
+        />
+      )}
 
       <DoorToDoorModal
         isOpen={isModalOpen}
@@ -102,6 +103,10 @@ export function DoorToDoorContent() {
       <ReturnVisitModal
         selected={selectedReturnVisit}
         onDismiss={() => setSelectedReturnVisit(null)}
+        onEditLocation={(rv) => {
+          setSelectedReturnVisit(null);
+          rvLocationEditor.startEditing(rv);
+        }}
       />
       <ReturnVisitUnitModal
         groupKey={selectedReturnVisitGroupKey}
@@ -114,7 +119,7 @@ export function DoorToDoorContent() {
         onDismiss={() => setSelectedNotAtHome(null)}
         onEditLocation={() => {
           if (selectedNotAtHome) {
-            startEditing(selectedNotAtHome);
+            nahLocationEditor.startEditing(selectedNotAtHome);
             setSelectedNotAtHome(null);
           }
         }}
