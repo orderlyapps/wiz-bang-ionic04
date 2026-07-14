@@ -43,8 +43,6 @@ export function useWatchtowerTimer({
   const [current_section_index, setCurrentSectionIndex] = useState(0);
   const [elapsed_seconds, setElapsedSeconds] = useState(0);
   const [section_start_elapsed, setSectionStartElapsed] = useState(0);
-  const [adjustment_factor, setAdjustmentFactor] = useState(1);
-
   const interval_ref = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const total_duration = getTotalSectionsDuration(sections);
@@ -53,14 +51,19 @@ export function useWatchtowerTimer({
 
   const current_section = sections[current_section_index] ?? null;
 
-  const adjusted_section_duration = current_section
-    ? current_section.duration_seconds * adjustment_factor
-    : 0;
-
   const overall_remaining_seconds = Math.max(0, total_budget_seconds - elapsed_seconds);
 
+  const remaining_planned_seconds = sections
+    .slice(current_section_index)
+    .reduce((sum, s) => sum + s.duration_seconds, 0);
+
+  const adjustment_factor =
+    remaining_planned_seconds > 0 ? overall_remaining_seconds / remaining_planned_seconds : 1;
+
   const section_elapsed = elapsed_seconds - section_start_elapsed;
-  const section_remaining_seconds = adjusted_section_duration - section_elapsed;
+  const section_remaining_seconds = current_section
+    ? current_section.duration_seconds * adjustment_factor - section_elapsed
+    : 0;
 
   useEffect(() => {
     if (is_playing) {
@@ -92,48 +95,24 @@ export function useWatchtowerTimer({
     setCurrentSectionIndex(0);
     setElapsedSeconds(0);
     setSectionStartElapsed(0);
-    setAdjustmentFactor(1);
   }, []);
 
   const next_section = useCallback(() => {
     setCurrentSectionIndex((prev_idx) => {
       if (prev_idx + 1 >= sections.length) return prev_idx;
-
-      const planned_elapsed = sections
-        .slice(0, prev_idx + 1)
-        .reduce((sum, s) => sum + s.duration_seconds, 0);
-
-      if (planned_elapsed > 0 && elapsed_seconds > 0) {
-        const percentage_ahead = (planned_elapsed - elapsed_seconds) / planned_elapsed;
-        setAdjustmentFactor(1 + percentage_ahead);
-      }
-
       setSectionStartElapsed(elapsed_seconds);
       return prev_idx + 1;
     });
-  }, [sections, elapsed_seconds]);
+  }, [elapsed_seconds, sections.length]);
 
   const prev_section = useCallback(() => {
     setCurrentSectionIndex((prev_idx) => {
       if (prev_idx <= 0) return 0;
-
       const new_idx = prev_idx - 1;
-      const planned_elapsed = sections
-        .slice(0, new_idx)
-        .reduce((sum, s) => sum + s.duration_seconds, 0);
-
-      if (planned_elapsed > 0 && elapsed_seconds > 0) {
-        const percentage_ahead = (planned_elapsed - elapsed_seconds) / planned_elapsed;
-        setAdjustmentFactor(1 + percentage_ahead);
-      }
-
-      const prev_section_start = sections
-        .slice(0, new_idx)
-        .reduce((sum, s) => sum + s.duration_seconds, 0);
-      setSectionStartElapsed(prev_section_start);
+      setSectionStartElapsed(elapsed_seconds);
       return new_idx;
     });
-  }, [sections, elapsed_seconds]);
+  }, [elapsed_seconds]);
 
   useEffect(() => {
     if (current_section_index >= sections.length) {

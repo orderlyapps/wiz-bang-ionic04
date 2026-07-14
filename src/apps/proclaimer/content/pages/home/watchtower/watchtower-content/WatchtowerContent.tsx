@@ -87,20 +87,22 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
         <Space size="lg" />
 
         <div>
-          <IonButton
-            fill="clear"
-            size="large"
-            disabled={timer.current_section_index <= 0}
-            onClick={timer.prev_section}
-          >
-            <IonText
-              style={{
-                fontSize: "2.5rem",
-              }}
+          {timer.is_playing && (
+            <IonButton
+              fill="clear"
+              size="large"
+              disabled={timer.current_section_index <= 0}
+              onClick={timer.prev_section}
             >
-              Prev
-            </IonText>
-          </IonButton>
+              <IonText
+                style={{
+                  fontSize: "2.5rem",
+                }}
+              >
+                Prev
+              </IonText>
+            </IonButton>
+          )}
 
           {!timer.is_playing ? (
             <IonButton size="large" shape="round" onClick={timer.play} className="ion-margin">
@@ -118,20 +120,22 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
             </IonButton>
           )}
 
-          <IonButton
-            fill="clear"
-            size="large"
-            disabled={timer.current_section_index >= settings.sections.length - 1}
-            onClick={timer.next_section}
-          >
-            <IonText
-              style={{
-                fontSize: "2.5rem",
-              }}
+          {timer.is_playing && (
+            <IonButton
+              fill="clear"
+              size="large"
+              disabled={timer.current_section_index >= settings.sections.length - 1}
+              onClick={timer.next_section}
             >
-              Next
-            </IonText>
-          </IonButton>
+              <IonText
+                style={{
+                  fontSize: "2.5rem",
+                }}
+              >
+                Next
+              </IonText>
+            </IonButton>
+          )}
         </div>
 
         <Space size="lg" />
