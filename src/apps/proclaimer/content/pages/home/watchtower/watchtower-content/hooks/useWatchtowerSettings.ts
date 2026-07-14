@@ -62,6 +62,31 @@ export function createDefaultWatchtowerSections(): WatchtowerSection[] {
   return createDefaultSections();
 }
 
+function renumberSections(sections: WatchtowerSection[]): WatchtowerSection[] {
+  let numbered_number = 0;
+  let review_number = 0;
+
+  return sections.map((section) => {
+    if (section.type === "numbered") {
+      numbered_number += 1;
+      const renumbered_section = {
+        ...section,
+        id: `numbered-${numbered_number}`,
+        number: numbered_number,
+      };
+      numbered_number += section.merged_count;
+      return renumbered_section;
+    }
+
+    if (section.type === "review") {
+      review_number += 1;
+      return { ...section, id: `review-${review_number}`, number: review_number };
+    }
+
+    return section;
+  });
+}
+
 function getSectionLabel(section: WatchtowerSection): string {
   switch (section.type) {
     case "intro":
@@ -176,30 +201,10 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
       const new_sections = [...sections];
       new_sections.splice(idx + 1, 0, new_section);
 
-      if (target.type === "numbered") {
-        for (let i = idx + 2; i < new_sections.length; i++) {
-          if (new_sections[i].type === "numbered") {
-            new_sections[i] = {
-              ...new_sections[i],
-              number: (new_sections[i].number ?? 0) + 1,
-              id: `numbered-${new_sections[i].number}`,
-            };
-          }
-        }
-      } else {
-        for (let i = idx + 2; i < new_sections.length; i++) {
-          if (new_sections[i].type === "review") {
-            new_sections[i] = {
-              ...new_sections[i],
-              number: (new_sections[i].number ?? 0) + 1,
-              id: `review-${new_sections[i].number}`,
-            };
-          }
-        }
-      }
+      const renumbered_sections = renumberSections(new_sections);
 
-      setSections(new_sections);
-      persist(new_sections, end_time);
+      setSections(renumbered_sections);
+      persist(renumbered_sections, end_time);
     },
     [sections, end_time, persist],
   );
@@ -213,34 +218,10 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
 
       const new_sections = sections.filter((s) => s.id !== section_id);
 
-      if (target.type === "numbered") {
-        let counter = 0;
-        for (let i = 0; i < new_sections.length; i++) {
-          if (new_sections[i].type === "numbered") {
-            counter++;
-            new_sections[i] = {
-              ...new_sections[i],
-              number: counter,
-              id: `numbered-${counter}`,
-            };
-          }
-        }
-      } else {
-        let counter = 0;
-        for (let i = 0; i < new_sections.length; i++) {
-          if (new_sections[i].type === "review") {
-            counter++;
-            new_sections[i] = {
-              ...new_sections[i],
-              number: counter,
-              id: `review-${counter}`,
-            };
-          }
-        }
-      }
+      const renumbered_sections = renumberSections(new_sections);
 
-      setSections(new_sections);
-      persist(new_sections, end_time);
+      setSections(renumbered_sections);
+      persist(renumbered_sections, end_time);
     },
     [sections, end_time, persist],
   );
@@ -263,9 +244,10 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
         duration_seconds: DEFAULT_NUMBERED_DURATION,
       };
       new_sections.splice(idx + 1, 1);
+      const renumbered_sections = renumberSections(new_sections);
 
-      setSections(new_sections);
-      persist(new_sections, end_time);
+      setSections(renumbered_sections);
+      persist(renumbered_sections, end_time);
     },
     [sections, end_time, persist],
   );
@@ -293,20 +275,10 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
       const new_sections = [...sections];
       new_sections.splice(idx, 1, ...unmerged);
 
-      let counter = 0;
-      for (let i = 0; i < new_sections.length; i++) {
-        if (new_sections[i].type === "numbered") {
-          counter++;
-          new_sections[i] = {
-            ...new_sections[i],
-            number: counter,
-            id: `numbered-${counter}`,
-          };
-        }
-      }
+      const renumbered_sections = renumberSections(new_sections);
 
-      setSections(new_sections);
-      persist(new_sections, end_time);
+      setSections(renumbered_sections);
+      persist(renumbered_sections, end_time);
     },
     [sections, end_time, persist],
   );
