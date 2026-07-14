@@ -7,10 +7,12 @@ import {
   IonIcon,
   IonHeader,
   IonContent,
-  IonInput,
+  IonToolbar,
+  IonTitle,
 } from "@ionic/react";
 import { close, refresh } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { TimeInput } from "@ui/components/inputs/time/TimeInput";
 import { SectionEditModal } from "../section-edit-modal/SectionEditModal";
 import type { WatchtowerSection } from "@proclaimer-content/pages/home/watchtower/watchtower-content/hooks/useWatchtowerSettings";
 
@@ -34,8 +36,8 @@ function getSectionLabel(section: WatchtowerSection): string {
       return "Intro";
     case "numbered":
       return section.merged_count > 0
-        ? `Section ${section.number}-${(section.number ?? 0) + section.merged_count}`
-        : `Section ${section.number}`;
+        ? `Paragraph ${section.number}-${(section.number ?? 0) + section.merged_count}`
+        : `Paragraph ${section.number}`;
     case "review":
       return `Review ${section.number}`;
     case "summary":
@@ -75,35 +77,25 @@ export function SettingsModal({
   return (
     <>
       <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
-        <IonHeader
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0 16px",
-            height: "56px",
-            borderBottom: "1px solid var(--ion-color-light)",
-          }}
-        >
-          <strong style={{ fontSize: "1.1rem" }}>Settings</strong>
-          <IonButton fill="clear" onClick={on_dismiss}>
-            <IonIcon slot="icon-only" icon={close} />
-          </IonButton>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Settings</IonTitle>
+            <IonButton fill="clear" onClick={on_dismiss} slot="end">
+              <IonIcon slot="icon-only" icon={close} />
+            </IonButton>
+          </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <IonList inset>
-            <IonItem>
-              <IonLabel position="stacked">End Time (HH:mm)</IonLabel>
-              <IonInput
-                type="time"
-                value={end_time ?? ""}
-                onIonChange={(e) => {
-                  const val = e.detail.value;
-                  on_set_end_time(val || null);
-                }}
-              />
-            </IonItem>
-          </IonList>
+          <div className="ion-text-center ion-padding-bottom">
+            <IonLabel color="medium">
+              Total: {formatDuration(sections.reduce((sum, s) => sum + s.duration_seconds, 0))}
+            </IonLabel>
+          </div>
+          <TimeInput
+            label="End Time"
+            value={end_time ?? ""}
+            on_change={(val) => on_set_end_time(val || null)}
+          />
 
           <IonList inset>
             {sections.map((section) => (
