@@ -1,29 +1,28 @@
-import {
-  IonItem,
-  IonLabel,
-  IonList,
-  IonButton,
-  IonIcon,
-  IonHeader,
-  IonContent,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { close, add, trash, gitMerge, gitBranch } from "ionicons/icons";
+import { IonItem, IonLabel, IonList, IonIcon, IonContent } from "@ionic/react";
+import { add, trash, gitMerge, gitBranch } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TimeIncrementInput } from "@ui/components/inputs/increment-input/time-increment-input/TimeIncrementInput";
 import type { WatchtowerSection } from "@proclaimer-content/pages/home/watchtower/watchtower-content/hooks/useWatchtowerSettings";
+import { SectionEditHeader } from "./components/section-edit-header/SectionEditHeader";
+import { SectionEditNavigation } from "./components/section-edit-navigation/SectionEditNavigation";
 
 interface SectionEditModalProps {
   section: WatchtowerSection | null;
   sections: WatchtowerSection[];
   is_open: boolean;
   on_dismiss: () => void;
+  on_select_section: (section_id: string) => void;
   on_update_duration: (section_id: string, duration_seconds: number) => void;
   on_add_after: (section_id: string) => void;
   on_delete: (section_id: string) => void;
   on_merge_next: (section_id: string) => void;
   on_unmerge: (section_id: string) => void;
+}
+
+function formatDuration(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainder_seconds = seconds % 60;
+  return `${minutes}:${remainder_seconds.toString().padStart(2, "0")}`;
 }
 
 function getSectionLabel(section: WatchtowerSection): string {
@@ -32,8 +31,8 @@ function getSectionLabel(section: WatchtowerSection): string {
       return "Intro";
     case "numbered":
       return section.merged_count > 0
-        ? `Section ${section.number}-${(section.number ?? 0) + section.merged_count}`
-        : `Section ${section.number}`;
+        ? `Paragraph ${section.number}-${(section.number ?? 0) + section.merged_count}`
+        : `Paragraph ${section.number}`;
     case "review":
       return `Review ${section.number}`;
     case "summary":
@@ -46,6 +45,7 @@ export function SectionEditModal({
   sections,
   is_open,
   on_dismiss,
+  on_select_section,
   on_update_duration,
   on_add_after,
   on_delete,
@@ -63,18 +63,24 @@ export function SectionEditModal({
   const can_delete = is_last_of_type && same_type.length > 1;
   const can_merge = is_numbered && !is_last_of_type;
   const can_unmerge = is_numbered && section.merged_count > 0;
+  const section_index = sections.findIndex((item) => item.id === section.id);
+  const previous_section = sections[section_index - 1];
+  const next_section = sections[section_index + 1];
+  const total_duration = sections.reduce((total, item) => total + item.duration_seconds, 0);
 
   return (
     <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>{getSectionLabel(section)}</IonTitle>
-          <IonButton fill="clear" onClick={on_dismiss} slot="end">
-            <IonIcon slot="icon-only" icon={close} />
-          </IonButton>
-        </IonToolbar>
-      </IonHeader>
+      <SectionEditHeader title={getSectionLabel(section)} on_dismiss={on_dismiss} />
       <IonContent className="ion-padding">
+        <div className="ion-text-center ion-padding-bottom">
+          <IonLabel color="medium">Total: {formatDuration(total_duration)}</IonLabel>
+        </div>
+        <SectionEditNavigation
+          has_previous={Boolean(previous_section)}
+          has_next={Boolean(next_section)}
+          on_previous={() => previous_section && on_select_section(previous_section.id)}
+          on_next={() => next_section && on_select_section(next_section.id)}
+        />
         <TimeIncrementInput
           label="Duration"
           value_seconds={section.duration_seconds}

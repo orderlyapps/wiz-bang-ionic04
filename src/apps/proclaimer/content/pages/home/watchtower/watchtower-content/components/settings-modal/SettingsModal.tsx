@@ -125,6 +125,7 @@ export function SettingsModal({
         sections={sections}
         is_open={editing_section !== null}
         on_dismiss={handle_section_edit_dismiss}
+        on_select_section={setEditingSectionId}
         on_update_duration={on_update_duration}
         on_add_after={on_add_after}
         on_delete={on_delete}
