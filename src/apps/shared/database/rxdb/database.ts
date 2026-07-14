@@ -60,3 +60,14 @@ await rxdb.addCollections({
     },
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(async () => {
+    try {
+      await rxdb.close();
+    } catch {
+      // Ignore cleanup errors during HMR disposal.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  });
+}

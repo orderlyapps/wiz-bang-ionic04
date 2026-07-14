@@ -65,12 +65,24 @@ async function openDatabaseWithRetry(): Promise<
         throw error;
       }
       await removeDatabaseFiles();
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
   }
   throw new Error("Unreachable");
 }
 
 const database = await openDatabaseWithRetry();
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(async () => {
+    try {
+      await database.close?.();
+    } catch {
+      // Ignore cleanup errors during HMR disposal.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  });
+}
 
 // Multi-tab safe coordinator: uses BroadcastChannel + Web Locks so only one
 // tab/process owns the SQLite writer. Without this, concurrent tabs would
