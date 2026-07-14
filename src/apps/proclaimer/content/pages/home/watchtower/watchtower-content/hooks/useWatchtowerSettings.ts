@@ -322,9 +322,8 @@ export function useWatchtowerSettings(): UseWatchtowerSettingsReturn {
   const reset_to_defaults = useCallback(() => {
     const defaults = createDefaultSections();
     setSections(defaults);
-    setEndTime(null);
-    persist(defaults, null);
-  }, [persist]);
+    persist(defaults, end_time);
+  }, [end_time, persist]);
 
   return {
     sections,
