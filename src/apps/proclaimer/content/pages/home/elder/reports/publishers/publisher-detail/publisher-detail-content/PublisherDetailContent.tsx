@@ -152,16 +152,12 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                         <IonCol>
                           <Label>{formatMonth(report.date).toUpperCase()}</Label>
                         </IonCol>
-                      </IonRow>
-
-                      <IonRow>
-                        <IonCol className="ion-padding-start">
-                          {report.bible_studies && (
-                            <Body>{`${report.bible_studies ?? "—"} ${report.bible_studies > 1 ? "studies" : "study"}`}</Body>
-                          )}
-                        </IonCol>
                         <IonCol>
-                          {report.hours && <Body>{`${report.hours ?? "—"} hours`}</Body>}
+                          {report.hours && <Body>{`${report.hours ?? "—"} hr`}</Body>}
+
+                          {report.bible_studies && (
+                            <Body className="ion-padding-start">{` ${report.bible_studies ?? "—"} st`}</Body>
+                          )}
                         </IonCol>
                       </IonRow>
 
