@@ -8,7 +8,7 @@ function ElderPage() {
       <IonHeader>
         <ElderHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <ElderContent />
       </IonContent>
     </IonPage>
