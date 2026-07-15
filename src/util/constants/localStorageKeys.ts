@@ -33,6 +33,7 @@ export const localStorageKeys = {
   myMapsAccordion: "my_maps_accordion",
   recentMapsAccordion: "recent_maps_accordion",
   authUsersActiveOnly: "auth_users_active_only",
+  secretaryToolsInactiveAccordion: "secretary_tools_inactive_accordion",
 } as const;
 
 export const localStorageKeyWithVariant = (
