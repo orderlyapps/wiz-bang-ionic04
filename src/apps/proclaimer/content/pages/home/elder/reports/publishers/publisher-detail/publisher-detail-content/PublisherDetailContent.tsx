@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { publisherCollection } from "@shared/database/collections/publisher";
@@ -19,6 +19,10 @@ import { checkmarkCircleOutline } from "ionicons/icons";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Label } from "@ui/components/display/text/label/Label";
 import { getServiceYear } from "@util/format/service-year";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import type { Report } from "@shared/database/schemas/report";
+import { PublisherReportModal } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-report-modal/PublisherReportModal";
 
 const PIONEER_TYPES = ["regular_pioneer", "special_pioneer", "continuous_auxiliary"];
 
@@ -27,6 +31,8 @@ interface PublisherDetailContentProps {
 }
 
 export function PublisherDetailContent({ publisher_id }: PublisherDetailContentProps) {
+  const { has_secretary } = usePermissions();
+  const [selected_date, set_selected_date] = useState<string | null>(null);
   const { data: local_data } = useLiveQuery(
     (q) =>
       q.from({ pl: publisherLocalCollection }).where(({ pl }) => eq(pl.publisher_id, publisher_id)),
@@ -102,71 +108,95 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
     b.localeCompare(a),
   );
 
+  const publisher = publisher_data?.[0];
+  const publisher_name = publisher ? getPublisherDisplayName(publisher, "last_first") : "";
+  const group_id = publisher?.group_id ?? null;
+
+  const selected_report = selected_date
+    ? publisher_reports.find((r) => r.date === selected_date)
+    : undefined;
+
   return (
-    <IonList>
-      {years.map((year) => {
-        const year_reports = merged.filter((r) => getYearKey(r.date) === year);
-        const total_hours = year_reports.reduce((sum, r) => sum + (r.hours ?? 0), 0);
-        return (
-          <Fragment key={year}>
-            <IonItemDivider sticky>
-              <IonLabel>
-                <Heading>{year}</Heading>
-              </IonLabel>
-              {is_pioneer && (
-                <div slot="end">
-                  <Body color="medium" bold>
-                    {`TOTAL: `}
-                  </Body>
-                  <Body color="medium">{`${total_hours}`}</Body>
-                </div>
-              )}
-            </IonItemDivider>
-            {year_reports.map((report) => (
-              <IonItem
-                key={`${report.confidential_id || "placeholder"}-${report.date}`}
-                lines="full"
-              >
+    <>
+      <IonList>
+        {years.map((year) => {
+          const year_reports = merged.filter((r) => getYearKey(r.date) === year);
+          const total_hours = year_reports.reduce((sum, r) => sum + (r.hours ?? 0), 0);
+          return (
+            <Fragment key={year}>
+              <IonItemDivider sticky>
                 <IonLabel>
-                  <IonGrid className="ion-no-padding">
-                    <IonRow>
-                      <IonCol>
-                        <Label>{formatMonth(report.date).toUpperCase()}</Label>
-                      </IonCol>
-                    </IonRow>
-
-                    <IonRow>
-                      <IonCol className="ion-padding-start">
-                        {report.hours && <Body>{`${report.hours ?? "—"} hours`}</Body>}
-                      </IonCol>
-                      <IonCol>
-                        {report.bible_studies && (
-                          <Body>{`${report.bible_studies ?? "—"} ${report.bible_studies > 1 ? "studies" : "study"}`}</Body>
-                        )}
-                      </IonCol>
-                    </IonRow>
-
-                    <IonRow>
-                      <IonCol size="8" className="ion-padding-start">
-                        {report.comments && (
-                          <Body size="xs" color="medium">
-                            {report.comments}
-                          </Body>
-                        )}
-                      </IonCol>
-                    </IonRow>
-                  </IonGrid>
+                  <Heading>{year}</Heading>
                 </IonLabel>
-                <IonIcon
-                  slot="end"
-                  icon={checkmarkCircleOutline}
-                  color={report.active === null ? "medium" : report.active ? "success" : "danger"}
-                />
-              </IonItem>
-            ))}
-          </Fragment>
-        );
-      })}
-    </IonList>
+                {is_pioneer && (
+                  <div slot="end">
+                    <Body color="medium" bold>
+                      {`TOTAL: `}
+                    </Body>
+                    <Body color="medium">{`${total_hours}`}</Body>
+                  </div>
+                )}
+              </IonItemDivider>
+              {year_reports.map((report) => (
+                <IonItem
+                  key={`${report.confidential_id || "placeholder"}-${report.date}`}
+                  lines="full"
+                  button={has_secretary}
+                  detail={has_secretary}
+                  onClick={has_secretary ? () => set_selected_date(report.date) : undefined}
+                >
+                  <IonLabel>
+                    <IonGrid className="ion-no-padding">
+                      <IonRow>
+                        <IonCol>
+                          <Label>{formatMonth(report.date).toUpperCase()}</Label>
+                        </IonCol>
+                      </IonRow>
+
+                      <IonRow>
+                        <IonCol className="ion-padding-start">
+                          {report.hours && <Body>{`${report.hours ?? "—"} hours`}</Body>}
+                        </IonCol>
+                        <IonCol>
+                          {report.bible_studies && (
+                            <Body>{`${report.bible_studies ?? "—"} ${report.bible_studies > 1 ? "studies" : "study"}`}</Body>
+                          )}
+                        </IonCol>
+                      </IonRow>
+
+                      <IonRow>
+                        <IonCol size="8" className="ion-padding-start">
+                          {report.comments && (
+                            <Body size="xs" color="medium">
+                              {report.comments}
+                            </Body>
+                          )}
+                        </IonCol>
+                      </IonRow>
+                    </IonGrid>
+                  </IonLabel>
+                  <IonIcon
+                    slot="end"
+                    icon={checkmarkCircleOutline}
+                    color={report.active === null ? "medium" : report.active ? "success" : "danger"}
+                  />
+                </IonItem>
+              ))}
+            </Fragment>
+          );
+        })}
+      </IonList>
+      {selected_date && confidential_id && (
+        <PublisherReportModal
+          is_open={!!selected_date}
+          on_dismiss={() => set_selected_date(null)}
+          publisher_name={publisher_name}
+          confidential_id={confidential_id}
+          group_id={group_id}
+          date={selected_date}
+          existing_report={selected_report as Report | undefined}
+        />
+      )}
+    </>
   );
 }
