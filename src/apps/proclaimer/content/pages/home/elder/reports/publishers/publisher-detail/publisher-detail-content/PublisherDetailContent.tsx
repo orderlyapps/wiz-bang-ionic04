@@ -25,7 +25,7 @@ import type { Report } from "@shared/database/schemas/report";
 import { PublisherReportModal } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-report-modal/PublisherReportModal";
 import { Space } from "@ui/components/layout/space/Space";
 
-const PIONEER_TYPES = ["regular_pioneer", "special_pioneer", "continuous_auxiliary"];
+const PIONEER_TYPES = ["regular_pioneer"];
 
 interface PublisherDetailContentProps {
   publisher_id: string;
