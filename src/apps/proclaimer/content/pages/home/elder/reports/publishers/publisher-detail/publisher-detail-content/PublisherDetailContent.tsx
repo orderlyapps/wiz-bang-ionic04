@@ -1,5 +1,7 @@
+import { Fragment } from "react";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
+import { publisherCollection } from "@shared/database/collections/publisher";
 import { reportCollection } from "@shared/database/collections/report";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
@@ -16,6 +18,9 @@ import {
 import { checkmarkCircleOutline } from "ionicons/icons";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Label } from "@ui/components/display/text/label/Label";
+import { getServiceYear } from "@util/format/service-year";
+
+const PIONEER_TYPES = ["regular_pioneer", "special_pioneer", "continuous_auxiliary"];
 
 interface PublisherDetailContentProps {
   publisher_id: string;
@@ -29,6 +34,13 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
   );
 
   const confidential_id = local_data?.[0]?.confidential_id;
+
+  const { data: publisher_data } = useLiveQuery(
+    (q) => q.from({ p: publisherCollection }).where(({ p }) => eq(p.id, publisher_id)),
+    [publisher_id],
+  );
+
+  const is_pioneer = PIONEER_TYPES.includes(publisher_data?.[0]?.type);
 
   const { data: reports, isLoading } = useLiveQuery(
     (q) => {
@@ -83,22 +95,34 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
     };
   });
 
-  const years = [...new Set(merged.map((r) => r.date.slice(0, 4)))].sort((a, b) =>
+  const getYearKey = (dateStr: string) =>
+    is_pioneer ? getServiceYear(new Date(dateStr + "T00:00:00")) : dateStr.slice(0, 4);
+
+  const years = [...new Set(merged.map((r) => getYearKey(r.date)))].sort((a, b) =>
     b.localeCompare(a),
   );
 
   return (
     <IonList>
-      {years.map((year) => (
-        <>
-          <IonItemDivider sticky key={year}>
-            <IonLabel>
-              <Heading>{year}</Heading>
-            </IonLabel>
-          </IonItemDivider>
-          {merged
-            .filter((r) => r.date.slice(0, 4) === year)
-            .map((report) => (
+      {years.map((year) => {
+        const year_reports = merged.filter((r) => getYearKey(r.date) === year);
+        const total_hours = year_reports.reduce((sum, r) => sum + (r.hours ?? 0), 0);
+        return (
+          <Fragment key={year}>
+            <IonItemDivider sticky>
+              <IonLabel>
+                <Heading>{year}</Heading>
+              </IonLabel>
+              {is_pioneer && (
+                <div slot="end">
+                  <Body color="medium" bold>
+                    {`TOTAL: `}
+                  </Body>
+                  <Body color="medium">{`${total_hours}`}</Body>
+                </div>
+              )}
+            </IonItemDivider>
+            {year_reports.map((report) => (
               <IonItem
                 key={`${report.confidential_id || "placeholder"}-${report.date}`}
                 lines="full"
@@ -109,7 +133,10 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                       <IonCol>
                         <Label>{formatMonth(report.date).toUpperCase()}</Label>
                       </IonCol>
-                      <IonCol>
+                    </IonRow>
+
+                    <IonRow>
+                      <IonCol className="ion-padding-start">
                         {report.hours && <Body>{`${report.hours ?? "—"} hours`}</Body>}
                       </IonCol>
                       <IonCol>
@@ -118,9 +145,9 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                         )}
                       </IonCol>
                     </IonRow>
+
                     <IonRow>
-                      <IonCol size="4"></IonCol>
-                      <IonCol size="8" className="ion-padding-end ion-text-start">
+                      <IonCol size="8" className="ion-padding-start">
                         {report.comments && (
                           <Body size="xs" color="medium">
                             {report.comments}
@@ -137,8 +164,9 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                 />
               </IonItem>
             ))}
-        </>
-      ))}
+          </Fragment>
+        );
+      })}
     </IonList>
   );
 }
