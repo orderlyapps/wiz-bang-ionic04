@@ -21,6 +21,8 @@ interface VcardData {
   middle_name?: string | null;
   last_name: string;
   display_name?: string | null;
+  birth_date?: string;
+  baptism_date?: string;
   phone: VcardPhone[];
   email: VcardEmail[];
   address: VcardAddress[];
@@ -46,14 +48,20 @@ const ADDRESS_TYPE_MAP: Record<string, string> = {
 };
 
 function escapeVcard(value: string): string {
-  return value.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\n/g, "\\n");
 }
 
 export function generateVcard(data: VcardData): string {
   const lines: string[] = ["BEGIN:VCARD", "VERSION:3.0"];
 
   const first = data.display_name ?? data.first_name;
-  lines.push(`N:${escapeVcard(data.last_name)};${escapeVcard(first)};${escapeVcard(data.middle_name ?? "")};;`);
+  lines.push(
+    `N:${escapeVcard(data.last_name)};${escapeVcard(first)};${escapeVcard(data.middle_name ?? "")};;`,
+  );
   lines.push(`FN:${escapeVcard(`${first} ${data.last_name}`)}`);
 
   for (const phone of data.phone) {
@@ -76,6 +84,13 @@ export function generateVcard(data: VcardData): string {
     lines.push(
       `ADR;TYPE=${type}:;;${escapeVcard(streetPart)};${escapeVcard(addr.suburb ?? "")};;;`,
     );
+  }
+
+  if (data.birth_date) {
+    lines.push(`BDAY:${data.birth_date}`);
+  }
+  if (data.baptism_date) {
+    lines.push(`X-BAPTISM-DATE:${data.baptism_date}`);
   }
 
   lines.push("END:VCARD");

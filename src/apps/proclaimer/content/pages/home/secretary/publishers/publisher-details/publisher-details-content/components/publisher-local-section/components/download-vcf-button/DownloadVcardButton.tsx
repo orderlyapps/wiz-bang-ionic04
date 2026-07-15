@@ -37,6 +37,8 @@ export function DownloadVcardButton({ publisher_id }: { publisher_id: string }) 
       middle_name: publisher!.middle_name,
       last_name: publisher!.last_name,
       display_name: publisher!.display_name,
+      birth_date: local!.birth_date ?? undefined,
+      baptism_date: local!.baptism_date ?? undefined,
       phone: (local!.phone ?? []).map((p) => ({ number: p.number, label: p.label })),
       email: (local!.email ?? []).map((e) => ({ address: e.address, label: e.label })),
       address: (local!.address ?? []).map((a) => ({
