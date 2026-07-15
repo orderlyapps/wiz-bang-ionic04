@@ -75,15 +75,14 @@ function DataRow({ report }: { report: MonthReport }) {
 function TotalRow({ total_hours }: { total_hours: number }) {
   return (
     <View style={styles.row}>
-      <View style={{ width: "35%" }} />
-      <View style={{ width: "12%" }}>
+      <View style={{ width: "52.5%" }}>
         <Text style={styles.totalLabelText}>Total</Text>
       </View>
       <View
         style={[
           styles.cellView,
           {
-            width: "13%",
+            width: "12.5%",
             borderTopWidth: 2,
             borderBottomWidth: 2,
             borderLeftWidth: 2,
@@ -97,7 +96,7 @@ function TotalRow({ total_hours }: { total_hours: number }) {
         style={[
           styles.cellView,
           {
-            width: "40%",
+            width: "35%",
             borderTopWidth: 2,
             borderBottomWidth: 2,
             borderLeftWidth: 1,
