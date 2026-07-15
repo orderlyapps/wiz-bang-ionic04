@@ -191,8 +191,24 @@ const icon: Record<IconName, string> = {
 
 interface Props extends Omit<React.ComponentProps<typeof IonIcon>, "icon" | "src"> {
   name: IconName;
+  disabled?: boolean;
 }
 
-export const Icon: React.FC<Props> = ({ name, ...props }) => {
-  return <IonIcon {...props} src={icon[name]} />;
+export const Icon: React.FC<Props> = ({ name, disabled, ...props }) => {
+  return (
+    <IonIcon
+      {...props}
+      src={icon[name]}
+      color={disabled ? "medium" : props.color}
+      style={
+        disabled
+          ? {
+              opacity: 0.4,
+              pointerEvents: "none",
+              ...props.style,
+            }
+          : props.style
+      }
+    />
+  );
 };
