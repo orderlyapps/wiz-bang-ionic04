@@ -19,6 +19,7 @@ import CleaningPage from "@proclaimer-routes/pages/schedules/cleaning/Cleaning";
 import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
 import AllPublishersPage from "@proclaimer-routes/pages/publishers/all-publishers/AllPublishers";
 import AllPublishersDetailsPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-details/PublisherDetails";
+import AllPublishersReportsPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-reports/PublisherReports";
 import LocationsPage from "@proclaimer-routes/pages/publishers/locations/Locations";
 import EldersPage from "@proclaimer-routes/pages/publishers/elders/Elders";
 import MinisterialServantsPage from "@proclaimer-routes/pages/publishers/ministerial-servants/MinisterialServants";
@@ -32,6 +33,7 @@ import ReportsPage from "@proclaimer-routes/pages/home/reports/Reports";
 import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
 import SecretaryPublishersPage from "@proclaimer-routes/pages/home/secretary/publishers/Publishers";
 import PublisherDetailsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-details/PublisherDetails";
+import SecretaryPublisherReportsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-reports/PublisherReports";
 import GroupsPage from "@proclaimer-routes/pages/home/secretary/groups/Groups";
 import GroupDetailsPage from "@proclaimer-routes/pages/home/secretary/groups/group-details/GroupDetails";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
@@ -145,6 +147,11 @@ function App() {
         <Route
           path="/home/secretary/publishers/:publisher_id"
           component={PublisherDetailsPage}
+          exact
+        />
+        <Route
+          path="/home/secretary/publishers/:publisher_id/reports"
+          component={SecretaryPublisherReportsPage}
           exact
         />
         <Route path="/home/secretary/groups" component={GroupsPage} exact />
@@ -413,6 +420,11 @@ function App() {
         <Route path="/publishers" component={PublishersPage} exact />
         <Route path="/publishers/all" component={AllPublishersPage} exact />
         <Route path="/publishers/all/:publisher_id" component={AllPublishersDetailsPage} exact />
+        <Route
+          path="/publishers/all/:publisher_id/reports"
+          component={AllPublishersReportsPage}
+          exact
+        />
         <Route path="/publishers/locations" component={LocationsPage} exact />
         <Route path="/publishers/elders" component={EldersPage} exact />
         <Route path="/publishers/ministerial-servants" component={MinisterialServantsPage} exact />

@@ -17,7 +17,11 @@ function PublisherDetailsPage() {
           onToggleEdit={() => set_read_only((prev) => !prev)}
         />
       </IonHeader>
-      <PublisherDetailsContent publisher_id={publisher_id} read_only={read_only} />
+      <PublisherDetailsContent
+        publisher_id={publisher_id}
+        read_only={read_only}
+        reports_path={`/home/secretary/publishers/${publisher_id}/reports`}
+      />
     </IonPage>
   );
 }

@@ -3,6 +3,7 @@ import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { PublisherPublicSection } from "./components/publisher-public-section/PublisherPublicSection";
 import { PublisherLocalSection } from "./components/publisher-local-section/PublisherLocalSection";
 import { ArchivePublisherButton } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-details-content/components/archive-publisher-button/ArchivePublisherButton";
@@ -11,9 +12,11 @@ import { Space } from "@ui/components/layout/space/Space";
 export function PublisherDetailsContent({
   publisher_id,
   read_only = false,
+  reports_path,
 }: {
   publisher_id: string;
   read_only?: boolean;
+  reports_path?: string;
 }) {
   const { data, isLoading } = useLiveQuery((q) =>
     q.from({ p: publisherCollection }).where(({ p }) => eq(p.id, publisher_id)),
@@ -57,6 +60,17 @@ export function PublisherDetailsContent({
           archived_at={publisher.archived_at}
           read_only={read_only}
         />
+
+        {reports_path && (
+          <NavItem
+            label="Publisher Record"
+            to={reports_path}
+            lines="none"
+            label_class="ion-text-end"
+            color="medium"
+            size="md"
+          />
+        )}
       </IonList>
     </IonContent>
   );
