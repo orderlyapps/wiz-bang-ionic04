@@ -9,6 +9,7 @@ import { PhoneList } from "./components/phone-list/PhoneList";
 import { AddressList } from "./components/address-list/AddressList";
 import { EmailList } from "./components/email-list/EmailList";
 import { EmergencyContactList } from "./components/emergency-contact-list/EmergencyContactList";
+import { DownloadVcardButton } from "./components/download-vcf-button/DownloadVcardButton";
 import { getYearsMonthsSince } from "@proclaimer-shared/util/date/getYearsMonthsSince";
 
 interface Props {
@@ -134,6 +135,8 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
         emergency_contact={local.emergency_contact ?? []}
         read_only={read_only}
       />
+      <Space />
+      <DownloadVcardButton publisher_id={publisher_id} />
     </>
   );
 }
