@@ -52,7 +52,7 @@ export function GroupsContent() {
 
   return (
     <>
-      <IonAccordionGroup multiple>
+      <IonAccordionGroup>
         {groups.map((group) => {
           const group_publishers = getGroupPublishers(group.id ?? "");
           return (
