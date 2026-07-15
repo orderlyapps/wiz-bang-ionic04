@@ -34,6 +34,7 @@ import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
 import SecretaryPublishersPage from "@proclaimer-routes/pages/home/secretary/publishers/Publishers";
 import PublisherDetailsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-details/PublisherDetails";
 import SecretaryPublisherReportsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-reports/PublisherReports";
+import PublisherRecordsPage from "@proclaimer-routes/pages/home/secretary/publisher-records/PublisherRecords";
 import GroupsPage from "@proclaimer-routes/pages/home/secretary/groups/Groups";
 import GroupDetailsPage from "@proclaimer-routes/pages/home/secretary/groups/group-details/GroupDetails";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
@@ -154,6 +155,7 @@ function App() {
           component={SecretaryPublisherReportsPage}
           exact
         />
+        <Route path="/home/secretary/publisher-records" component={PublisherRecordsPage} exact />
         <Route path="/home/secretary/groups" component={GroupsPage} exact />
         <Route path="/home/secretary/groups/:group_id" component={GroupDetailsPage} exact />
         <Route path="/home/congregation-admin" component={CongregationAdminPage} exact />

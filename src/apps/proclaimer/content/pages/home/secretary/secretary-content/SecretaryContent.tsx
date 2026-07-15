@@ -7,6 +7,7 @@ export function SecretaryContent() {
     <>
       <IonList>
         <NavItem label="Publishers" to="/home/secretary/publishers" />
+        <NavItem label="Publisher Records" to="/home/secretary/publisher-records" />
         <NavItem label="Groups" to="/home/secretary/groups" />
       </IonList>
       <ImportPublisherDataButton />
