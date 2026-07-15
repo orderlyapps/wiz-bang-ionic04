@@ -57,6 +57,7 @@ import RemindersPermissionsPage from "@proclaimer-routes/pages/home/congregation
 import EventsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/events/Events";
 import WatchtowerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/watchtower/Watchtower";
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
+import ElderStatsPageNew from "@proclaimer-routes/pages/home/elder/stats/Stats";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
 import GroupsPdfPage from "@proclaimer-routes/pages/home/elder/pdfs/groups/Groups";
@@ -255,6 +256,7 @@ function App() {
           component={ElderPublisherDetailPage}
           exact
         />
+        <Route path="/home/elder/stats" component={ElderStatsPageNew} exact />
         <Route path="/home/elder/clam" component={ElderClamPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
         <Route path="/home/clam-chairman" component={ClamChairmanPage} exact />
