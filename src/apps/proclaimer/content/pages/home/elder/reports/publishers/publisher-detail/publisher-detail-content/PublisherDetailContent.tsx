@@ -23,6 +23,7 @@ import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { Report } from "@shared/database/schemas/report";
 import { PublisherReportModal } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-report-modal/PublisherReportModal";
+import { Space } from "@ui/components/layout/space/Space";
 
 const PIONEER_TYPES = ["regular_pioneer", "special_pioneer", "continuous_auxiliary"];
 
@@ -124,7 +125,7 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
           const total_hours = year_reports.reduce((sum, r) => sum + (r.hours ?? 0), 0);
           return (
             <Fragment key={year}>
-              <IonItemDivider sticky>
+              <IonItemDivider sticky className="ion-padding">
                 <IonLabel>
                   <Heading>{year}</Heading>
                 </IonLabel>
@@ -155,12 +156,12 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
 
                       <IonRow>
                         <IonCol className="ion-padding-start">
-                          {report.hours && <Body>{`${report.hours ?? "—"} hours`}</Body>}
-                        </IonCol>
-                        <IonCol>
                           {report.bible_studies && (
                             <Body>{`${report.bible_studies ?? "—"} ${report.bible_studies > 1 ? "studies" : "study"}`}</Body>
                           )}
+                        </IonCol>
+                        <IonCol>
+                          {report.hours && <Body>{`${report.hours ?? "—"} hours`}</Body>}
                         </IonCol>
                       </IonRow>
 
@@ -182,6 +183,7 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                   />
                 </IonItem>
               ))}
+              <Space size="xl" />
             </Fragment>
           );
         })}
