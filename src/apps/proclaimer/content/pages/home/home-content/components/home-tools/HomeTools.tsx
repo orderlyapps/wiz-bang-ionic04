@@ -75,12 +75,12 @@ export function HomeTools() {
                 size="md"
                 lines="none"
                 label_class={CLASSNAME}
-                label="Congregation Admin"
+                label="Admin"
                 to="/home/congregation-admin"
               />
             )}
 
-            {(canSeeAll || permissions.has_cobe) && (
+            {/* {(canSeeAll || permissions.has_cobe) && (
               <NavItem
                 color={COLOR}
                 size="md"
@@ -89,7 +89,7 @@ export function HomeTools() {
                 label="COBE"
                 to="/home/cobe"
               />
-            )}
+            )} */}
 
             {(canSeeAll || permissions.has_secretary) && (
               <NavItem
