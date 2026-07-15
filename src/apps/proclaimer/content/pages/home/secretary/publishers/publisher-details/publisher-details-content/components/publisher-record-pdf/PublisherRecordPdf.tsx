@@ -3,7 +3,7 @@ import { ServiceYearReport } from "./components/service-year-report/ServiceYearR
 import type { PublisherRecordData, ServiceYearReportData } from "./types";
 
 const styles = StyleSheet.create({
-  page: { padding: 20, fontSize: 8 },
+  page: { padding: 18, fontSize: 8 },
 });
 
 interface PublisherRecordPdfProps {

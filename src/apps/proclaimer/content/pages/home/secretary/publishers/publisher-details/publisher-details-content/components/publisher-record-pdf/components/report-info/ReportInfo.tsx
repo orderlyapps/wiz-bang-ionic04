@@ -3,30 +3,35 @@ import { Checkbox } from "../checkbox/Checkbox";
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 8,
+    fontSize: 13,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 2,
+    marginBottom: 4,
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 1,
+    marginBottom: 4,
   },
   leftText: {
-    fontSize: 8,
+    fontSize: 11,
     fontWeight: "bold",
+  },
+  valueText: {
+    fontSize: 11,
+    fontWeight: "normal",
   },
   rightGroup: {
     flexDirection: "row",
     alignItems: "center",
+    width: "35%",
   },
   justifiedRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 2,
+    marginBottom: 12,
   },
 });
 
@@ -55,20 +60,34 @@ export function ReportInfo(props: ReportInfoProps) {
     <>
       <Text style={styles.title}>CONGREGATION'S PUBLISHER RECORD</Text>
       <View style={styles.row}>
-        <Text style={styles.leftText}>Name: {props.full_name}</Text>
+        <Text style={styles.leftText}>
+          Name: <Text style={styles.valueText}>{props.full_name}</Text>
+        </Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.leftText}>Date of birth: {formatDate(props.birth_date)}</Text>
+        <Text style={styles.leftText}>
+          Date of birth: <Text style={styles.valueText}>{formatDate(props.birth_date)}</Text>
+        </Text>
         <View style={styles.rightGroup}>
-          <Checkbox checked={props.gender === "male"} label="Male" />
-          <Checkbox checked={props.gender === "female"} label="Female" />
+          <View style={{ width: "50%" }}>
+            <Checkbox checked={props.gender === "male"} label="Male" />
+          </View>
+          <View style={{ width: "50%" }}>
+            <Checkbox checked={props.gender === "female"} label="Female" />
+          </View>
         </View>
       </View>
       <View style={styles.row}>
-        <Text style={styles.leftText}>Date of baptism: {formatDate(props.baptism_date)}</Text>
+        <Text style={styles.leftText}>
+          Date of baptism: <Text style={styles.valueText}>{formatDate(props.baptism_date)}</Text>
+        </Text>
         <View style={styles.rightGroup}>
-          <Checkbox checked={props.other_sheep} label="Other sheep" />
-          <Checkbox checked={props.anointed} label="Anointed" />
+          <View style={{ width: "50%" }}>
+            <Checkbox checked={props.other_sheep} label="Other sheep" />
+          </View>
+          <View style={{ width: "50%" }}>
+            <Checkbox checked={props.anointed} label="Anointed" />
+          </View>
         </View>
       </View>
       <View style={styles.justifiedRow}>

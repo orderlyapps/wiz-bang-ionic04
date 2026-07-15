@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
   check: {
-    fontSize: 7,
+    fontSize: 9,
     lineHeight: 1,
   },
   label: {
-    fontSize: 8,
+    fontSize: 11,
     fontWeight: "bold",
     marginRight: 6,
   },

@@ -1,15 +1,16 @@
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { MonthReport } from "../../types";
 
-const W = ["15%", "10%", "10%", "12%", "13%", "40%"];
+const W = ["15%", "12.5%", "12.5%", "12.5%", "12.5%", "35%"];
 
 const styles = StyleSheet.create({
   row: { flexDirection: "row" },
   cellView: { padding: 1, borderColor: "black" },
-  cellText: { fontSize: 8 },
-  headerText: { fontSize: 8, fontWeight: "bold", textAlign: "center" },
-  totalLabelText: { fontSize: 8, fontWeight: "bold", textAlign: "right" },
-  totalCellText: { fontSize: 8, textAlign: "center" },
+  cellText: { fontSize: 10, padding: 1, paddingHorizontal: 4 },
+  headerText: { fontSize: 10, fontWeight: "bold", textAlign: "center" },
+  headerCell: { justifyContent: "center", paddingVertical: 8 },
+  totalLabelText: { fontSize: 10, fontWeight: "bold", textAlign: "right" },
+  totalCellText: { fontSize: 10, textAlign: "center" },
 });
 
 function borders(col: number, isHeader: boolean) {
@@ -22,11 +23,21 @@ function borders(col: number, isHeader: boolean) {
 }
 
 function HeaderRow() {
-  const labels = ["Month", "Shared in\nMinistry", "Bible\nStudies", "Auxiliary\nPioneer", "Hours", "Remarks"];
+  const labels = [
+    "Month",
+    "Shared in\nMinistry",
+    "Bible\nStudies",
+    "Auxiliary\nPioneer",
+    "Hours",
+    "Remarks",
+  ];
   return (
     <View style={styles.row}>
       {labels.map((label, i) => (
-        <View key={i} style={[styles.cellView, { width: W[i] }, borders(i, true)]}>
+        <View
+          key={i}
+          style={[styles.cellView, styles.headerCell, { width: W[i] }, borders(i, true)]}
+        >
           <Text style={styles.headerText}>{label}</Text>
         </View>
       ))}
@@ -52,7 +63,7 @@ function DataRow({ report }: { report: MonthReport }) {
         <Text style={[styles.cellText, c]}>{report.auxiliary_pioneer ? "X" : ""}</Text>
       </View>
       <View style={[styles.cellView, { width: W[4] }, borders(4, false)]}>
-        <Text style={[styles.cellText, c]}>{report.hours ?? ""}</Text>
+        <Text style={[styles.cellText, c, { fontSize: 12 }]}>{report.hours ?? " "}</Text>
       </View>
       <View style={[styles.cellView, { width: W[5] }, borders(5, false)]}>
         <Text style={[styles.cellText, l]}>{report.comments ?? ""}</Text>
@@ -68,15 +79,43 @@ function TotalRow({ total_hours }: { total_hours: number }) {
       <View style={{ width: "12%" }}>
         <Text style={styles.totalLabelText}>Total</Text>
       </View>
-      <View style={[styles.cellView, { width: "13%", borderTopWidth: 2, borderBottomWidth: 2, borderLeftWidth: 2, borderRightWidth: 1 }]}>
+      <View
+        style={[
+          styles.cellView,
+          {
+            width: "13%",
+            borderTopWidth: 2,
+            borderBottomWidth: 2,
+            borderLeftWidth: 2,
+            borderRightWidth: 1,
+          },
+        ]}
+      >
         <Text style={styles.totalCellText}>{total_hours}</Text>
       </View>
-      <View style={[styles.cellView, { width: "40%", borderTopWidth: 2, borderBottomWidth: 2, borderLeftWidth: 1, borderRightWidth: 2 }]} />
+      <View
+        style={[
+          styles.cellView,
+          {
+            width: "40%",
+            borderTopWidth: 2,
+            borderBottomWidth: 2,
+            borderLeftWidth: 1,
+            borderRightWidth: 2,
+          },
+        ]}
+      />
     </View>
   );
 }
 
-export function ReportTable({ months, total_hours }: { months: MonthReport[]; total_hours: number }) {
+export function ReportTable({
+  months,
+  total_hours,
+}: {
+  months: MonthReport[];
+  total_hours: number;
+}) {
   return (
     <View>
       <HeaderRow />
