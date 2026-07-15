@@ -30,7 +30,11 @@ export function ServiceYearReport({ publisher, report, last = false }: ServiceYe
         is_special_pioneer={publisher.type === "special_pioneer"}
         is_field_missionary={publisher.type === "field_missionary"}
       />
-      <ReportTable months={report.months} total_hours={report.total_hours} />
+      <ReportTable
+        months={report.months}
+        total_hours={report.total_hours}
+        service_year={report.service_year}
+      />
       <Text style={[styles.footer, !last && { marginBottom: 45 }]}>S-21-E</Text>
     </View>
   );

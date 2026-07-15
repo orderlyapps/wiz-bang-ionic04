@@ -9,7 +9,14 @@ const styles = StyleSheet.create({
   cellText: { fontSize: 10, padding: 1, paddingHorizontal: 4 },
   headerText: { fontSize: 10, fontWeight: "bold", textAlign: "center" },
   headerCell: { justifyContent: "center", paddingVertical: 8 },
-  totalLabelText: { fontSize: 10, fontWeight: "bold", textAlign: "right", padding: 3, paddingRight: 6 },
+  headerSubText: { fontSize: 9, textAlign: "center", marginTop: 2 },
+  totalLabelText: {
+    fontSize: 10,
+    fontWeight: "bold",
+    textAlign: "right",
+    padding: 3,
+    paddingRight: 6,
+  },
   totalCellText: { fontSize: 12, textAlign: "center" },
 });
 
@@ -22,9 +29,9 @@ function borders(col: number, isHeader: boolean, isLast: boolean) {
   };
 }
 
-function HeaderRow() {
+function HeaderRow({ service_year }: { service_year: string }) {
   const labels = [
-    "Month",
+    "Service Year",
     "Shared in\nMinistry",
     "Bible\nStudies",
     "Auxiliary\nPioneer",
@@ -39,6 +46,7 @@ function HeaderRow() {
           style={[styles.cellView, styles.headerCell, { width: W[i] }, borders(i, true, false)]}
         >
           <Text style={styles.headerText}>{label}</Text>
+          {i === 0 && <Text style={styles.headerSubText}>{service_year}</Text>}
         </View>
       ))}
     </View>
@@ -114,13 +122,15 @@ function TotalRow({ total_hours }: { total_hours: number }) {
 export function ReportTable({
   months,
   total_hours,
+  service_year,
 }: {
   months: MonthReport[];
   total_hours: number;
+  service_year: string;
 }) {
   return (
     <View>
-      <HeaderRow />
+      <HeaderRow service_year={service_year} />
       {months.map((report, i) => (
         <DataRow key={i} report={report} isLast={i === months.length - 1} />
       ))}
