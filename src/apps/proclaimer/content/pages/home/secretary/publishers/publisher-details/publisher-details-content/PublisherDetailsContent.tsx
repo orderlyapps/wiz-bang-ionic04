@@ -1,4 +1,4 @@
-import { IonContent, IonList } from "@ionic/react";
+import { IonContent, IonList, IonItem } from "@ionic/react";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
@@ -8,6 +8,7 @@ import { PublisherPublicSection } from "./components/publisher-public-section/Pu
 import { PublisherLocalSection } from "./components/publisher-local-section/PublisherLocalSection";
 import { ArchivePublisherButton } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-details-content/components/archive-publisher-button/ArchivePublisherButton";
 import { Space } from "@ui/components/layout/space/Space";
+import { DownloadPublisherRecordButton } from "./components/download-publisher-record-button/DownloadPublisherRecordButton";
 
 export function PublisherDetailsContent({
   publisher_id,
@@ -71,6 +72,12 @@ export function PublisherDetailsContent({
             size="md"
           />
         )}
+
+        <Space />
+
+        <IonItem lines="none">
+          <DownloadPublisherRecordButton publisher_id={publisher_id} />
+        </IonItem>
       </IonList>
     </IonContent>
   );

@@ -13,6 +13,7 @@ function PublisherReportsPage() {
       <IonHeader>
         <PublisherDetailHeader
           publisher_name={publisher_name}
+          publisher_id={publisher_id ?? ""}
           default_href={`/home/secretary/publishers/${publisher_id}`}
         />
       </IonHeader>

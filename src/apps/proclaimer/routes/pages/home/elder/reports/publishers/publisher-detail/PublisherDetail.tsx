@@ -11,7 +11,7 @@ function PublisherDetailPage() {
   return (
     <IonPage>
       <IonHeader>
-        <PublisherDetailHeader publisher_name={publisher_name} />
+        <PublisherDetailHeader publisher_name={publisher_name} publisher_id={publisher_id ?? ""} />
       </IonHeader>
       <IonContent className="remove-top-padding">
         <PublisherDetailContent publisher_id={publisher_id ?? ""} />
