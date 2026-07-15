@@ -12,6 +12,7 @@ interface UseWatchtowerTimerReturn {
   total_budget_seconds: number;
   overall_remaining_seconds: number;
   section_remaining_seconds: number;
+  time_difference: number;
   current_section: WatchtowerSection | null;
   play: () => void;
   pause: () => void;
@@ -56,6 +57,9 @@ export function useWatchtowerTimer({
   const remaining_planned_seconds = sections
     .slice(current_section_index)
     .reduce((sum, s) => sum + s.duration_seconds, 0);
+
+  const budget_ratio = total_duration > 0 ? total_budget_seconds / total_duration : 1;
+  const time_difference = overall_remaining_seconds - remaining_planned_seconds * budget_ratio;
 
   const adjustment_factor =
     remaining_planned_seconds > 0 ? overall_remaining_seconds / remaining_planned_seconds : 1;
@@ -126,6 +130,7 @@ export function useWatchtowerTimer({
     total_budget_seconds,
     overall_remaining_seconds,
     section_remaining_seconds,
+    time_difference,
     current_section,
     play,
     pause,

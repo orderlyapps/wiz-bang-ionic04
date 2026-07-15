@@ -47,10 +47,7 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
   const current = timer.current_section;
   const is_overtime = timer.section_remaining_seconds < 0;
 
-  const remaining_sections_total = settings.sections
-    .slice(timer.current_section_index)
-    .reduce((sum, s) => sum + s.duration_seconds, 0);
-  const time_difference = timer.overall_remaining_seconds - remaining_sections_total;
+  const time_difference = timer.time_difference;
 
   return (
     <>
