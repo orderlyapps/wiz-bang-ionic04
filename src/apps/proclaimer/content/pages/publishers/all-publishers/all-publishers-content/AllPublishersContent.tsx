@@ -8,6 +8,7 @@ import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { usePresets } from "@proclaimer-content/pages/home/secretary/publishers/publishers-content/hooks/use-presets/usePresets";
 import { filterPublishers } from "@proclaimer-content/pages/home/secretary/publishers/publishers-content/hooks/use-publisher-filter/usePublisherFilter";
 import { FilterSelectModal } from "@proclaimer-content/pages/home/secretary/publishers/publishers-content/components/filter-modal/FilterSelectModal";
@@ -15,6 +16,8 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
 export function AllPublishersContent({ searchTerm }: { searchTerm: string }) {
+  const { has_elder, has_congregation_admin, is_super_admin } = usePermissions();
+  const can_view_details = has_elder || has_congregation_admin || is_super_admin;
   const [is_filter_modal_open, set_is_filter_modal_open] = useState(false);
 
   const {
@@ -78,7 +81,12 @@ export function AllPublishersContent({ searchTerm }: { searchTerm: string }) {
             get_id={(p) => p.id ?? ""}
             gap="sm"
             render_item={(p) => (
-              <IonItem routerLink={`${detail_path}/${p.id}`}>{getPublisherDisplayName(p)}</IonItem>
+              <IonItem
+                button={can_view_details}
+                routerLink={can_view_details ? `${detail_path}/${p.id}` : undefined}
+              >
+                {getPublisherDisplayName(p)}
+              </IonItem>
             )}
           />
         </IonList>

@@ -9,10 +9,13 @@ import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { isListablePublisher } from "@proclaimer-content/pages/home/secretary/groups/group-details/group-details-content/groupPublisherUtils";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 
 export function GroupsContent() {
+  const { has_elder, has_congregation_admin, is_super_admin } = usePermissions();
+  const can_view_details = has_elder || has_congregation_admin || is_super_admin;
   const congregation_id = getStoredCongregation()?.id;
 
   const { data: groups_data, isLoading: is_groups_loading } = useLiveQuery((q) =>
@@ -81,12 +84,15 @@ export function GroupsContent() {
                       render_item={(p) => {
                         const role =
                           p.id === group.overseer_id
-                            ? "Overseer"
+                            ? "overseer"
                             : p.id === group.assistant_id
-                              ? "Assistant"
+                              ? "assistant"
                               : null;
                         return (
-                          <IonItem>
+                          <IonItem
+                            button={can_view_details}
+                            routerLink={can_view_details ? `/publishers/all/${p.id}` : undefined}
+                          >
                             <IonLabel>{getPublisherDisplayName(p)}</IonLabel>
                             {role && <IonNote slot="end">{role}</IonNote>}
                           </IonItem>
