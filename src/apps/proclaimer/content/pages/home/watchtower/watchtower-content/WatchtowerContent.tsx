@@ -1,11 +1,9 @@
-import { IonButton, IonIcon, IonText } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
 import { play, pause } from "ionicons/icons";
 import { Heading } from "@ui/components/display/text/heading/Heading";
-import { Body } from "@ui/components/display/text/body/Body";
 import { useWatchtowerSettings } from "@proclaimer-content/pages/home/watchtower/watchtower-content/hooks/useWatchtowerSettings";
 import { useWatchtowerTimer } from "@proclaimer-content/pages/home/watchtower/watchtower-content/hooks/useWatchtowerTimer";
 import { SettingsModal } from "@proclaimer-content/pages/home/watchtower/watchtower-content/components/settings-modal/SettingsModal";
-import { Space } from "@ui/components/layout/space/Space";
 
 function getSectionLabel(
   type: "intro" | "numbered" | "review" | "summary",
@@ -73,7 +71,7 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
       <div className="ion-padding ion-text-center">
         {current ? (
           <div className="flex-center ion-padding ">
-            <IonText style={{ fontSize: "2.5rem" }}>
+            <IonText style={{ fontSize: "45px" }}>
               {getSectionLabel(current.type, current.number, current.merged_count)}
             </IonText>
           </div>
@@ -81,27 +79,23 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
           <Heading size="lg">Watchtower Timer</Heading>
         )}
 
-        <Space />
-
         <div className="flex-center">
-          <IonText style={{ fontSize: "4rem" }} color={is_overtime ? "danger" : "primary"}>
+          <IonText style={{ fontSize: "120px" }} color={is_overtime ? "danger" : "primary"}>
             {formatCountdown(timer.section_remaining_seconds)}
           </IonText>
         </div>
 
-        <Space size="lg" />
-
-        <div>
+        <div style={{ marginBlock: "80px" }}>
           {timer.is_playing && (
             <IonButton
-              fill="clear"
+              // fill="outline"
               size="large"
               disabled={timer.current_section_index <= 0}
               onClick={timer.prev_section}
             >
               <IonText
                 style={{
-                  fontSize: "2.5rem",
+                  fontSize: "30px",
                 }}
               >
                 Prev
@@ -127,14 +121,14 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
 
           {timer.is_playing && (
             <IonButton
-              fill="clear"
+              // fill="outline"
               size="large"
               disabled={timer.current_section_index >= settings.sections.length - 1}
               onClick={timer.next_section}
             >
               <IonText
                 style={{
-                  fontSize: "2.5rem",
+                  fontSize: "30px",
                 }}
               >
                 Next
@@ -143,27 +137,27 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
           )}
         </div>
 
-        <Space size="lg" />
-
-        <div style={{ margin: "1.5rem 0" }}>
-          <Body size="2xl" color="medium">
-            {formatCountdown(timer.overall_remaining_seconds)}{" "}
-            <span
-              style={{
-                color:
-                  time_difference >= 0 ? "var(--ion-color-success)" : "var(--ion-color-danger)",
-              }}
-            >
-              ({time_difference >= 0 ? "+" : ""}
-              {formatCountdown(time_difference)})
-            </span>
-          </Body>
-        </div>
-
-        <Space size="lg" />
+        <IonGrid style={{ margin: "40px 0" }}>
+          <IonRow>
+            <IonCol>
+              <IonText style={{ fontSize: "40px" }}>
+                {formatCountdown(timer.overall_remaining_seconds)}
+              </IonText>
+            </IonCol>
+            <IonCol>
+              <IonText
+                style={{ fontSize: "40px" }}
+                color={time_difference >= 0 ? "success" : "danger"}
+              >
+                {time_difference >= 0 ? "+" : ""}
+                {formatCountdown(time_difference)}
+              </IonText>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
 
         <IonButton fill="clear" color="medium" onClick={timer.reset}>
-          <IonText style={{ fontSize: "2.5rem" }}>Reset</IonText>
+          <IonText style={{ fontSize: "30px" }}>Reset</IonText>
         </IonButton>
       </div>
     </>
