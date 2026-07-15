@@ -16,7 +16,12 @@ export function PublisherRecordPdf({ publisher, reports }: PublisherRecordPdfPro
     <Document>
       <Page size="A4" style={styles.page}>
         {reports.map((report, i) => (
-          <ServiceYearReport key={i} publisher={publisher} report={report} />
+          <ServiceYearReport
+            key={i}
+            publisher={publisher}
+            report={report}
+            last={i === reports.length - 1}
+          />
         ))}
       </Page>
     </Document>

@@ -5,15 +5,16 @@ import type { PublisherRecordData, ServiceYearReportData } from "../../types";
 
 const styles = StyleSheet.create({
   container: { marginBottom: 4 },
-  footer: { fontSize: 6, textAlign: "left", marginTop: 1 },
+  footer: { fontSize: 8, textAlign: "left", marginTop: 1 },
 });
 
 interface ServiceYearReportProps {
   publisher: PublisherRecordData;
   report: ServiceYearReportData;
+  last?: boolean;
 }
 
-export function ServiceYearReport({ publisher, report }: ServiceYearReportProps) {
+export function ServiceYearReport({ publisher, report, last = false }: ServiceYearReportProps) {
   return (
     <View style={styles.container}>
       <ReportInfo
@@ -30,7 +31,7 @@ export function ServiceYearReport({ publisher, report }: ServiceYearReportProps)
         is_field_missionary={publisher.type === "field_missionary"}
       />
       <ReportTable months={report.months} total_hours={report.total_hours} />
-      <Text style={styles.footer}>S-21-E</Text>
+      <Text style={[styles.footer, !last && { marginBottom: 45 }]}>S-21-E</Text>
     </View>
   );
 }

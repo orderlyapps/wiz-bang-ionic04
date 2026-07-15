@@ -9,16 +9,16 @@ const styles = StyleSheet.create({
   cellText: { fontSize: 10, padding: 1, paddingHorizontal: 4 },
   headerText: { fontSize: 10, fontWeight: "bold", textAlign: "center" },
   headerCell: { justifyContent: "center", paddingVertical: 8 },
-  totalLabelText: { fontSize: 10, fontWeight: "bold", textAlign: "right" },
-  totalCellText: { fontSize: 10, textAlign: "center" },
+  totalLabelText: { fontSize: 10, fontWeight: "bold", textAlign: "right", padding: 3, paddingRight: 6 },
+  totalCellText: { fontSize: 12, textAlign: "center" },
 });
 
-function borders(col: number, isHeader: boolean) {
+function borders(col: number, isHeader: boolean, isLast: boolean) {
   return {
-    borderTopWidth: isHeader ? 2 : 0,
-    borderBottomWidth: 1,
-    borderLeftWidth: col === 0 ? 2 : 1,
-    borderRightWidth: col === 5 ? 2 : 1,
+    borderTopWidth: isHeader ? 1.3 : 0,
+    borderBottomWidth: isLast ? 1.3 : 0.3,
+    borderLeftWidth: col === 0 ? 1.3 : 0.3,
+    borderRightWidth: col === 5 ? 1.3 : 0.3,
   };
 }
 
@@ -36,7 +36,7 @@ function HeaderRow() {
       {labels.map((label, i) => (
         <View
           key={i}
-          style={[styles.cellView, styles.headerCell, { width: W[i] }, borders(i, true)]}
+          style={[styles.cellView, styles.headerCell, { width: W[i] }, borders(i, true, false)]}
         >
           <Text style={styles.headerText}>{label}</Text>
         </View>
@@ -45,27 +45,27 @@ function HeaderRow() {
   );
 }
 
-function DataRow({ report }: { report: MonthReport }) {
+function DataRow({ report, isLast }: { report: MonthReport; isLast: boolean }) {
   const c = { textAlign: "center" as const };
   const l = { textAlign: "left" as const };
   return (
     <View style={styles.row}>
-      <View style={[styles.cellView, { width: W[0] }, borders(0, false)]}>
+      <View style={[styles.cellView, { width: W[0] }, borders(0, false, isLast)]}>
         <Text style={[styles.cellText, l]}>{report.month_name}</Text>
       </View>
-      <View style={[styles.cellView, { width: W[1] }, borders(1, false)]}>
+      <View style={[styles.cellView, { width: W[1] }, borders(1, false, isLast)]}>
         <Text style={[styles.cellText, c]}>{report.active ? "X" : ""}</Text>
       </View>
-      <View style={[styles.cellView, { width: W[2] }, borders(2, false)]}>
+      <View style={[styles.cellView, { width: W[2] }, borders(2, false, isLast)]}>
         <Text style={[styles.cellText, c]}>{report.bible_studies ?? ""}</Text>
       </View>
-      <View style={[styles.cellView, { width: W[3] }, borders(3, false)]}>
+      <View style={[styles.cellView, { width: W[3] }, borders(3, false, isLast)]}>
         <Text style={[styles.cellText, c]}>{report.auxiliary_pioneer ? "X" : ""}</Text>
       </View>
-      <View style={[styles.cellView, { width: W[4] }, borders(4, false)]}>
+      <View style={[styles.cellView, { width: W[4] }, borders(4, false, isLast)]}>
         <Text style={[styles.cellText, c, { fontSize: 12 }]}>{report.hours ?? " "}</Text>
       </View>
-      <View style={[styles.cellView, { width: W[5] }, borders(5, false)]}>
+      <View style={[styles.cellView, { width: W[5] }, borders(5, false, isLast)]}>
         <Text style={[styles.cellText, l]}>{report.comments ?? ""}</Text>
       </View>
     </View>
@@ -75,7 +75,12 @@ function DataRow({ report }: { report: MonthReport }) {
 function TotalRow({ total_hours }: { total_hours: number }) {
   return (
     <View style={styles.row}>
-      <View style={{ width: "52.5%" }}>
+      <View
+        style={{
+          width: "52.5%",
+          borderRightWidth: 0.5,
+        }}
+      >
         <Text style={styles.totalLabelText}>Total</Text>
       </View>
       <View
@@ -83,10 +88,9 @@ function TotalRow({ total_hours }: { total_hours: number }) {
           styles.cellView,
           {
             width: "12.5%",
-            borderTopWidth: 2,
-            borderBottomWidth: 2,
-            borderLeftWidth: 2,
-            borderRightWidth: 1,
+            borderBottomWidth: 1.3,
+            borderLeftWidth: 0.8,
+            borderRightWidth: 0.8,
           },
         ]}
       >
@@ -97,10 +101,9 @@ function TotalRow({ total_hours }: { total_hours: number }) {
           styles.cellView,
           {
             width: "35%",
-            borderTopWidth: 2,
-            borderBottomWidth: 2,
-            borderLeftWidth: 1,
-            borderRightWidth: 2,
+            borderBottomWidth: 1.3,
+            borderLeftWidth: 0.5,
+            borderRightWidth: 1.3,
           },
         ]}
       />
@@ -119,7 +122,7 @@ export function ReportTable({
     <View>
       <HeaderRow />
       {months.map((report, i) => (
-        <DataRow key={i} report={report} />
+        <DataRow key={i} report={report} isLast={i === months.length - 1} />
       ))}
       <TotalRow total_hours={total_hours} />
     </View>

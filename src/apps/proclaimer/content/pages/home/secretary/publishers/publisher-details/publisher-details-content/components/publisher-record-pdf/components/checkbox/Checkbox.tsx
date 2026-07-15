@@ -17,11 +17,13 @@ const styles = StyleSheet.create({
   check: {
     fontSize: 9,
     lineHeight: 1,
+    paddingRight: 2,
   },
   label: {
     fontSize: 11,
     fontWeight: "bold",
     marginRight: 6,
+    paddingLeft: 2,
   },
 });
 
