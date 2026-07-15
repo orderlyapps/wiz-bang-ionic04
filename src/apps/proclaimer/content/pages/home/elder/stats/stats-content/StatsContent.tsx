@@ -1,5 +1,3 @@
 export function StatsContent() {
-  return (
-    <div />
-  );
+  return <div />;
 }
