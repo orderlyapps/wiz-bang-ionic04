@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonHeader, IonToolbar } from "@ionic/react";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
 import { ModalMultiSelectTrigger } from "@ui/components/inputs/modal-multi-select/components/modal-multi-select-trigger/ModalMultiSelectTrigger";
+import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 
 interface AlertPhoneInputProps {
   label: string;
@@ -40,12 +41,7 @@ export function AlertPhoneInput({
         disabled={disabled}
         on_click={() => !disabled && handle_open()}
       />
-      <IonModal
-        isOpen={is_open}
-        onDidDismiss={() => set_is_open(false)}
-        breakpoints={[0, 0.4]}
-        initialBreakpoint={0.4}
-      >
+      <ResponsiveModal isOpen={is_open} onDidDismiss={() => set_is_open(false)}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
@@ -66,7 +62,7 @@ export function AlertPhoneInput({
             on_change={set_draft}
           />
         </IonContent>
-      </IonModal>
+      </ResponsiveModal>
     </>
   );
 }
