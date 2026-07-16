@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IonAlert } from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonToolbar } from "@ionic/react";
+import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
 import { ModalMultiSelectTrigger } from "@ui/components/inputs/modal-multi-select/components/modal-multi-select-trigger/ModalMultiSelectTrigger";
 
 interface AlertPhoneInputProps {
@@ -18,6 +19,17 @@ export function AlertPhoneInput({
   on_change,
 }: AlertPhoneInputProps) {
   const [is_open, set_is_open] = useState(false);
+  const [draft, set_draft] = useState(value);
+
+  function handle_open() {
+    set_draft(value);
+    set_is_open(true);
+  }
+
+  function handle_save() {
+    on_change(draft.trim());
+    set_is_open(false);
+  }
 
   return (
     <>
@@ -26,30 +38,35 @@ export function AlertPhoneInput({
         display_value={value || null}
         placeholder={placeholder}
         disabled={disabled}
-        on_click={() => !disabled && set_is_open(true)}
+        on_click={() => !disabled && handle_open()}
       />
-      <IonAlert
+      <IonModal
         isOpen={is_open}
-        header={label}
-        inputs={[
-          {
-            name: "phone",
-            type: "tel",
-            placeholder: placeholder ?? "Enter phone number...",
-            value: value,
-          },
-        ]}
-        buttons={[
-          { text: "Cancel", role: "cancel" },
-          {
-            text: "Save",
-            handler: (data: { phone: string }) => {
-              on_change(data.phone.trim());
-            },
-          },
-        ]}
         onDidDismiss={() => set_is_open(false)}
-      />
+        breakpoints={[0, 0.4]}
+        initialBreakpoint={0.4}
+      >
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonButton onClick={() => set_is_open(false)}>Cancel</IonButton>
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonButton strong={true} onClick={handle_save}>
+                Save
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <PhoneInput
+            label={label}
+            value={draft}
+            placeholder={placeholder ?? "Enter phone number..."}
+            on_change={set_draft}
+          />
+        </IonContent>
+      </IonModal>
     </>
   );
 }
