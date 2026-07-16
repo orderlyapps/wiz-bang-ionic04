@@ -1,4 +1,3 @@
-import { IonContent } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { avParticipationCollection } from "@shared/database/collections/av-participation";
 import { midweekParticipationCollection } from "@shared/database/collections/midweek-participation";
@@ -29,9 +28,9 @@ export function PublisherParticipationContent({ publisher_id }: { publisher_id: 
 
   if (isLoadingAv || isLoadingMidweek || isLoadingWeekend) {
     return (
-      <IonContent>
+      <>
         <Spinner />
-      </IonContent>
+      </>
     );
   }
 
@@ -42,16 +41,16 @@ export function PublisherParticipationContent({ publisher_id }: { publisher_id: 
 
   if (hasNoParticipation) {
     return (
-      <IonContent className="content-full">
+      <>
         <div className="ion-padding ion-text-center">
           <Body color="medium">No participation records found.</Body>
         </div>
-      </IonContent>
+      </>
     );
   }
 
   return (
-    <IonContent className="content-full">
+    <>
       <div className="ion-padding">
         <ParticipationSection
           title="AV"
@@ -69,6 +68,6 @@ export function PublisherParticipationContent({ publisher_id }: { publisher_id: 
           labels={weekendParticipationTypeLabels}
         />
       </div>
-    </IonContent>
+    </>
   );
 }
