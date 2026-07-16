@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons } from "@ionic/react";
 import { format } from "date-fns";
 import { pdf } from "@react-pdf/renderer";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
-import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { Space } from "@ui/components/layout/space/Space";
 import { BimonthlyPicker } from "./components/bimonthly-picker/BimonthlyPicker";
 import { CleaningSchedulePdfDocument } from "./components/cleaning-schedule-pdf/CleaningSchedulePdfDocument";
@@ -16,7 +14,6 @@ type BimonthlyRange = {
 };
 
 export function CleaningScheduleContent() {
-  const [is_modal_open, set_is_modal_open] = useState(false);
   const [selected_range, set_selected_range] = useState<BimonthlyRange | null>(null);
   const [is_generating, set_is_generating] = useState(false);
   const [error_message, set_error_message] = useState<string | null>(null);
@@ -60,62 +57,38 @@ export function CleaningScheduleContent() {
 
   return (
     <>
-      <TextButton label="Cleaning Schedule" on_click={() => set_is_modal_open(true)} />
+      <BimonthlyPicker
+        label="Select Period"
+        value={selected_range ? selected_range.firstMonday.substring(0, 7) : undefined}
+        onValueChange={set_selected_range}
+      />
 
-      <ResponsiveModal
-        isOpen={is_modal_open}
-        onDidDismiss={() => {
-          set_is_modal_open(false);
-          set_selected_range(null);
-          set_error_message(null);
-        }}
-        fullscreen={false}
-      >
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonButton onClick={() => set_is_modal_open(false)}>Close</IonButton>
-            </IonButtons>
-            <IonTitle>Cleaning Schedule</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <BimonthlyPicker
-            label="Select Period"
-            value={selected_range ? selected_range.firstMonday.substring(0, 7) : undefined}
-            onValueChange={set_selected_range}
-          />
+      <Space />
 
-          <Space />
+      {error_message && (
+        <p style={{ color: "var(--ion-color-danger)", fontSize: "0.875rem", margin: "0.5rem 0" }}>
+          {error_message}
+        </p>
+      )}
 
-          {error_message && (
-            <p
-              style={{ color: "var(--ion-color-danger)", fontSize: "0.875rem", margin: "0.5rem 0" }}
-            >
-              {error_message}
-            </p>
-          )}
-
-          {!congregation ? (
-            <TextButton expand="block" disabled label="No congregation selected" />
-          ) : selected_range ? (
-            <TextButton
-              expand="block"
-              disabled={is_generating || isLoading}
-              on_click={handle_download}
-              label={
-                is_generating
-                  ? "Generating..."
-                  : isLoading
-                    ? "Loading data..."
-                    : `Download PDF (${format(new Date(selected_range.firstMonday), "MMM d")} - ${format(new Date(selected_range.lastMonday), "MMM d, yyyy")})`
-              }
-            />
-          ) : (
-            <TextButton expand="block" disabled label="Select a period to download" />
-          )}
-        </IonContent>
-      </ResponsiveModal>
+      {!congregation ? (
+        <TextButton expand="block" disabled label="No congregation selected" />
+      ) : selected_range ? (
+        <TextButton
+          expand="block"
+          disabled={is_generating || isLoading}
+          on_click={handle_download}
+          label={
+            is_generating
+              ? "Generating..."
+              : isLoading
+                ? "Loading data..."
+                : `Download PDF (${format(new Date(selected_range.firstMonday), "MMM d")} - ${format(new Date(selected_range.lastMonday), "MMM d, yyyy")})`
+          }
+        />
+      ) : (
+        <TextButton expand="block" disabled label="Select a period to download" />
+      )}
     </>
   );
 }
