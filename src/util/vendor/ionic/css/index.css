@@ -10,6 +10,7 @@
 @import "./overrides/item.css";
 @import "./overrides/item-divider.css";
 @import "./overrides/modal.css";
+@import "./overrides/searchbar.css";
 @import "./overrides/tabbar.css";
 
 @import "./colors/primary.css";

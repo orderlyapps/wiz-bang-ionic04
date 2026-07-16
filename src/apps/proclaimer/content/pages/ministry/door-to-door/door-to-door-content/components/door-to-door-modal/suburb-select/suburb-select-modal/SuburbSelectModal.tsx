@@ -11,6 +11,7 @@ import {
   IonButtons,
   IonButton,
   IonIcon,
+  IonSearchbar,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
@@ -27,10 +28,15 @@ type SuburbSelectModalProps = {
 
 export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSelectModalProps) {
   const [showAddSuburb, setShowAddSuburb] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { data: suburbs, isLoading } = useLiveQuery((q) => q.from({ suburb: suburbCollection }));
 
-  // Sort suburbs alphabetically by name
-  const sortedSuburbs = suburbs ? [...suburbs].sort((a, b) => a.name.localeCompare(b.name)) : [];
+  // Sort suburbs alphabetically by name and filter by search query
+  const sortedSuburbs = suburbs
+    ? [...suburbs]
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .filter((s) => s.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : [];
 
   function handleAdded(suburb: Suburb) {
     onSelect(suburb);
@@ -45,6 +51,14 @@ export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSele
           <IonButtons slot="end">
             <IonButton onClick={onDidDismiss}>Close</IonButton>
           </IonButtons>
+        </IonToolbar>
+        <IonToolbar>
+          <IonSearchbar
+            value={searchQuery}
+            onIonInput={(e) => setSearchQuery(e.detail.value ?? "")}
+            debounce={100}
+            placeholder="Search suburbs"
+          />
         </IonToolbar>
       </IonHeader>
       <IonContent>

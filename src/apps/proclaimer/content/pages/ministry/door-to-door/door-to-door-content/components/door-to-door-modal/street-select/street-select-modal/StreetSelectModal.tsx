@@ -11,6 +11,7 @@ import {
   IonButtons,
   IonButton,
   IonIcon,
+  IonSearchbar,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
@@ -36,6 +37,7 @@ export function StreetSelectModal({
   suburb,
 }: StreetSelectModalProps) {
   const [showAddStreet, setShowAddStreet] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: streets, isLoading } = useLiveQuery(
     (q) => {
@@ -47,7 +49,11 @@ export function StreetSelectModal({
     [suburbId],
   );
 
-  const sortedStreets = streets ? [...streets].sort((a, b) => a.name.localeCompare(b.name)) : [];
+  const sortedStreets = streets
+    ? [...streets]
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .filter((s) => s.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : [];
 
   function handleAdded(street: Street) {
     onSelect(street);
@@ -62,6 +68,14 @@ export function StreetSelectModal({
           <IonButtons slot="end">
             <IonButton onClick={onDidDismiss}>Close</IonButton>
           </IonButtons>
+        </IonToolbar>
+        <IonToolbar>
+          <IonSearchbar
+            value={searchQuery}
+            onIonInput={(e) => setSearchQuery(e.detail.value ?? "")}
+            debounce={100}
+            placeholder="Search streets"
+          />
         </IonToolbar>
       </IonHeader>
       <IonContent>
