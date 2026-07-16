@@ -5,7 +5,7 @@ export const getHousePointLayer = (): LayerProps => {
     id: "return-visit-house-points",
     type: "circle",
     source: "return-visits",
-    minzoom: 14,
+    minzoom: 0,
     filter: ["==", ["get", "unit_count"], 1],
     paint: {
       "circle-radius": ["interpolate", ["linear"], ["zoom"], 14, 3, 16.5, 8, 18, 32],
