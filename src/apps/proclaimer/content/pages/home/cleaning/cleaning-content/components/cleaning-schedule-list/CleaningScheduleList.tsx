@@ -32,7 +32,7 @@ export function CleaningScheduleList({
     <>
       {months.map((month) => (
         <Fragment key={month.label}>
-          <IonItemDivider sticky>
+          <IonItemDivider sticky className="ion-padding-vertical">
             <Heading>{month.label.toUpperCase()}</Heading>
           </IonItemDivider>
           <Space size="sm" />
