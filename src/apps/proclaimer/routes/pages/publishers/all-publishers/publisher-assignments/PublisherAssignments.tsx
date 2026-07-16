@@ -1,6 +1,6 @@
 import { IonPage, IonHeader, IonContent } from "@ionic/react";
 import { useParams } from "react-router-dom";
-import { PublisherDetailHeader } from "@proclaimer-content/pages/home/elder/reports/publishers/publisher-detail/publisher-detail-header/PublisherDetailHeader";
+import { PublisherAssignmentsHeader } from "@proclaimer-content/pages/home/secretary/publishers/publisher-assignments/publisher-assignments-header/PublisherAssignmentsHeader";
 import { PublisherAssignmentsContent } from "@proclaimer-content/pages/home/secretary/publishers/publisher-assignments/publisher-assignments-content/PublisherAssignmentsContent";
 import { usePublisherName } from "@proclaimer-content/pages/home/elder/reports/publishers/publisher-detail/hooks/usePublisherName";
 
@@ -11,9 +11,8 @@ function AllPublishersAssignmentsPage() {
   return (
     <IonPage>
       <IonHeader>
-        <PublisherDetailHeader
+        <PublisherAssignmentsHeader
           publisher_name={publisher_name}
-          publisher_id={publisher_id ?? ""}
           default_href={`/publishers/all/${publisher_id}`}
         />
       </IonHeader>

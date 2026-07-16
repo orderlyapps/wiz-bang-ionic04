@@ -35,7 +35,7 @@ const typeLabels: Record<AssignmentType, string> = {
   "clean-minor": "Minor Cleaning",
 };
 
-function getAssignmentLabel(type: AssignmentType, assignmentId?: string): string {
+export function getAssignmentLabel(type: AssignmentType, assignmentId?: string): string {
   if (type === "av" && assignmentId) {
     const base = avAssignmentLabels[assignmentId] ?? assignmentId;
     if (assignmentId.endsWith("_midweek")) return `${base} (Midweek)`;
