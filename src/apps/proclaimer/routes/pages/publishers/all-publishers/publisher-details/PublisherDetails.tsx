@@ -21,6 +21,8 @@ function AllPublishersDetailsPage() {
         publisher_id={publisher_id}
         read_only={read_only}
         reports_path={`/publishers/all/${publisher_id}/reports`}
+        assignments_path={`/publishers/all/${publisher_id}/assignments`}
+        participation_path={`/publishers/all/${publisher_id}/participation`}
       />
     </IonPage>
   );

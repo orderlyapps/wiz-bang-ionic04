@@ -20,6 +20,8 @@ import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
 import AllPublishersPage from "@proclaimer-routes/pages/publishers/all-publishers/AllPublishers";
 import AllPublishersDetailsPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-details/PublisherDetails";
 import AllPublishersReportsPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-reports/PublisherReports";
+import AllPublishersAssignmentsPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-assignments/PublisherAssignments";
+import AllPublishersParticipationPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-participation/PublisherParticipation";
 import LocationsPage from "@proclaimer-routes/pages/publishers/locations/Locations";
 import EldersPage from "@proclaimer-routes/pages/publishers/elders/Elders";
 import MinisterialServantsPage from "@proclaimer-routes/pages/publishers/ministerial-servants/MinisterialServants";
@@ -34,6 +36,8 @@ import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
 import SecretaryPublishersPage from "@proclaimer-routes/pages/home/secretary/publishers/Publishers";
 import PublisherDetailsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-details/PublisherDetails";
 import SecretaryPublisherReportsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-reports/PublisherReports";
+import PublisherAssignmentsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-assignments/PublisherAssignments";
+import PublisherParticipationPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-participation/PublisherParticipation";
 import PublisherRecordsPage from "@proclaimer-routes/pages/home/secretary/publisher-records/PublisherRecords";
 import GroupsPage from "@proclaimer-routes/pages/home/secretary/groups/Groups";
 import GroupDetailsPage from "@proclaimer-routes/pages/home/secretary/groups/group-details/GroupDetails";
@@ -155,6 +159,16 @@ function App() {
         <Route
           path="/home/secretary/publishers/:publisher_id/reports"
           component={SecretaryPublisherReportsPage}
+          exact
+        />
+        <Route
+          path="/home/secretary/publishers/:publisher_id/assignments"
+          component={PublisherAssignmentsPage}
+          exact
+        />
+        <Route
+          path="/home/secretary/publishers/:publisher_id/participation"
+          component={PublisherParticipationPage}
           exact
         />
         <Route path="/home/secretary/publisher-records" component={PublisherRecordsPage} exact />
@@ -429,6 +443,16 @@ function App() {
         <Route
           path="/publishers/all/:publisher_id/reports"
           component={AllPublishersReportsPage}
+          exact
+        />
+        <Route
+          path="/publishers/all/:publisher_id/assignments"
+          component={AllPublishersAssignmentsPage}
+          exact
+        />
+        <Route
+          path="/publishers/all/:publisher_id/participation"
+          component={AllPublishersParticipationPage}
           exact
         />
         <Route path="/publishers/locations" component={LocationsPage} exact />

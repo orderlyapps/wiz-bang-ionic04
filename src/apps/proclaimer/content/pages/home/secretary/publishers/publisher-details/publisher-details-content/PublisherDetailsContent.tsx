@@ -13,10 +13,14 @@ export function PublisherDetailsContent({
   publisher_id,
   read_only = false,
   reports_path,
+  assignments_path,
+  participation_path,
 }: {
   publisher_id: string;
   read_only?: boolean;
   reports_path?: string;
+  assignments_path?: string;
+  participation_path?: string;
 }) {
   const { data, isLoading } = useLiveQuery((q) =>
     q.from({ p: publisherCollection }).where(({ p }) => eq(p.id, publisher_id)),
@@ -65,6 +69,26 @@ export function PublisherDetailsContent({
           <NavItem
             label="Publisher Record"
             to={reports_path}
+            lines="none"
+            label_class="ion-text-end"
+            color="medium"
+            size="md"
+          />
+        )}
+        {assignments_path && (
+          <NavItem
+            label="Assignments"
+            to={assignments_path}
+            lines="none"
+            label_class="ion-text-end"
+            color="medium"
+            size="md"
+          />
+        )}
+        {participation_path && (
+          <NavItem
+            label="Participation"
+            to={participation_path}
             lines="none"
             label_class="ion-text-end"
             color="medium"

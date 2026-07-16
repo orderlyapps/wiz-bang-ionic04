@@ -21,6 +21,8 @@ function PublisherDetailsPage() {
         publisher_id={publisher_id}
         read_only={read_only}
         reports_path={`/home/secretary/publishers/${publisher_id}/reports`}
+        assignments_path={`/home/secretary/publishers/${publisher_id}/assignments`}
+        participation_path={`/home/secretary/publishers/${publisher_id}/participation`}
       />
     </IonPage>
   );
