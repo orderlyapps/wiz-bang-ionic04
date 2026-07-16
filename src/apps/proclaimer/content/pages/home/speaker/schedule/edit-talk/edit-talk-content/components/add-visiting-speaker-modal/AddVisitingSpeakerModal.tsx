@@ -1,15 +1,8 @@
 import { useState } from "react";
-import {
-  IonAlert,
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonAlert, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { Select } from "@ui/components/inputs/select/Select";
 import { PublisherNameInput } from "@proclaimer-shared/publisher/components/publisher-name-input/PublisherNameInput";
 import { congregationCollection } from "@shared/database/collections/congregation";
@@ -110,7 +103,7 @@ export function AddVisitingSpeakerModal({
         <IonToolbar>
           <IonTitle>Add Visiting Speaker</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleDismiss}>Close</IonButton>
+            <CloseIconButton on_click={handleDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

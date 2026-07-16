@@ -1,5 +1,6 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { AvAssignment, AvAssignmentID } from "@shared/database/schemas/av-assignment";
 import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
@@ -45,7 +46,7 @@ export function AvConfirmModal({
             {publisher ? `${publisher.first_name} ${publisher.last_name}` : "Confirm Assignment"}
           </IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Cancel</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

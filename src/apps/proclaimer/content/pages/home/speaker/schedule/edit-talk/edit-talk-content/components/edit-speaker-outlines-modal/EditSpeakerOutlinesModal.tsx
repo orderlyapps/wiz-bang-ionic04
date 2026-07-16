@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonButtons,
   IonCheckbox,
   IonContent,
@@ -11,6 +10,7 @@ import {
 import { useLiveQuery } from "@tanstack/react-db";
 import { eq } from "@tanstack/react-db";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { outlineCollection } from "@shared/database/collections/outline";
 import { speakerOutlineCollection } from "@shared/database/collections/speaker-outline";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
@@ -63,7 +63,7 @@ export function EditSpeakerOutlinesModal({
         <IonToolbar>
           <IonTitle>Edit Speaker Outlines</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -3,13 +3,13 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
   IonContent,
   IonList,
   IonItem,
   IonText,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { getServiceYear } from "@util/format/service-year";
 import { usePioneerSettings } from "../../../hooks/usePioneerSettings";
 import { ServiceYearRow } from "./service-year-row/ServiceYearRow";
@@ -34,7 +34,7 @@ export function AdjustHoursModal({ isOpen, on_close }: AdjustHoursModalProps) {
         <IonToolbar>
           <IonTitle>Pioneer Hours</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_close}>Done</IonButton>
+            <CloseIconButton on_click={on_close} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

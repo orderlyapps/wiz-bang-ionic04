@@ -1,14 +1,7 @@
 import { useState } from "react";
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToast,
-  IonToolbar,
-} from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonTitle, IonToast, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { useNotAtHomeMarkers } from "../../hooks/useNotAtHomeMarkers";
 import { handleDeleteNotAtHome } from "../../handlers/handleDeleteNotAtHome";
 import { handleToggleNotAtHomeWrite } from "../../handlers/handleToggleNotAtHomeWrite";
@@ -56,7 +49,7 @@ export function NotAtHomeUnitModal({ groupKey, onDismiss }: NotAtHomeUnitModalPr
           <IonToolbar>
             <IonTitle>{address}</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={onDismiss}>Close</IonButton>
+              <CloseIconButton on_click={onDismiss} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

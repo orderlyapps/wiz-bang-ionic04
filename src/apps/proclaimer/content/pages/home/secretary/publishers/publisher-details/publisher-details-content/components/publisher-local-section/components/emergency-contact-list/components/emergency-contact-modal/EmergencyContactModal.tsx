@@ -9,6 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
 import { Select } from "@ui/components/inputs/select/Select";
@@ -128,7 +129,7 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
         <IonToolbar>
           <IonTitle>{contact ? "Edit" : "Add"} Emergency Contact</IonTitle>
           <IonButtons slot="start">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
           <IonButtons slot="end">
             <IonButton

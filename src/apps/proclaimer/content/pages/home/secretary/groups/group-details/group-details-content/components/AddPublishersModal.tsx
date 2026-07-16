@@ -6,13 +6,13 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
 } from "@ionic/react";
 import { useState } from "react";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { Body } from "@ui/components/display/text/body/Body";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { SearchInput } from "@ui/components/inputs/search/SearchInput";
@@ -56,7 +56,7 @@ export function AddPublishersModal({
         <IonToolbar>
           <IonTitle>Add Publishers</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleDismiss}>Close</IonButton>
+            <CloseIconButton on_click={handleDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
         <IonToolbar>

@@ -9,6 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { AddressInput } from "@ui/components/inputs/address/AddressInput";
 import { Select } from "@ui/components/inputs/select/Select";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
@@ -103,7 +104,7 @@ export function AddressAddModal({
         <IonToolbar>
           <IonTitle>{entry ? "Edit" : "Add"} Address</IonTitle>
           <IonButtons slot="start">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
           <IonButtons slot="end">
             <IonButton strong disabled={!label.trim() || !address_value} onClick={handle_save}>

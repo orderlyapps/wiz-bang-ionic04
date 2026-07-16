@@ -4,12 +4,12 @@ import {
   IonTitle,
   IonContent,
   IonButtons,
-  IonButton,
   IonList,
   IonItem,
   IonLabel,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import type { AddressPublisherGroup } from "../../hooks/useGroupedPublisherLocations";
@@ -28,7 +28,7 @@ export function PublisherLocationsModal({ group, onDismiss }: PublisherLocations
         <IonToolbar>
           <IonTitle>Publishers</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDismiss}>Close</IonButton>
+            <CloseIconButton on_click={onDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -14,6 +14,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { Space } from "@ui/components/layout/space/Space";
 import { rxdb } from "@shared/database/rxdb/database";
 import type { PublisherLocal } from "@shared/database/rxdb/collections/publisher";
@@ -111,7 +112,7 @@ export function ExportModal({ is_open, onClose }: Props) {
         <IonToolbar>
           <IonTitle>Export Data</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onClose}>Close</IonButton>
+            <CloseIconButton on_click={onClose} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

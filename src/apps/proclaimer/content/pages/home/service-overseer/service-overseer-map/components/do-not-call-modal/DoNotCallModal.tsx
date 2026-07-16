@@ -1,4 +1,5 @@
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton } from "@ionic/react";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons } from "@ionic/react";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { Space } from "@ui/components/layout/space/Space";
@@ -50,7 +51,7 @@ export function DoNotCallModal({ isOpen, onDidDismiss, onSave }: Props) {
         <IonToolbar>
           <IonTitle>Do Not Call</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDidDismiss}>Close</IonButton>
+            <CloseIconButton on_click={onDidDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -4,7 +4,6 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
   IonContent,
   IonList,
   IonItem,
@@ -15,6 +14,7 @@ import {
 import { checkmark } from "ionicons/icons";
 import { ModalMultiSelect } from "@ui/components/inputs/modal-multi-select/ModalMultiSelect";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { Body } from "@ui/components/display/text/body/Body";
 import { ComponentSection } from "@base-content/pages/settings/info/ui/components/shared/component-section/ComponentSection";
 
@@ -76,7 +76,7 @@ export function ModalMultiSelectSection() {
           <IonToolbar>
             <IonTitle>Select Tags</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => set_tags_open(false)}>Done</IonButton>
+              <CloseIconButton on_click={() => set_tags_open(false)} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -112,7 +112,7 @@ export function ModalMultiSelectSection() {
           <IonToolbar>
             <IonTitle>Select Roles</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => set_roles_open(false)}>Done</IonButton>
+              <CloseIconButton on_click={() => set_roles_open(false)} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

@@ -9,6 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { EmailInput } from "@ui/components/inputs/email/EmailInput";
 import { Select } from "@ui/components/inputs/select/Select";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
@@ -81,7 +82,7 @@ export function EmailAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
         <IonToolbar>
           <IonTitle>{entry ? "Edit" : "Add"} Email</IonTitle>
           <IonButtons slot="start">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
           <IonButtons slot="end">
             <IonButton strong disabled={!label.trim() || !address.trim()} onClick={handle_save}>

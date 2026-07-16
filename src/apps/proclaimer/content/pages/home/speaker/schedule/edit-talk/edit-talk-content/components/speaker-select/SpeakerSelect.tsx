@@ -11,6 +11,7 @@ import {
 } from "@ionic/react";
 import { InputWrapper } from "@ui/components/display/input/InputWrapper";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { AddVisitingSpeakerModal } from "../add-visiting-speaker-modal/AddVisitingSpeakerModal";
 import type { Publisher } from "@shared/database/schemas/publisher";
@@ -62,7 +63,7 @@ export function SpeakerSelect({
           <IonToolbar>
             <IonTitle>{label}</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => set_is_open(false)}>Cancel</IonButton>
+              <CloseIconButton on_click={() => set_is_open(false)} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

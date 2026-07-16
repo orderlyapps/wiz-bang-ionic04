@@ -1,14 +1,7 @@
 import { useState } from "react";
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToast,
-  IonToolbar,
-} from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonTitle, IonToast, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { useDoNotCallMarkers } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/hooks/useDoNotCallMarkers";
 import { doNotCallCollection } from "@shared/database/collections/do-not-call";
 import type { DoNotCall } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/types";
@@ -45,7 +38,7 @@ export function DoNotCallUnitModal({ groupKey, onDismiss }: DoNotCallUnitModalPr
           <IonToolbar>
             <IonTitle>{address}</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={onDismiss}>Close</IonButton>
+              <CloseIconButton on_click={onDismiss} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

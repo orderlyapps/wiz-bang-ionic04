@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { Space } from "@ui/components/layout/space/Space";
@@ -34,7 +35,7 @@ export function OutlineForm({ is_open, outline, on_save, on_dismiss }: OutlineFo
         <IonToolbar>
           <IonTitle>{outline ? "Edit Outline" : "New Outline"}</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Cancel</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

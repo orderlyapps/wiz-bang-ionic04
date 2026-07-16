@@ -4,7 +4,6 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
   IonContent,
   IonSearchbar,
   IonList,
@@ -12,6 +11,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import {
   usePublishersWithCoordinates,
   type PublisherWithCoordinates,
@@ -47,7 +47,7 @@ export function FindPublisherModal({ is_open, on_dismiss, on_select }: FindPubli
         <IonToolbar>
           <IonTitle>Find Publisher</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleDismiss}>Close</IonButton>
+            <CloseIconButton on_click={handleDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
         <IonToolbar>

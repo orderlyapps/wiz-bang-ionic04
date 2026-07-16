@@ -9,12 +9,12 @@ import {
   IonLabel,
   IonSkeletonText,
   IonButtons,
-  IonButton,
   IonIcon,
   IonSearchbar,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { streetCollection } from "@shared/database/collections/street";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import type { Street } from "@shared/database/schemas/street";
@@ -66,7 +66,7 @@ export function StreetSelectModal({
         <IonToolbar>
           <IonTitle>Select Street</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDidDismiss}>Close</IonButton>
+            <CloseIconButton on_click={onDidDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
         <IonToolbar>

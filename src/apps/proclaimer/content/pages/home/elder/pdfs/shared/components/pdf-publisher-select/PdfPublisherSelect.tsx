@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { PublisherSelectContent } from "@proclaimer-content/pages/settings/profile/profile-content/components/publisher-select/publisher-select-modal/publisher-select-content/PublisherSelectContent";
 import {
   getStoredPublisher,
@@ -36,7 +37,7 @@ export function PdfPublisherSelect({ on_change }: PdfPublisherSelectProps) {
           <IonToolbar>
             <IonTitle>Select Publisher</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => setShowSelectModal(false)}>Close</IonButton>
+              <CloseIconButton on_click={() => setShowSelectModal(false)} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

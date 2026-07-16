@@ -1,12 +1,5 @@
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonButton,
-  IonModal,
-} from "@ionic/react";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonModal } from "@ionic/react";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { Space } from "@ui/components/layout/space/Space";
@@ -67,7 +60,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
         <IonToolbar>
           <IonTitle>Door to Door</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDidDismiss}>Close</IonButton>
+            <CloseIconButton on_click={onDidDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -4,7 +4,6 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
   IonContent,
   IonList,
   IonItem,
@@ -14,6 +13,7 @@ import {
 import { checkmark } from "ionicons/icons";
 import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { ComponentSection } from "@base-content/pages/settings/info/ui/components/shared/component-section/ComponentSection";
 
 const COLORS = ["Red", "Green", "Blue", "Yellow", "Purple", "Orange"];
@@ -56,7 +56,7 @@ export function ModalSelectSection() {
           <IonToolbar>
             <IonTitle>Pick a Color</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => set_color_open(false)}>Close</IonButton>
+              <CloseIconButton on_click={() => set_color_open(false)} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -11,6 +10,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { Body } from "@ui/components/display/text/body/Body";
 import { useParticipantPublishers } from "@proclaimer-content/pages/home/clam-overseer/participation/shared/hooks/useParticipantPublishers";
 import type { MidweekParticipation } from "@shared/database/schemas/midweek-participation";
@@ -42,7 +42,7 @@ export function AddParticipantModal({
         <IonToolbar>
           <IonTitle>Add {modal_title}</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -13,6 +12,7 @@ import {
 } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { SearchInput } from "@ui/components/inputs/search/SearchInput";
 import type { MapRow } from "@shared/database/schemas/map";
 
@@ -57,7 +57,7 @@ export function MapSelectModal({
             {subtitle && <p style={{ fontSize: "0.8em", margin: 0 }}>{subtitle}</p>}
           </IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleDismiss}>Close</IonButton>
+            <CloseIconButton on_click={handleDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

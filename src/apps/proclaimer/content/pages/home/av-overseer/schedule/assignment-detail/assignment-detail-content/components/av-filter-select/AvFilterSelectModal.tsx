@@ -1,5 +1,6 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Select } from "@ui/components/inputs/select/Select";
 import { Space } from "@ui/components/layout/space/Space";
@@ -64,7 +65,7 @@ export function AvFilterSelectModal({
         <IonToolbar>
           <IonTitle>Filter &amp; Sort</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

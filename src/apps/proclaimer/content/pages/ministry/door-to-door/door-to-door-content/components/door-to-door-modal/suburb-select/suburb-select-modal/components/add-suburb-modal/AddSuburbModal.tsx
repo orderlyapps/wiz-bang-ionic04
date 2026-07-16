@@ -9,7 +9,6 @@ import {
   IonItem,
   IonLabel,
   IonButtons,
-  IonButton,
   IonSearchbar,
   IonSpinner,
   IonAlert,
@@ -18,6 +17,7 @@ import {
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { suburbCollection } from "@shared/database/collections/suburb";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { searchSuburbs } from "@util/vendor/mapbox/helper/searchSuburbs";
@@ -129,7 +129,7 @@ export function AddSuburbModal({ isOpen, onDidDismiss, onAdded }: AddSuburbModal
         <IonToolbar>
           <IonTitle>Add New Suburb</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleClose}>Close</IonButton>
+            <CloseIconButton on_click={handleClose} skip_confirmation />
           </IonButtons>
         </IonToolbar>
         <IonToolbar>

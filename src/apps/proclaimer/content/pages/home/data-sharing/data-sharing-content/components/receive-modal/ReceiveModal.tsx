@@ -13,6 +13,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { Space } from "@ui/components/layout/space/Space";
 import { useReceiveSession } from "./useReceiveSession";
 
@@ -72,7 +73,7 @@ export function ReceiveModal({ is_open, onClose }: Props) {
         <IonToolbar>
           <IonTitle>Receive Data</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleClose}>Close</IonButton>
+            <CloseIconButton on_click={handleClose} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -1,5 +1,6 @@
-import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent } from "@ionic/react";
+import { IonHeader, IonToolbar, IonTitle, IonButtons, IonContent } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { PioneerHoursSettings } from "../../../ministry-time-content/components/pioneer-stats/adjust-hours-modal/PioneerHoursSettings";
 import { DataManagement } from "./components/data-management/DataManagement";
 
@@ -15,7 +16,7 @@ export function MinistryTimeSettingsModal({ isOpen, on_close }: MinistryTimeSett
         <IonToolbar>
           <IonTitle>Settings</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_close}>Close</IonButton>
+            <CloseIconButton on_click={on_close} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

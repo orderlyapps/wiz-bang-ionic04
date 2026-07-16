@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons } from "@ionic/react";
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons } from "@ionic/react";
 import { format } from "date-fns";
 import { pdf } from "@react-pdf/renderer";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { ToggleInput } from "@ui/components/inputs/toggle/ToggleInput";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { Space } from "@ui/components/layout/space/Space";
 import { MonthPicker } from "@proclaimer-content/pages/home/elder/pdfs/shared/components/month-picker/MonthPicker";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
@@ -81,7 +82,7 @@ export function AudioVideoContent() {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonButton onClick={() => set_is_modal_open(false)}>Close</IonButton>
+              <CloseIconButton on_click={() => set_is_modal_open(false)} skip_confirmation />
             </IonButtons>
             <IonTitle>Audio & Video Schedule</IonTitle>
           </IonToolbar>

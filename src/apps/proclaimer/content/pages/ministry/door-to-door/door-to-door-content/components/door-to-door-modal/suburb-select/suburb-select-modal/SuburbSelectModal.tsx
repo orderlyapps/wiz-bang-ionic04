@@ -9,12 +9,12 @@ import {
   IonLabel,
   IonSkeletonText,
   IonButtons,
-  IonButton,
   IonIcon,
   IonSearchbar,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { suburbCollection } from "@shared/database/collections/suburb";
 import { useLiveQuery } from "@tanstack/react-db";
 import type { Suburb } from "@shared/database/schemas/suburb";
@@ -49,7 +49,7 @@ export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSele
         <IonToolbar>
           <IonTitle>Select Suburb</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDidDismiss}>Close</IonButton>
+            <CloseIconButton on_click={onDidDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
         <IonToolbar>

@@ -7,11 +7,11 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
-  IonButton,
   IonContent,
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { TimeEntryForm } from "../time-entry-form/TimeEntryForm";
 import type { MinistryType } from "@shared/database/rxdb/collections/ministry-time";
 
@@ -51,7 +51,7 @@ export function AddEntryFab({ on_add }: AddEntryFabProps) {
           <IonToolbar>
             <IonTitle>Add Entry</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+              <CloseIconButton on_click={() => setIsOpen(false)} skip_confirmation />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

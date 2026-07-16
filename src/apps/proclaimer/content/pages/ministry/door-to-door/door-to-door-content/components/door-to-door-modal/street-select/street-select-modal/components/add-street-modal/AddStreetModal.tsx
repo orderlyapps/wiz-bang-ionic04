@@ -8,7 +8,6 @@ import {
   IonItem,
   IonLabel,
   IonButtons,
-  IonButton,
   IonSearchbar,
   IonSpinner,
   IonAlert,
@@ -17,6 +16,7 @@ import {
 } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { streetCollection } from "@shared/database/collections/street";
 import { searchStreets } from "@util/vendor/mapbox/helper/searchStreets";
 import { getStoredCongregation } from "@util/app/congregation/utils";
@@ -114,7 +114,7 @@ export function AddStreetModal({ isOpen, onDidDismiss, onAdded, suburb }: AddStr
         <IonToolbar>
           <IonTitle>Add New Street</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleClose}>Close</IonButton>
+            <CloseIconButton on_click={handleClose} skip_confirmation />
           </IonButtons>
         </IonToolbar>
         <IonToolbar>

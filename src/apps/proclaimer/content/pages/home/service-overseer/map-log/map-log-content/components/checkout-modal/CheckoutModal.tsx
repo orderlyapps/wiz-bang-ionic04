@@ -12,6 +12,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapLogCollection } from "@shared/database/collections/map-log";
@@ -147,7 +148,7 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: Ch
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton onClick={dismiss}>Cancel</IonButton>
+            <CloseIconButton on_click={dismiss} skip_confirmation />
           </IonButtons>
           <IonTitle>{is_editing ? "Edit Log" : "Check Out Map"}</IonTitle>
           <IonButtons slot="end">

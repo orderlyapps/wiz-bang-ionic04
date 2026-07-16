@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -14,6 +13,7 @@ import {
 } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { SearchInput } from "@ui/components/inputs/search/SearchInput";
 import { useLiveQuery } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
@@ -93,7 +93,7 @@ export function PublisherSelectModal({
         <IonToolbar>
           <IonTitle>Select Publisher</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={handleDismiss}>Close</IonButton>
+            <CloseIconButton on_click={handleDismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

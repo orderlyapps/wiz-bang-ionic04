@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   IonAlert,
-  IonButton,
   IonButtons,
   IonCheckbox,
   IonContent,
@@ -24,6 +23,7 @@ import { mapCheckoutPublisherCollection } from "@shared/database/collections/map
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { IncrementInput } from "@ui/components/inputs/increment-input/IncrementInput";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapCheckoutMapRow } from "@shared/database/schemas/map-checkout-map";
 
@@ -127,7 +127,7 @@ export function MapCheckoutDetailContent({
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonButton onClick={() => set_show_maps_modal(false)}>Close</IonButton>
+              <CloseIconButton on_click={() => set_show_maps_modal(false)} skip_confirmation />
             </IonButtons>
             <IonTitle>Manage Maps</IonTitle>
           </IonToolbar>

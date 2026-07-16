@@ -1,13 +1,6 @@
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonList,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonList, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import type { Report } from "@shared/database/schemas/report";
 import { ReportForm } from "./components/report-form/ReportForm";
 
@@ -41,7 +34,7 @@ export function PublisherReportModal({
         <IonToolbar>
           <IonTitle>{publisher_name}</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

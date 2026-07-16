@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -11,6 +10,7 @@ import {
 } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
@@ -66,7 +66,7 @@ export function GenericPermissionModal({
         <IonToolbar>
           <IonTitle>{modal_title}</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
