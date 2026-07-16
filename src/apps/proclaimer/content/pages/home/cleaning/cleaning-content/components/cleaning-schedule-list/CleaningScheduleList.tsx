@@ -1,12 +1,13 @@
 import { Body } from "@ui/components/display/text/body/Body";
-import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Space } from "@ui/components/layout/space/Space";
 import type {
   CleaningMonth,
   CleaningScheduleOption,
-  CleaningWeek,
 } from "../use-cleaning-schedules/useCleaningSchedules";
 import { CleaningWeekCard } from "../cleaning-week-card/CleaningWeekCard";
+import { Fragment } from "react";
+import { IonItemDivider } from "@ionic/react";
+import { Heading } from "@ui/components/display/text/heading/Heading";
 
 interface CleaningScheduleListProps {
   months: CleaningMonth[];
@@ -30,15 +31,13 @@ export function CleaningScheduleList({
   return (
     <>
       {months.map((month) => (
-        <section key={month.label}>
-          <Body size="xl" color="primary">
-            {month.label.toUpperCase()}
-          </Body>
+        <Fragment key={month.label}>
+          <IonItemDivider sticky>
+            <Heading>{month.label.toUpperCase()}</Heading>
+          </IonItemDivider>
           <Space size="sm" />
-          <MultiColumnList<CleaningWeek>
-            items={month.weeks}
-            get_id={(week) => week.week_id}
-            render_item={(week) => (
+          {month.weeks.map((week) => (
+            <div key={week.week_id}>
               <CleaningWeekCard
                 week={week}
                 group_options={group_options}
@@ -46,12 +45,11 @@ export function CleaningScheduleList({
                 on_major_change={(group_id) => on_major_change(week.week_id, group_id)}
                 on_minor_change={(group_id) => on_minor_change(week.week_id, group_id)}
               />
-            )}
-            gap="sm"
-            row_gap="sm"
-          />
+              <Space size="sm" />
+            </div>
+          ))}
           <Space size="lg" />
-        </section>
+        </Fragment>
       ))}
     </>
   );
