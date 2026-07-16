@@ -90,42 +90,78 @@ export function GroupsPdf({
     return chunks;
   };
 
+  const getGroupMemberCount = (group_id: string) => {
+    return getGroupPublishers(group_id).length;
+  };
+
+  const rowNeedsNewPage = (row_groups: Group[]) => {
+    for (let i = 0; i < row_groups.length; i++) {
+      for (let j = i + 1; j < row_groups.length; j++) {
+        const count_i = getGroupMemberCount(row_groups[i].id ?? "");
+        const count_j = getGroupMemberCount(row_groups[j].id ?? "");
+        if (count_i + count_j > 46) return true;
+      }
+    }
+    return false;
+  };
+
   const group_rows = chunkGroups(groups, 4);
+
+  const pages: Group[][][] = [];
+  let current_page: Group[][] = [];
+
+  group_rows.forEach((row, row_index) => {
+    if (row_index > 0 && rowNeedsNewPage(row)) {
+      if (current_page.length > 0) {
+        pages.push(current_page);
+      }
+      current_page = [];
+    }
+    current_page.push(row);
+  });
+  if (current_page.length > 0) {
+    pages.push(current_page);
+  }
+
+  const renderRow = (row_groups: Group[], row_index: number) => (
+    <View key={row_index} style={styles.row}>
+      {row_groups.map((group) => {
+        const overseer_name = getPublisherName(group.overseer_id);
+        const assistant_name = getPublisherName(group.assistant_id);
+        const excluded_ids = [group.overseer_id, group.assistant_id].filter(Boolean);
+        const group_members = getGroupPublishers(group.id ?? "").filter(
+          (p) => !excluded_ids.includes(p.id),
+        );
+
+        return (
+          <View key={group.id} style={styles.groupColumn}>
+            <Text style={styles.groupName}>{group.name}</Text>
+            {overseer_name && <Text style={styles.overseerName}>{overseer_name}</Text>}
+            {assistant_name && <Text style={styles.assistantName}>{assistant_name}</Text>}
+            {group_members.length > 0 && <View style={styles.memberGap} />}
+            {group_members.map((publisher) => (
+              <Text key={publisher.id} style={styles.member}>
+                {getPublisherDisplayName(publisher)}
+              </Text>
+            ))}
+          </View>
+        );
+      })}
+    </View>
+  );
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>
-          {congregation_name ? `${congregation_name} - ` : ""}Field Service Groups
-        </Text>
-
-        {group_rows.map((row_groups, row_index) => (
-          <View key={row_index} style={styles.row}>
-            {row_groups.map((group) => {
-              const overseer_name = getPublisherName(group.overseer_id);
-              const assistant_name = getPublisherName(group.assistant_id);
-              const excluded_ids = [group.overseer_id, group.assistant_id].filter(Boolean);
-              const group_members = getGroupPublishers(group.id ?? "").filter(
-                (p) => !excluded_ids.includes(p.id),
-              );
-
-              return (
-                <View key={group.id} style={styles.groupColumn}>
-                  <Text style={styles.groupName}>{group.name}</Text>
-                  {overseer_name && <Text style={styles.overseerName}>{overseer_name}</Text>}
-                  {assistant_name && <Text style={styles.assistantName}>{assistant_name}</Text>}
-                  {group_members.length > 0 && <View style={styles.memberGap} />}
-                  {group_members.map((publisher) => (
-                    <Text key={publisher.id} style={styles.member}>
-                      {getPublisherDisplayName(publisher)}
-                    </Text>
-                  ))}
-                </View>
-              );
-            })}
-          </View>
-        ))}
-      </Page>
+      {pages.map((page_rows, page_index) => (
+        <Page key={page_index} size="A4" style={styles.page}>
+          {page_index === 0 && (
+            <Text style={styles.title}>
+              {congregation_name ? `${congregation_name} - ` : ""}Field Service Groups
+            </Text>
+          )}
+          {page_rows.map((row_groups, row_index) => renderRow(row_groups, row_index))}
+        </Page>
+      ))}
     </Document>
   );
 }
