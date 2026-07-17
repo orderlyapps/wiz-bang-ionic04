@@ -1,0 +1,81 @@
+import { IonItemDivider, IonList } from "@ionic/react";
+import { Body } from "@ui/components/display/text/body/Body";
+import {
+  avAssignmentLabels,
+  midweekAVAssignmentIDs,
+  midweekAttendantAssignmentIDs,
+  weekendAVAssignmentIDs,
+  weekendAttendantAssignmentIDs,
+} from "@shared/database/schemas/av-assignment";
+import type { AvAssignmentID } from "@shared/database/schemas/av-assignment";
+import { useAvAssignments } from "../../hooks/use-av-assignments/useAvAssignments";
+import { AvAssignmentItem } from "../av-assignment-item/AvAssignmentItem";
+
+type AvAssignmentListProps = {
+  week_id: string;
+};
+
+function AssignmentSection({
+  week_id,
+  title,
+  assignment_ids,
+  participant,
+}: {
+  week_id: string;
+  title: string;
+  assignment_ids: readonly AvAssignmentID[];
+  participant: (assignment_id: AvAssignmentID) => ReturnType<
+    ReturnType<typeof useAvAssignments>["participant"]
+  >;
+}) {
+  return (
+    <>
+      <IonItemDivider sticky>
+        <Body bold color="primary">
+          {title}
+        </Body>
+      </IonItemDivider>
+      {assignment_ids.map((id) => (
+        <AvAssignmentItem
+          key={id}
+          week_id={week_id}
+          label={avAssignmentLabels[id]}
+          participant={participant(id)}
+        />
+      ))}
+    </>
+  );
+}
+
+export function AvAssignmentList({ week_id }: AvAssignmentListProps) {
+  const { participant } = useAvAssignments(week_id);
+
+  return (
+    <IonList>
+      <AssignmentSection
+        week_id={week_id}
+        title="Midweek Meeting — AV"
+        assignment_ids={midweekAVAssignmentIDs}
+        participant={participant}
+      />
+      <AssignmentSection
+        week_id={week_id}
+        title="Midweek Meeting — Attendants"
+        assignment_ids={midweekAttendantAssignmentIDs}
+        participant={participant}
+      />
+      <AssignmentSection
+        week_id={week_id}
+        title="Weekend Meeting — AV"
+        assignment_ids={weekendAVAssignmentIDs}
+        participant={participant}
+      />
+      <AssignmentSection
+        week_id={week_id}
+        title="Weekend Meeting — Attendants"
+        assignment_ids={weekendAttendantAssignmentIDs}
+        participant={participant}
+      />
+    </IonList>
+  );
+}

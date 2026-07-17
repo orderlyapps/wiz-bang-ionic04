@@ -417,7 +417,11 @@ function App() {
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
         <Route path="/home/super-admin/outlines" component={OutlineManagementPage} exact />
         <Route path="/home/reminders" component={RemindersPage} exact />
-        <Route path="/home/reminders/audio-video" component={RemindersAudioVideoPage} exact />
+        <Route
+          path="/home/reminders/audio-video/:week_id?"
+          component={RemindersAudioVideoPage}
+          exact
+        />
         <Route path="/home/clam/:week_id?" component={ClamPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         <Route path="/home/ministry-time" component={MinistryTimePage} exact />
