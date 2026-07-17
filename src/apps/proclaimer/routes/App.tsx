@@ -126,6 +126,7 @@ import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/parti
 import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
 import ParticipantsPage from "@proclaimer-routes/pages/home/av-overseer/participants/Participants";
 import RemindersPage from "@proclaimer-routes/pages/home/reminders/Reminders";
+import RemindersAudioVideoPage from "@proclaimer-routes/pages/home/reminders/audio-video/AudioVideo";
 import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import MinistryTimePage from "@proclaimer-routes/pages/home/ministry-time/MinistryTime";
@@ -416,6 +417,7 @@ function App() {
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
         <Route path="/home/super-admin/outlines" component={OutlineManagementPage} exact />
         <Route path="/home/reminders" component={RemindersPage} exact />
+        <Route path="/home/reminders/audio-video" component={RemindersAudioVideoPage} exact />
         <Route path="/home/clam/:week_id?" component={ClamPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         <Route path="/home/ministry-time" component={MinistryTimePage} exact />

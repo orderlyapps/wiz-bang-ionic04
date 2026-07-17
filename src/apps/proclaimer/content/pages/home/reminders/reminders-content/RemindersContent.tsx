@@ -8,6 +8,7 @@ export function RemindersContent() {
   return (
     <IonList>
       <NavItem label="CLAM" to={`/home/clam/${current_week_id}`} />
+      <NavItem label="Audio Video" to="/home/reminders/audio-video" />
     </IonList>
   );
 }
