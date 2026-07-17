@@ -4,6 +4,7 @@ import { avParticipationCollection } from "@shared/database/collections/av-parti
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { AvParticipation } from "@shared/database/schemas/av-participation";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { makeCompositeKey } from "@shared/database/util/composite-key";
 
 export interface AvParticipant {
   participant_id: string;
@@ -47,11 +48,22 @@ export function useAvParticipants() {
       participant_id: p.id ?? "",
       publisher: p,
       display_name: getPublisherDisplayName(p),
-      participations: (allParticipations ?? []).filter(
-        (ap) => ap.participant_id === p.id,
-      ),
+      participations: (allParticipations ?? []).filter((ap) => ap.participant_id === p.id),
     }))
     .sort(sortByName);
 
-  return { participants, isLoading };
+  function addParticipation(participant_id: string, participation_id: string) {
+    const existingRow = (allParticipations ?? []).find(
+      (p) => p.participant_id === participant_id && p.participation_id === participation_id,
+    );
+    if (!existingRow) {
+      avParticipationCollection.insert({ participant_id, participation_id });
+    }
+  }
+
+  function removeParticipation(participant_id: string, participation_id: string) {
+    avParticipationCollection.delete(makeCompositeKey(participant_id, participation_id));
+  }
+
+  return { participants, isLoading, addParticipation, removeParticipation };
 }
