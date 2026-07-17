@@ -7,15 +7,11 @@ import { getStoredCongregation } from "@util/app/congregation/utils";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { Space } from "@ui/components/layout/space/Space";
 import { GroupsPdf } from "@proclaimer-content/pages/home/secretary/groups/groups-header/components/groups-pdf/GroupsPdf";
-import {
-  PdfActionSheet,
-  type PdfFilterType,
-} from "@proclaimer-content/pages/home/secretary/groups/groups-header/components/pdf-action-sheet/PdfActionSheet";
+import type { PdfFilterType } from "@proclaimer-content/pages/home/secretary/groups/groups-header/components/pdf-action-sheet/PdfActionSheet";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { Group } from "@shared/database/schemas/group";
 
 export function GroupsContent() {
-  const [is_sheet_open, set_is_sheet_open] = useState(false);
   const [is_generating, set_is_generating] = useState(false);
 
   const congregation = getStoredCongregation();
@@ -42,7 +38,6 @@ export function GroupsContent() {
 
   const handle_download = async (filter_type: PdfFilterType) => {
     set_is_generating(true);
-    set_is_sheet_open(false);
 
     const file_name = congregation?.name
       ? `${congregation.name.replace(/\s+/g, "_")}_Groups_${filter_type}.pdf`
@@ -74,16 +69,17 @@ export function GroupsContent() {
       <TextButton
         expand="block"
         disabled={is_generating}
-        on_click={() => set_is_sheet_open(true)}
-        label={is_generating ? "Generating..." : "Download Groups PDF"}
+        on_click={() => handle_download("default")}
+        label={is_generating ? "Generating..." : "Notice Board List"}
       />
 
       <Space />
 
-      <PdfActionSheet
-        is_open={is_sheet_open}
-        on_select={handle_download}
-        on_dismiss={() => set_is_sheet_open(false)}
+      <TextButton
+        expand="block"
+        disabled={is_generating}
+        on_click={() => handle_download("confidential")}
+        label={is_generating ? "Generating..." : "Confidential List"}
       />
     </>
   );
