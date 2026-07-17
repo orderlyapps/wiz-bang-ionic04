@@ -6,8 +6,11 @@ import type { Publisher } from "@shared/database/schemas/publisher";
 const typeOptions: { label: string; value: Publisher["type"] }[] = [
   { label: "Publisher", value: "publisher" },
   { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
+  { label: "Special Pioneer", value: "special_pioneer" },
   { label: "Regular Pioneer", value: "regular_pioneer" },
+  { label: "Circuit Overseer", value: "circuit_overseer" },
   { label: "Inactive", value: "inactive" },
+  { label: "Associate", value: "associate" },
 ];
 
 export function EditTypeButton({

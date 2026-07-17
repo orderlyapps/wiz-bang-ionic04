@@ -13,11 +13,11 @@ const GENDER_OPTIONS = [
 const TYPE_OPTIONS = [
   { label: "Publisher", value: "publisher" },
   { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
-  { label: "Regular Pioneer", value: "regular_pioneer" },
   { label: "Special Pioneer", value: "special_pioneer" },
+  { label: "Regular Pioneer", value: "regular_pioneer" },
+  { label: "Circuit Overseer", value: "circuit_overseer" },
   { label: "Inactive", value: "inactive" },
   { label: "Associate", value: "associate" },
-  { label: "Speaker", value: "speaker" },
 ];
 
 const STANDING_OPTIONS = [

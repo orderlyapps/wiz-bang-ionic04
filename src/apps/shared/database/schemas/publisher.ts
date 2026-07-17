@@ -22,6 +22,7 @@ export const publisherSchema = z.object({
     "inactive",
     "speaker",
     "associate",
+    "circuit_overseer",
   ]),
   gender: z.enum(["male", "female"]),
   family_id: z.uuid().nullable().optional(),
