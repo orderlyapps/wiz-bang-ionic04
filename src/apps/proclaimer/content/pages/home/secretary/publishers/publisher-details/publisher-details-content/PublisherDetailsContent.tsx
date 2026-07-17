@@ -65,7 +65,7 @@ export function PublisherDetailsContent({
           read_only={read_only}
         />
 
-        {reports_path && (
+        {reports_path && publisher.type !== "circuit_overseer" && (
           <NavItem
             label="Publisher Record"
             to={reports_path}
@@ -75,7 +75,8 @@ export function PublisherDetailsContent({
             size="md"
           />
         )}
-        {assignments_path && (
+
+        {assignments_path && publisher.type !== "circuit_overseer" && (
           <NavItem
             label="Assignments"
             to={assignments_path}
@@ -85,7 +86,8 @@ export function PublisherDetailsContent({
             size="md"
           />
         )}
-        {participation_path && (
+
+        {participation_path && publisher.type !== "circuit_overseer" && (
           <NavItem
             label="Participation"
             to={participation_path}
