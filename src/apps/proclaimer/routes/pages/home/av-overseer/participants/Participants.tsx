@@ -8,7 +8,7 @@ function ParticipantsPage() {
       <IonHeader>
         <ParticipantsHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <ParticipantsContent />
       </IonContent>
     </IonPage>
