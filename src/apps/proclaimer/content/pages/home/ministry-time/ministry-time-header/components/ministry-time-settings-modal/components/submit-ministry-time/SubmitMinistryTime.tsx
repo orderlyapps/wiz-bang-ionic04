@@ -10,7 +10,6 @@ import { useSubmitMinistryTime } from "./use-submit-ministry-time";
 
 export function SubmitMinistryTime() {
   const {
-    publisher_name,
     phone,
     selected_month,
     month_options,
@@ -31,21 +30,6 @@ export function SubmitMinistryTime() {
 
   return (
     <>
-      <IonItem lines="none">
-        <IonLabel>
-          <h3>Submit Ministry Time</h3>
-        </IonLabel>
-      </IonItem>
-      {publisher_name && (
-        <IonItem lines="none">
-          <IonLabel slot="end">
-            <Body size="sm" bold>
-              Publisher:{" "}
-            </Body>
-            <Body size="sm">{publisher_name}</Body>
-          </IonLabel>
-        </IonItem>
-      )}
       <Select
         label="Month"
         value={selected_month}
@@ -88,7 +72,7 @@ export function SubmitMinistryTime() {
         disabled={!can_send}
         on_click={handleSendSms}
       />
-      <Space size="lg" />
+      <Space size="2xl" />
     </>
   );
 }

@@ -3,6 +3,7 @@ import { getServiceYear } from "@util/format/service-year";
 import { usePioneerSettings } from "../../../hooks/usePioneerSettings";
 import { ServiceYearInput } from "./service-year-input/ServiceYearInput";
 import { Body } from "@ui/components/display/text/body/Body";
+import { Space } from "@ui/components/layout/space/Space";
 
 export function PioneerHoursSettings() {
   const { settings, getHoursForServiceYear, setPioneerHours } = usePioneerSettings();
@@ -19,9 +20,7 @@ export function PioneerHoursSettings() {
     <IonList>
       <IonItem>
         <IonText color="medium">
-          <Body size="sm">
-            Adjust if starting mid-service year
-          </Body>
+          <Body size="sm">Adjust if starting mid-service year</Body>
         </IonText>
       </IonItem>
       {serviceYears.map((sy) => (
@@ -33,6 +32,8 @@ export function PioneerHoursSettings() {
           on_save={(hours) => setPioneerHours(sy, hours)}
         />
       ))}
+
+      <Space size="2xl" />
     </IonList>
   );
 }
