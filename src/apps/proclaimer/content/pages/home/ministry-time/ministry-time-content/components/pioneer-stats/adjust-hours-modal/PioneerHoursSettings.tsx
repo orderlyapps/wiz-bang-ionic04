@@ -2,6 +2,7 @@ import { IonList, IonItem, IonText } from "@ionic/react";
 import { getServiceYear } from "@util/format/service-year";
 import { usePioneerSettings } from "../../../hooks/usePioneerSettings";
 import { ServiceYearInput } from "./service-year-input/ServiceYearInput";
+import { Body } from "@ui/components/display/text/body/Body";
 
 export function PioneerHoursSettings() {
   const { settings, getHoursForServiceYear, setPioneerHours } = usePioneerSettings();
@@ -18,10 +19,9 @@ export function PioneerHoursSettings() {
     <IonList>
       <IonItem>
         <IonText color="medium">
-          <p>
-            Set the yearly hour requirement for regular pioneers per service year (Sep 1 – Aug 31).
-            Default is 600h.
-          </p>
+          <Body size="sm">
+            Adjust if starting mid-service year
+          </Body>
         </IonText>
       </IonItem>
       {serviceYears.map((sy) => (

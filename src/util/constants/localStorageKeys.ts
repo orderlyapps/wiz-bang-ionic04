@@ -34,6 +34,7 @@ export const localStorageKeys = {
   recentMapsAccordion: "recent_maps_accordion",
   authUsersActiveOnly: "auth_users_active_only",
   secretaryToolsInactiveAccordion: "secretary_tools_inactive_accordion",
+  ministryReportForm: "ministry_report_form",
 } as const;
 
 export const localStorageKeyWithVariant = (
