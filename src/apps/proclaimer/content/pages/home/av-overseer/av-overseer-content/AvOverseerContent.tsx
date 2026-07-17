@@ -8,6 +8,7 @@ export function AvOverseerContent() {
   return (
     <IonList>
       <NavItem label="Participation" to="/home/av-overseer/participation" />
+      <NavItem label="Participants" to="/home/av-overseer/participants" />
       <NavItem label="Schedule" to={`/home/av-overseer/schedule/${currentWeekId}`} />
       <NavItem label="PDF" to="/home/elder/audio-video" />
     </IonList>

@@ -124,6 +124,7 @@ import AvSchedulePage from "@proclaimer-routes/pages/home/av-overseer/schedule/A
 import AvAssignmentDetailPage from "@proclaimer-routes/pages/home/av-overseer/schedule/assignment-detail/AvAssignmentDetail";
 import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/participation/Participation";
 import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
+import ParticipantsPage from "@proclaimer-routes/pages/home/av-overseer/participants/Participants";
 import RemindersPage from "@proclaimer-routes/pages/home/reminders/Reminders";
 import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
@@ -404,6 +405,7 @@ function App() {
           exact
         />
         <Route path="/home/av-overseer/schedule/:week_id?" component={AvSchedulePage} exact />
+        <Route path="/home/av-overseer/participants" component={ParticipantsPage} exact />
         <Route path="/home/av-overseer/participation" component={AvParticipationPage} exact />
         <Route
           path="/home/av-overseer/participation/:participation_id"
