@@ -43,12 +43,38 @@ export function useAvParticipants() {
   const participantIds = new Set((allParticipations ?? []).map((p) => p.participant_id));
 
   const participants: AvParticipant[] = (publishers ?? [])
-    .filter((p) => p.id && participantIds.has(p.id))
+    .filter(
+      (p) =>
+        p.id &&
+        participantIds.has(p.id) &&
+        !p.archived_at &&
+        p.type !== "speaker" &&
+        p.type !== "associate" &&
+        p.type !== "inactive",
+    )
     .map((p) => ({
       participant_id: p.id ?? "",
       publisher: p,
       display_name: getPublisherDisplayName(p),
       participations: (allParticipations ?? []).filter((ap) => ap.participant_id === p.id),
+    }))
+    .sort(sortByName);
+
+  const nonParticipants: AvParticipant[] = (publishers ?? [])
+    .filter(
+      (p) =>
+        p.id &&
+        !participantIds.has(p.id) &&
+        !p.archived_at &&
+        p.type !== "speaker" &&
+        p.type !== "associate" &&
+        p.type !== "inactive",
+    )
+    .map((p) => ({
+      participant_id: p.id ?? "",
+      publisher: p,
+      display_name: getPublisherDisplayName(p),
+      participations: [],
     }))
     .sort(sortByName);
 
@@ -65,5 +91,5 @@ export function useAvParticipants() {
     avParticipationCollection.delete(makeCompositeKey(participant_id, participation_id));
   }
 
-  return { participants, isLoading, addParticipation, removeParticipation };
+  return { participants, nonParticipants, isLoading, addParticipation, removeParticipation };
 }
