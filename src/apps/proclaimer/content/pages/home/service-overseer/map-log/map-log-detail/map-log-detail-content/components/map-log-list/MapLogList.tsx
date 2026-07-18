@@ -39,6 +39,23 @@ function formatDuration(
   return { text: `${months}m`, is_warning: true };
 }
 
+function formatGapDuration(
+  from_date: string | null | undefined,
+  to_date: string | null | undefined,
+): { text: string; is_warning: boolean } {
+  if (!from_date || !to_date) return { text: "", is_warning: false };
+  const start = new Date(from_date);
+  const end = new Date(to_date);
+  const ms = end.getTime() - start.getTime();
+  if (ms < 0) return { text: "", is_warning: false };
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+  if (days <= 21) return { text: `${days}d`, is_warning: false };
+  const weeks = Math.floor(days / 7);
+  if (weeks <= 26) return { text: `${weeks}w`, is_warning: false };
+  const months = Math.floor(days / 30);
+  return { text: `${months}m`, is_warning: months > 12 };
+}
+
 function getPublisherName(publisher_id: string, publishers: Publisher[]): string {
   const publisher = publishers.find((p) => p.id === publisher_id);
   if (!publisher) return "Unknown";
@@ -83,9 +100,25 @@ export function MapLogList({ map_id }: MapLogListProps) {
           <Space size="sm" />
         </>
       )}
-      {map_logs.map((log) => {
+      {map_logs.map((log, index) => {
+        const is_first = index === 0;
+        const next_checked_out = is_first
+          ? new Date().toISOString()
+          : map_logs[index - 1]?.checked_out_at;
+        const gap = formatGapDuration(log.checked_out_at, next_checked_out);
+        const checkout_end =
+          is_first && !log.checked_in_at ? new Date().toISOString() : log.checked_in_at;
         return (
           <Fragment key={log.id}>
+            {gap.text && log.checked_in_at && (
+              <IonItem lines="none">
+                <IonLabel className="ion-text-center">
+                  <span style={gap.is_warning ? { color: "var(--ion-color-warning)" } : undefined}>
+                    {gap.text}
+                  </span>
+                </IonLabel>
+              </IonItem>
+            )}
             <IonItem button detail={false} onClick={() => set_editing_log(log)}>
               <IonLabel>
                 <Label>{getPublisherName(log.publisher_id, all_publishers)}</Label>
@@ -97,7 +130,7 @@ export function MapLogList({ map_id }: MapLogListProps) {
                       {(() => {
                         const { text, is_warning } = formatDuration(
                           log.checked_out_at,
-                          log.checked_in_at,
+                          checkout_end,
                         );
                         return text ? (
                           <span
