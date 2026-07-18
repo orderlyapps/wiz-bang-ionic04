@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonCol, IonGrid, IonItem, IonLabel, IonList, IonRow } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
@@ -20,6 +20,23 @@ function formatDate(date_str: string | null | undefined): string {
     month: "short",
     day: "numeric",
   });
+}
+
+function formatDuration(
+  checked_out_at: string | null | undefined,
+  checked_in_at: string | null | undefined,
+): { text: string; is_warning: boolean } {
+  if (!checked_out_at || !checked_in_at) return { text: "", is_warning: false };
+  const start = new Date(checked_out_at);
+  const end = new Date(checked_in_at);
+  const ms = end.getTime() - start.getTime();
+  if (ms < 0) return { text: "", is_warning: false };
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+  if (days <= 21) return { text: `${days}d`, is_warning: false };
+  const weeks = Math.floor(days / 7);
+  if (weeks <= 26) return { text: `${weeks}w`, is_warning: weeks > 17 };
+  const months = Math.floor(days / 30);
+  return { text: `${months}m`, is_warning: true };
 }
 
 function getPublisherName(publisher_id: string, publishers: Publisher[]): string {
@@ -72,10 +89,29 @@ export function MapLogList({ map_id }: MapLogListProps) {
             <IonItem button detail={false} onClick={() => set_editing_log(log)}>
               <IonLabel>
                 <Label>{getPublisherName(log.publisher_id, all_publishers)}</Label>
-                <br />
-                <Body>Out: {formatDate(log.checked_out_at)}</Body>
-                <br />
-                <Body>In: {formatDate(log.checked_in_at)}</Body>
+
+                <IonGrid>
+                  <IonRow>
+                    <IonCol className="ion-text-start">{formatDate(log.checked_out_at)}</IonCol>
+                    <IonCol className="ion-text-center">
+                      {(() => {
+                        const { text, is_warning } = formatDuration(
+                          log.checked_out_at,
+                          log.checked_in_at,
+                        );
+                        return text ? (
+                          <span
+                            style={is_warning ? { color: "var(--ion-color-warning)" } : undefined}
+                          >
+                            {text}
+                          </span>
+                        ) : null;
+                      })()}
+                    </IonCol>
+                    <IonCol className="ion-text-end">{formatDate(log.checked_in_at)}</IonCol>
+                  </IonRow>
+                </IonGrid>
+
                 {log.notes && (
                   <>
                     <br />
