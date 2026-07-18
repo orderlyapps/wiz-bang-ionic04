@@ -68,7 +68,7 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
       <div className="ion-padding ion-text-center">
         {current ? (
           <div className="flex-center ion-padding ">
-            <IonText style={{ fontSize: "45px" }}>
+            <IonText style={{ fontSize: "40px" }}>
               {getSectionLabel(current.type, current.number, current.merged_count)}
             </IonText>
           </div>

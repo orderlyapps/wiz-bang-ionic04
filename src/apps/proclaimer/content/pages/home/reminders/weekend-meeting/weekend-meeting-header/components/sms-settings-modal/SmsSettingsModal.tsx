@@ -18,10 +18,10 @@ import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIc
 import { Space } from "@ui/components/layout/space/Space";
 import { TemplateEditor } from "./components/template-editor/TemplateEditor";
 import {
-  type AvSmsTemplate,
-  getAvSmsTemplates,
-  saveAvSmsTemplates,
-} from "../../../shared/avSmsTemplate";
+  type WeekendMeetingSmsTemplate,
+  getWeekendMeetingSmsTemplates,
+  saveWeekendMeetingSmsTemplates,
+} from "../../../shared/weekendMeetingSmsTemplate";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
@@ -31,14 +31,16 @@ interface SmsSettingsModalProps {
 }
 
 export function SmsSettingsModal({ is_open, on_dismiss }: SmsSettingsModalProps) {
-  const [templates, set_templates] = useState<AvSmsTemplate[]>(() => getAvSmsTemplates());
+  const [templates, set_templates] = useState<WeekendMeetingSmsTemplate[]>(() =>
+    getWeekendMeetingSmsTemplates(),
+  );
 
-  function persist(next: AvSmsTemplate[]) {
+  function persist(next: WeekendMeetingSmsTemplate[]) {
     set_templates(next);
-    saveAvSmsTemplates(next);
+    saveWeekendMeetingSmsTemplates(next);
   }
 
-  function handle_template_change(index: number, next: AvSmsTemplate) {
+  function handle_template_change(index: number, next: WeekendMeetingSmsTemplate) {
     const updated = [...templates];
     updated[index] = next;
     persist(updated);

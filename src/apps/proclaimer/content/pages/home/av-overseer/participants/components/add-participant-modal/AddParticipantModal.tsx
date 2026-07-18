@@ -94,10 +94,7 @@ export function AddParticipantModal({ is_open, on_dismiss }: AddParticipantModal
             {avParticipationTypes.map((type) => (
               <IonItem key={type}>
                 <IonLabel>{avParticipationTypeLabels[type]}</IonLabel>
-                <IonToggle
-                  slot="end"
-                  onIonChange={(e) => handleToggle(type, e.detail.checked)}
-                />
+                <IonToggle slot="end" onIonChange={(e) => handleToggle(type, e.detail.checked)} />
               </IonItem>
             ))}
           </IonList>

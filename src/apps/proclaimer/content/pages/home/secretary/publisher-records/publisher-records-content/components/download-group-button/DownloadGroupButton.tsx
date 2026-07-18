@@ -11,11 +11,7 @@ interface DownloadGroupButtonProps {
   get_entries: () => PublisherRecordEntry[];
 }
 
-export function DownloadGroupButton({
-  label,
-  count,
-  get_entries,
-}: DownloadGroupButtonProps) {
+export function DownloadGroupButton({ label, count, get_entries }: DownloadGroupButtonProps) {
   const [is_generating, set_is_generating] = useState(false);
 
   const handle_download = async () => {
@@ -48,10 +44,7 @@ export function DownloadGroupButton({
       {is_generating ? (
         <IonSpinner name="crescent" slot="end" />
       ) : (
-        <PDFIconButton
-          disabled={count === 0}
-          on_click={handle_download}
-        />
+        <PDFIconButton disabled={count === 0} on_click={handle_download} />
       )}
     </IonItem>
   );

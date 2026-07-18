@@ -6,12 +6,7 @@ import { reportCollection } from "@shared/database/collections/report";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { Publisher } from "@shared/database/schemas/publisher";
 
-const PUBLISHER_TYPES = [
-  "publisher",
-  "regular_pioneer",
-  "special_pioneer",
-  "continuous_auxiliary",
-];
+const PUBLISHER_TYPES = ["publisher", "regular_pioneer", "special_pioneer", "continuous_auxiliary"];
 
 function getLastSixMonthDates(): string[] {
   const dates: string[] = [];
@@ -43,9 +38,7 @@ export function useInactivePublishers() {
     [congregation_id],
   );
 
-  const { data: local_publishers } = useLiveQuery((q) =>
-    q.from({ pl: publisherLocalCollection }),
-  );
+  const { data: local_publishers } = useLiveQuery((q) => q.from({ pl: publisherLocalCollection }));
 
   const { data: reports } = useLiveQuery((q) => q.from({ r: reportCollection }));
 
