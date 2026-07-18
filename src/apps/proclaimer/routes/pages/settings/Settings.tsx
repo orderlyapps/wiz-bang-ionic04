@@ -8,7 +8,7 @@ function SettingsPage() {
       <IonHeader>
         <SettingsHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <SettingsContent />
       </IonContent>
     </IonPage>

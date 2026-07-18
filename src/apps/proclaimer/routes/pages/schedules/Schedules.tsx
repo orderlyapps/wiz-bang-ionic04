@@ -8,7 +8,7 @@ function SchedulesPage() {
       <IonHeader>
         <SchedulesHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <SchedulesContent />
       </IonContent>
     </IonPage>

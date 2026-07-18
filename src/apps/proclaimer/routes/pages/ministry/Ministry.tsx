@@ -8,7 +8,7 @@ function MinistryPage() {
       <IonHeader>
         <MinistryHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <MinistryContent />
       </IonContent>
     </IonPage>
