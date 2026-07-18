@@ -9,6 +9,7 @@ export function RemindersContent() {
     <IonList>
       <NavItem label="CLAM" to={`/home/clam/${current_week_id}`} />
       <NavItem label="Audio Video" to="/home/reminders/audio-video" />
+      <NavItem label="Weekend Meeting" to="/home/reminders/weekend-meeting" />
     </IonList>
   );
 }
