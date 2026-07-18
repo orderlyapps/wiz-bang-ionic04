@@ -111,11 +111,9 @@ export function MapLogList({ map_id }: MapLogListProps) {
         return (
           <Fragment key={log.id}>
             {gap.text && log.checked_in_at && (
-              <IonItem lines="none">
-                <IonLabel className="ion-text-center">
-                  <span style={gap.is_warning ? { color: "var(--ion-color-warning)" } : undefined}>
-                    {gap.text}
-                  </span>
+              <IonItem lines="none" className="ion-text-center ion-padding">
+                <IonLabel >
+                  <Body size="lg" bold color={gap.is_warning ? "warning" : undefined}>{gap.text}</Body>
                 </IonLabel>
               </IonItem>
             )}
@@ -133,11 +131,7 @@ export function MapLogList({ map_id }: MapLogListProps) {
                           checkout_end,
                         );
                         return text ? (
-                          <span
-                            style={is_warning ? { color: "var(--ion-color-warning)" } : undefined}
-                          >
-                            {text}
-                          </span>
+                          <Body size="sm" color={is_warning ? "warning" : undefined}>{text}</Body>
                         ) : null;
                       })()}
                     </IonCol>
