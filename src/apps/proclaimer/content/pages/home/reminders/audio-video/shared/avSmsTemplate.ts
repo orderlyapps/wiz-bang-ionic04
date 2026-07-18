@@ -1,7 +1,13 @@
 import { localStorageKeys } from "@util/constants/localStorageKeys";
 
-export const DEFAULT_AV_SMS_TEMPLATE =
+export type AvSmsTemplate = { name: string; text: string };
+
+export const DEFAULT_AV_SMS_TEMPLATE_TEXT =
   "Hi {first_name}, you have the {label} assignment for the {meeting} meeting for the week of {week_label}.";
+
+export const DEFAULT_AV_SMS_TEMPLATES: AvSmsTemplate[] = [
+  { name: "Default", text: DEFAULT_AV_SMS_TEMPLATE_TEXT },
+];
 
 export const AV_SMS_PLACEHOLDERS = [
   "{first_name}",
@@ -10,17 +16,24 @@ export const AV_SMS_PLACEHOLDERS = [
   "{week_label}",
 ] as const;
 
-export function getAvSmsTemplate(): string {
+export function getAvSmsTemplates(): AvSmsTemplate[] {
   try {
-    return localStorage.getItem(localStorageKeys.avSmsTemplate) ?? DEFAULT_AV_SMS_TEMPLATE;
+    const stored = localStorage.getItem(localStorageKeys.avSmsTemplate);
+    if (stored) {
+      const parsed = JSON.parse(stored) as AvSmsTemplate[];
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
   } catch {
-    return DEFAULT_AV_SMS_TEMPLATE;
+    /* ignore */
   }
+  return [...DEFAULT_AV_SMS_TEMPLATES];
 }
 
-export function saveAvSmsTemplate(template: string): void {
+export function saveAvSmsTemplates(templates: AvSmsTemplate[]): void {
   try {
-    localStorage.setItem(localStorageKeys.avSmsTemplate, template);
+    localStorage.setItem(localStorageKeys.avSmsTemplate, JSON.stringify(templates));
   } catch {
     /* ignore */
   }

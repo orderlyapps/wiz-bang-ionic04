@@ -1,27 +1,29 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
   IonButtons,
   IonContent,
-  IonList,
   IonButton,
-  IonChip,
+  IonIcon,
+  IonAccordionGroup,
+  IonAccordion,
+  IonItem,
   IonLabel,
-  IonTextarea,
 } from "@ionic/react";
+import { trashOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
-import { InputWrapper } from "@ui/components/display/input/InputWrapper";
-import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
+import { TemplateEditor } from "./components/template-editor/TemplateEditor";
 import {
-  DEFAULT_AV_SMS_TEMPLATE,
-  AV_SMS_PLACEHOLDERS,
-  getAvSmsTemplate,
-  saveAvSmsTemplate,
+  type AvSmsTemplate,
+  getAvSmsTemplates,
+  saveAvSmsTemplates,
 } from "../../../shared/avSmsTemplate";
+import { Heading } from "@ui/components/display/text/heading/Heading";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
 interface SmsSettingsModalProps {
   is_open: boolean;
@@ -29,86 +31,75 @@ interface SmsSettingsModalProps {
 }
 
 export function SmsSettingsModal({ is_open, on_dismiss }: SmsSettingsModalProps) {
-  const [template, set_template] = useState(() => getAvSmsTemplate());
-  const textarea_ref = useRef<HTMLIonTextareaElement>(null);
-  const cursor_pos = useRef(0);
+  const [templates, set_templates] = useState<AvSmsTemplate[]>(() => getAvSmsTemplates());
 
-  function get_native_textarea(): HTMLTextAreaElement | null {
-    return textarea_ref.current?.querySelector("textarea") ?? null;
+  function persist(next: AvSmsTemplate[]) {
+    set_templates(next);
+    saveAvSmsTemplates(next);
   }
 
-  function handle_change(value: string) {
-    set_template(value);
-    saveAvSmsTemplate(value);
+  function handle_template_change(index: number, next: AvSmsTemplate) {
+    const updated = [...templates];
+    updated[index] = next;
+    persist(updated);
   }
 
-  function handle_blur() {
-    const native = get_native_textarea();
-    if (native) {
-      cursor_pos.current = native.selectionStart ?? 0;
-    }
+  function handle_template_delete(index: number) {
+    persist(templates.filter((_, i) => i !== index));
   }
 
-  function handle_chip_click(ph: string) {
-    const native = get_native_textarea();
-    const pos = native?.selectionStart ?? cursor_pos.current;
-    const new_template = template.slice(0, pos) + ph + template.slice(pos);
-    handle_change(new_template);
-
-    requestAnimationFrame(() => {
-      const el = get_native_textarea();
-      if (el) {
-        el.focus();
-        const new_pos = pos + ph.length;
-        el.setSelectionRange(new_pos, new_pos);
-      }
-    });
+  function handle_add() {
+    persist([...templates, { name: `Template ${templates.length + 1}`, text: "" }]);
   }
 
-  function handle_reset() {
-    set_template(DEFAULT_AV_SMS_TEMPLATE);
-    saveAvSmsTemplate(DEFAULT_AV_SMS_TEMPLATE);
-  }
+  const can_delete = templates.length > 1;
 
   return (
     <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>SMS Template</IonTitle>
+          <IonTitle>SMS Templates</IonTitle>
           <IonButtons slot="end">
             <CloseIconButton on_click={on_dismiss} skip_confirmation />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonList>
-          <InputWrapper label="Default SMS Text">
-            <IonTextarea
-              ref={textarea_ref}
-              value={template}
-              autoGrow
-              rows={5}
-              onIonInput={(e) => handle_change(e.detail.value ?? "")}
-              onIonBlur={handle_blur}
-            />
-          </InputWrapper>
-        </IonList>
-        <Space size="sm" />
-        <Body size="sm" color="medium">
-          Tap to insert:
-        </Body>
-        <Space size="xs" />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-          {AV_SMS_PLACEHOLDERS.map((ph) => (
-            <IonChip key={ph} onClick={() => handle_chip_click(ph)}>
-              <IonLabel>{ph}</IonLabel>
-            </IonChip>
+        <IonAccordionGroup>
+          {templates.map((tpl, i) => (
+            <IonAccordion key={i} value={`tpl-${i}`}>
+              <IonItem slot="header">
+                <IonLabel>
+                  <Heading>{tpl.name || `Template ${i + 1}`}</Heading>
+                </IonLabel>
+                {can_delete && (
+                  <IonButton
+                    slot="end"
+                    fill="clear"
+                    color="danger"
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handle_template_delete(i);
+                    }}
+                  >
+                    <IonIcon slot="icon-only" icon={trashOutline} />
+                  </IonButton>
+                )}
+              </IonItem>
+              <div slot="content">
+                <TemplateEditor
+                  index={i}
+                  template={tpl}
+                  on_change={(next) => handle_template_change(i, next)}
+                />
+              </div>
+            </IonAccordion>
           ))}
-        </div>
-        <Space size="sm" />
-        <IonButton fill="clear" color="warning" onClick={handle_reset}>
-          Reset to default
-        </IonButton>
+        </IonAccordionGroup>
+        <Space size="xl" />
+        <TextButton label="+ Add Template" fill="clear" on_click={handle_add}>
+        </TextButton>
       </IonContent>
     </ResponsiveModal>
   );

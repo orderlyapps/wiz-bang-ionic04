@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { IonItem, IonLabel } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { SmsIconButton } from "@ui/components/inputs/button/icon/sms/SmsIconButton";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 import type { Publisher } from "@shared/database/schemas/publisher";
-import { getAvSmsTemplate, fillAvSmsTemplate } from "../../../shared/avSmsTemplate";
+import { getAvSmsTemplates, fillAvSmsTemplate } from "../../../shared/avSmsTemplate";
+import type { AvSmsTemplate } from "../../../shared/avSmsTemplate";
+import { SmsTemplateActionSheet } from "./components/sms-template-action-sheet/SmsTemplateActionSheet";
 
 type AvAssignmentItemProps = {
   week_id: string;
@@ -14,6 +17,8 @@ type AvAssignmentItemProps = {
 };
 
 export function AvAssignmentItem({ week_id, label, meeting, participant }: AvAssignmentItemProps) {
+  const [show_action_sheet, set_show_action_sheet] = useState(false);
+
   if (!participant) {
     return null;
   }
@@ -26,8 +31,8 @@ export function AvAssignmentItem({ week_id, label, meeting, participant }: AvAss
 
   const first_name = participant.display_name ?? participant.first_name;
 
-  const handle_sms = () => {
-    const sms_body = fillAvSmsTemplate(getAvSmsTemplate(), {
+  const handle_template_select = (template: AvSmsTemplate) => {
+    const sms_body = fillAvSmsTemplate(template.text, {
       first_name,
       label,
       meeting,
@@ -45,7 +50,13 @@ export function AvAssignmentItem({ week_id, label, meeting, participant }: AvAss
           {getPublisherDisplayName(participant)}
         </Body>
       </IonLabel>
-      <SmsIconButton on_click={handle_sms} size="small" />
+      <SmsIconButton on_click={() => set_show_action_sheet(true)} size="small" />
+      <SmsTemplateActionSheet
+        is_open={show_action_sheet}
+        templates={getAvSmsTemplates()}
+        on_select={handle_template_select}
+        on_dismiss={() => set_show_action_sheet(false)}
+      />
     </IonItem>
   );
 }
