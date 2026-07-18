@@ -4,14 +4,16 @@ import { SmsIconButton } from "@ui/components/inputs/button/icon/sms/SmsIconButt
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { getAvSmsTemplate, fillAvSmsTemplate } from "../../../shared/avSmsTemplate";
 
 type AvAssignmentItemProps = {
   week_id: string;
   label: string;
+  meeting: string;
   participant?: Publisher;
 };
 
-export function AvAssignmentItem({ week_id, label, participant }: AvAssignmentItemProps) {
+export function AvAssignmentItem({ week_id, label, meeting, participant }: AvAssignmentItemProps) {
   if (!participant) {
     return null;
   }
@@ -24,9 +26,13 @@ export function AvAssignmentItem({ week_id, label, participant }: AvAssignmentIt
 
   const first_name = participant.display_name ?? participant.first_name;
 
-  const sms_body = `Hi ${first_name}, you have the ${label} assignment for the week of ${week_label}.`;
-
   const handle_sms = () => {
+    const sms_body = fillAvSmsTemplate(getAvSmsTemplate(), {
+      first_name,
+      label,
+      meeting,
+      week_label,
+    });
     window.location.href = `sms:?&body=${encodeURIComponent(sms_body)}`;
   };
 

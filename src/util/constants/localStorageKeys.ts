@@ -36,6 +36,7 @@ export const localStorageKeys = {
   secretaryToolsInactiveAccordion: "secretary_tools_inactive_accordion",
   ministryReportForm: "ministry_report_form",
   ministryTimeSettingsAccordion: "ministry_time_settings_accordion",
+  avSmsTemplate: "av_sms_template",
 } as const;
 
 export const localStorageKeyWithVariant = (

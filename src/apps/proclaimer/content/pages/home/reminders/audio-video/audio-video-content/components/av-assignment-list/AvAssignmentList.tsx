@@ -18,15 +18,17 @@ type AvAssignmentListProps = {
 function AssignmentSection({
   week_id,
   title,
+  meeting,
   assignment_ids,
   participant,
 }: {
   week_id: string;
   title: string;
+  meeting: string;
   assignment_ids: readonly AvAssignmentID[];
-  participant: (assignment_id: AvAssignmentID) => ReturnType<
-    ReturnType<typeof useAvAssignments>["participant"]
-  >;
+  participant: (
+    assignment_id: AvAssignmentID,
+  ) => ReturnType<ReturnType<typeof useAvAssignments>["participant"]>;
 }) {
   return (
     <>
@@ -40,6 +42,7 @@ function AssignmentSection({
           key={id}
           week_id={week_id}
           label={avAssignmentLabels[id]}
+          meeting={meeting}
           participant={participant(id)}
         />
       ))}
@@ -55,24 +58,28 @@ export function AvAssignmentList({ week_id }: AvAssignmentListProps) {
       <AssignmentSection
         week_id={week_id}
         title="Midweek Meeting — AV"
+        meeting="midweek"
         assignment_ids={midweekAVAssignmentIDs}
         participant={participant}
       />
       <AssignmentSection
         week_id={week_id}
         title="Midweek Meeting — Attendants"
+        meeting="midweek"
         assignment_ids={midweekAttendantAssignmentIDs}
         participant={participant}
       />
       <AssignmentSection
         week_id={week_id}
         title="Weekend Meeting — AV"
+        meeting="weekend"
         assignment_ids={weekendAVAssignmentIDs}
         participant={participant}
       />
       <AssignmentSection
         week_id={week_id}
         title="Weekend Meeting — Attendants"
+        meeting="weekend"
         assignment_ids={weekendAttendantAssignmentIDs}
         participant={participant}
       />
