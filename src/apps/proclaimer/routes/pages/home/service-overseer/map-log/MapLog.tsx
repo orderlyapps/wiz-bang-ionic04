@@ -7,14 +7,15 @@ import { CheckoutModal } from "@proclaimer-content/pages/home/service-overseer/m
 
 function MapLogPage() {
   const [show_checkout, set_show_checkout] = useState(false);
+  const [search_term, set_search_term] = useState("");
 
   return (
     <IonPage>
       <IonHeader>
-        <MapLogHeader />
+        <MapLogHeader search_term={search_term} on_search={set_search_term} />
       </IonHeader>
       <IonContent className="content-wide">
-        <MapLogContent />
+        <MapLogContent search_term={search_term} />
       </IonContent>
       <IonFab vertical="bottom" horizontal="end" slot="fixed">
         <IonFabButton onClick={() => set_show_checkout(true)}>

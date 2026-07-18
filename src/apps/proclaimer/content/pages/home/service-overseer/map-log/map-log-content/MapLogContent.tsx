@@ -9,7 +9,11 @@ import { MapLogFilterButton } from "./components/map-log-filter-button/MapLogFil
 import { useMapLogPresets } from "./components/use-map-log-presets/useMapLogPresets";
 import { useFilteredMapLogMaps } from "./components/use-filtered-map-log-maps/useFilteredMapLogMaps";
 
-export function MapLogContent() {
+interface MapLogContentProps {
+  search_term?: string;
+}
+
+export function MapLogContent({ search_term = "" }: MapLogContentProps) {
   const { data: maps_data } = useLiveQuery((q) => q.from({ m: mapCollection }));
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
@@ -23,6 +27,13 @@ export function MapLogContent() {
     presets_api.active_preset.filter,
     presets_api.active_preset.sort_order,
   );
+
+  const search_filtered_maps = search_term.trim()
+    ? filtered_maps.filter((map) => {
+        const q = search_term.toLowerCase();
+        return map.name.toLowerCase().includes(q) || (map.details ?? "").toLowerCase().includes(q);
+      })
+    : filtered_maps;
 
   function weeksSinceActivity(map_id: string | undefined): string | undefined {
     if (!map_id) return undefined;
@@ -55,19 +66,19 @@ export function MapLogContent() {
       <IonItem className="ion-text-center" lines="none">
         <IonLabel>
           <Body size="sm" color="medium" style={{ padding: "0 16px 4px" }}>
-            Showing {filtered_maps.length} of {congregation_maps.length}
+            Showing {search_filtered_maps.length} of {congregation_maps.length}
           </Body>
         </IonLabel>
       </IonItem>
       <IonList>
-        {filtered_maps.length === 0 && (
+        {search_filtered_maps.length === 0 && (
           <IonItem>
             <IonLabel className="ion-text-center">
               <p>{congregation_maps.length === 0 ? "No maps yet." : "No maps match filters."}</p>
             </IonLabel>
           </IonItem>
         )}
-        {filtered_maps.map((map) => (
+        {search_filtered_maps.map((map) => (
           <NavItem
             key={map.id}
             to={`/home/service-overseer/map-log/${map.id}`}
