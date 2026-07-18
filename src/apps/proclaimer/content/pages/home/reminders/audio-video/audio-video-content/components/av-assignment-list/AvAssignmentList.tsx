@@ -1,5 +1,4 @@
 import { IonItemDivider, IonList } from "@ionic/react";
-import { Body } from "@ui/components/display/text/body/Body";
 import {
   avAssignmentLabels,
   midweekAVAssignmentIDs,
@@ -10,6 +9,8 @@ import {
 import type { AvAssignmentID } from "@shared/database/schemas/av-assignment";
 import { useAvAssignments } from "../../hooks/use-av-assignments/useAvAssignments";
 import { AvAssignmentItem } from "../av-assignment-item/AvAssignmentItem";
+import { Heading } from "@ui/components/display/text/heading/Heading";
+import { Space } from "@ui/components/layout/space/Space";
 
 type AvAssignmentListProps = {
   week_id: string;
@@ -32,10 +33,8 @@ function AssignmentSection({
 }) {
   return (
     <>
-      <IonItemDivider sticky>
-        <Body bold color="primary">
-          {title}
-        </Body>
+      <IonItemDivider sticky className="ion-padding">
+        <Heading>{title}</Heading>
       </IonItemDivider>
       {assignment_ids.map((id) => (
         <AvAssignmentItem
@@ -46,6 +45,7 @@ function AssignmentSection({
           participant={participant(id)}
         />
       ))}
+      <Space />
     </>
   );
 }

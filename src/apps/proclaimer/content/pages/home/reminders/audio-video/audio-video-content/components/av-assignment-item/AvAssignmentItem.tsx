@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { IonItem, IonLabel } from "@ionic/react";
-import { Body } from "@ui/components/display/text/body/Body";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { SmsIconButton } from "@ui/components/inputs/button/icon/sms/SmsIconButton";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
@@ -42,21 +41,20 @@ export function AvAssignmentItem({ week_id, label, meeting, participant }: AvAss
   };
 
   return (
-    <IonItem>
-      <IonLabel>
-        <Body bold>{label}</Body>
-        <br />
-        <Body size="sm" color="medium">
-          {getPublisherDisplayName(participant)}
-        </Body>
-      </IonLabel>
-      <SmsIconButton on_click={() => set_show_action_sheet(true)} size="small" />
-      <SmsTemplateActionSheet
-        is_open={show_action_sheet}
-        templates={getAvSmsTemplates()}
-        on_select={handle_template_select}
-        on_dismiss={() => set_show_action_sheet(false)}
-      />
-    </IonItem>
+    <LabelValueItem
+      label={label}
+      value={getPublisherDisplayName(participant)}
+      end_detail={
+        <>
+          <SmsIconButton on_click={() => set_show_action_sheet(true)} size="small" />
+          <SmsTemplateActionSheet
+            is_open={show_action_sheet}
+            templates={getAvSmsTemplates()}
+            on_select={handle_template_select}
+            on_dismiss={() => set_show_action_sheet(false)}
+          />
+        </>
+      }
+    />
   );
 }
