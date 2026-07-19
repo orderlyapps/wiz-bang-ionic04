@@ -17,7 +17,14 @@ export function PioneerStats({ entries }: PioneerStatsProps) {
       <IonGrid class="ion-no-padding">
         <IonRow>
           <IonCol>
-            <StatItem label="Hours Remaining" value={`${stats.hours_remaining?.toFixed(1)}h`} />
+            <StatItem
+              label="Hours Remaining"
+              value={`${stats.raw_hours_remaining?.toFixed(1)}h${
+                stats.raw_hours_remaining !== stats.hours_remaining
+                  ? ` (${stats.hours_remaining?.toFixed(1)}h)`
+                  : ""
+              }`}
+            />
           </IonCol>
           <IonCol>
             <StatItem label="Avg / Week" value={`${stats.avg_per_week?.toFixed(1)}h`} />

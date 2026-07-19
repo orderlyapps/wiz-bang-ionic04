@@ -21,6 +21,9 @@ export const MINISTRY_TYPES = [
   "street",
   "business",
   "rural",
+  "ldc",
+  "bethel",
+  "hlc",
 ] as const;
 
 export type MinistryType = (typeof MINISTRY_TYPES)[number];

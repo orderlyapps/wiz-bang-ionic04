@@ -7,6 +7,9 @@ import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
 import { MonthNavigation } from "./components/month-navigation/MonthNavigation";
 import { Space } from "@ui/components/layout/space/Space";
 
+const CREDIT_TYPES = ["ldc", "bethel", "hlc"];
+const MONTHLY_HOUR_CAP = 55;
+
 interface TimeEntryListProps {
   entries: MinistryTimeEntry[];
   on_delete: (id: string) => void;
@@ -41,6 +44,18 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
 
   const totalMinutes = monthEntries.reduce((sum, e) => sum + e.minutes, 0);
 
+  const nonCreditMinutes = monthEntries
+    .filter((e) => !CREDIT_TYPES.includes(e.ministry_type))
+    .reduce((sum, e) => sum + e.minutes, 0);
+  const creditMinutes = monthEntries
+    .filter((e) => CREDIT_TYPES.includes(e.ministry_type))
+    .reduce((sum, e) => sum + e.minutes, 0);
+  const nonCreditHours = nonCreditMinutes / 60;
+  const creditedMinutes =
+    nonCreditHours >= MONTHLY_HOUR_CAP
+      ? nonCreditMinutes
+      : Math.min(MONTHLY_HOUR_CAP, nonCreditHours + creditMinutes / 60) * 60;
+
   return (
     <>
       <MonthNavigation month={selectedMonth} on_change={setSelectedMonth} />
@@ -51,6 +66,7 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
         <IonLabel>
           <Body color="medium" size="sm">
             Monthly Total: {formatMinutes(totalMinutes)}
+            {totalMinutes !== creditedMinutes && ` (${formatMinutes(creditedMinutes)})`}
           </Body>
         </IonLabel>
       </IonItem>
