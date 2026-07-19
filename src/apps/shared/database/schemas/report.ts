@@ -8,6 +8,10 @@ export const reportSchema = z.object({
   active: z.boolean(),
   hours: z.number().nullable(),
   bible_studies: z.number().nullable(),
+  credit_hours: z
+    .object({ ldc: z.number(), bethel: z.number(), hlc: z.number() })
+    .partial()
+    .nullable(),
   comments: z.string().nullable(),
 });
 

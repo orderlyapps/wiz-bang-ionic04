@@ -85,6 +85,7 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
     active: boolean | null;
     hours: number | null;
     bible_studies: number | null;
+    credit_hours: Partial<Record<"ldc" | "bethel" | "hlc", number>> | null;
     comments: string | null;
     confidential_id: string;
   };
@@ -97,6 +98,7 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
       active: null,
       hours: null,
       bible_studies: null,
+      credit_hours: null,
       comments: null,
       confidential_id: "",
     };
@@ -160,6 +162,20 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                           )}
                         </IonCol>
                       </IonRow>
+
+                      {report.credit_hours && Object.keys(report.credit_hours).length > 0 && (
+                        <IonRow>
+                          <IonCol className="ion-padding-start">
+                            {Object.entries(report.credit_hours).map(([key, val]) => (
+                              <div key={key}>
+                                <Body size="xs" color="medium">
+                                  {`${key.toUpperCase()}: ${val}hr`}
+                                </Body>
+                              </div>
+                            ))}
+                          </IonCol>
+                        </IonRow>
+                      )}
 
                       <IonRow>
                         <IonCol className="ion-padding-start">
