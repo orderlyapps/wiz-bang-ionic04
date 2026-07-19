@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { IonButton, IonInput, IonItem, IonTextarea, IonToggle } from "@ionic/react";
+import { IonInput, IonItem, IonTextarea, IonToggle } from "@ionic/react";
 import { reportCollection } from "@shared/database/collections/report";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import type { Report } from "@shared/database/schemas/report";
+import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Label } from "@ui/components/display/text/label/Label";
 import { Space } from "@ui/components/layout/space/Space";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
 interface FormState {
   active: boolean;
@@ -85,8 +87,18 @@ export function ReportForm({
     on_save();
   };
 
+  const month_label = new Date(date + "T00:00:00").toLocaleDateString(undefined, {
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <>
+      <IonItem lines="none">
+        <Heading size="lg" bold color="medium">
+          {month_label}
+        </Heading>
+      </IonItem>
       <IonItem>
         <Label>Participated</Label>
         <IonToggle
@@ -139,9 +151,7 @@ export function ReportForm({
 
       <Space />
 
-      <IonButton expand="block" className="ion-margin" onClick={handleSave}>
-        {existing_report ? "Update Report" : "Save Report"}
-      </IonButton>
+      <TextButton on_click={handleSave} label={existing_report ? "Update Report" : "Save Report"} />
     </>
   );
 }

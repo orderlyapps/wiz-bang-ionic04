@@ -23,11 +23,6 @@ export function PublisherReportModal({
   date,
   existing_report,
 }: PublisherReportModalProps) {
-  const month_label = new Date(date + "T00:00:00").toLocaleDateString(undefined, {
-    month: "long",
-    year: "numeric",
-  });
-
   return (
     <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
       <IonHeader>
@@ -40,11 +35,6 @@ export function PublisherReportModal({
       </IonHeader>
       <IonContent>
         <IonList>
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">{month_label}</IonTitle>
-            </IonToolbar>
-          </IonHeader>
           <ReportForm
             confidential_id={confidential_id}
             group_id={group_id}
