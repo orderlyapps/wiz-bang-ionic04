@@ -14,6 +14,7 @@ export function SubmitMinistryTime() {
     selected_month,
     month_options,
     total_hours,
+    credit_hours,
     bible_studies,
     comments,
     sms_url,
@@ -45,6 +46,20 @@ export function SubmitMinistryTime() {
           <Body size="sm">{total_hours}</Body>
         </IonLabel>
       </IonItem>
+      {credit_hours.length > 0 && (
+        <IonItem lines="none">
+          <IonLabel slot="end" className="ion-text-end">
+            {credit_hours.map((c) => (
+              <>
+                <Body key={c.type} size="sm" color="medium">
+                  {c.label}: {c.hours}
+                </Body>
+                <br />
+              </>
+            ))}
+          </IonLabel>
+        </IonItem>
+      )}
       <IncrementInput
         label="Bible Studies"
         value={bible_studies}

@@ -31,6 +31,16 @@ function generateMonthOptions(): { value: string; label: string }[] {
   return options;
 }
 
+const CREDIT_TYPES = ["ldc", "bethel", "hlc", "school"] as const;
+type CreditType = (typeof CREDIT_TYPES)[number];
+
+const CREDIT_LABELS: Record<CreditType, string> = {
+  ldc: "LDC",
+  bethel: "Bethel",
+  hlc: "HLC",
+  school: "School",
+};
+
 function sanitizePhone(phone: string): string {
   return phone.replace(/[^\d+]/g, "");
 }
@@ -46,6 +56,7 @@ export type UseSubmitMinistryTimeResult = {
   selected_month: string;
   month_options: { value: string; label: string }[];
   total_hours: string;
+  credit_hours: { type: CreditType; label: string; hours: string }[];
   bible_studies: number;
   comments: string;
   sms_url: string;
@@ -70,16 +81,29 @@ export function useSubmitMinistryTime(): UseSubmitMinistryTimeResult {
   const month_options = generateMonthOptions();
 
   const month_entries = entries.filter((e) => e.date.startsWith(selected_month));
-  const total_minutes = month_entries.reduce((sum, e) => sum + e.minutes, 0);
-  const total_hours = (total_minutes / 60).toFixed(1);
+
+  const non_credit_minutes = month_entries
+    .filter((e) => !CREDIT_TYPES.includes(e.ministry_type as CreditType))
+    .reduce((sum, e) => sum + e.minutes, 0);
+  const total_hours = (non_credit_minutes / 60).toFixed(1);
+
+  const credit_hours = CREDIT_TYPES.map((type) => {
+    const minutes = month_entries
+      .filter((e) => e.ministry_type === type)
+      .reduce((sum, e) => sum + e.minutes, 0);
+    return { type, label: CREDIT_LABELS[type], hours: (minutes / 60).toFixed(1) };
+  }).filter((c) => parseFloat(c.hours) > 0);
 
   const month_label =
     month_options.find((o) => o.value === selected_month)?.label ?? selected_month;
+
+  const credit_lines = credit_hours.map((c) => `${c.label}: ${c.hours}`);
 
   const sms_body = [
     `Report for ${month_label}`,
     publisher_name ? `Name: ${publisher_name}` : null,
     `Hours: ${total_hours}`,
+    credit_lines.length > 0 ? credit_lines.join("\n") : null,
     `Bible Studies: ${bible_studies}`,
     comments ? `Comments: ${comments}` : null,
   ]
@@ -99,6 +123,7 @@ export function useSubmitMinistryTime(): UseSubmitMinistryTimeResult {
     selected_month,
     month_options,
     total_hours,
+    credit_hours,
     bible_studies,
     comments,
     sms_url,
