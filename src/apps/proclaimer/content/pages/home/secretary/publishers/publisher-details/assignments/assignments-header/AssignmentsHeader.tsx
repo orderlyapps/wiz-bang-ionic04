@@ -1,6 +1,6 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
-interface PublisherAssignmentsHeaderProps {
+interface AssignmentsHeaderProps {
   publisher_name: string;
   default_href?: string;
 }
@@ -8,7 +8,7 @@ interface PublisherAssignmentsHeaderProps {
 export function AssignmentsHeader({
   publisher_name,
   default_href = "/publishers/all",
-}: PublisherAssignmentsHeaderProps) {
+}: AssignmentsHeaderProps) {
   return (
     <IonToolbar>
       <IonButtons slot="start">

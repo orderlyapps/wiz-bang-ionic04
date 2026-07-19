@@ -16,11 +16,11 @@ import { Space } from "@ui/components/layout/space/Space";
 
 const PIONEER_TYPES = ["regular_pioneer"];
 
-interface PublisherDetailContentProps {
+interface PublisherRecordContentProps {
   publisher_id: string;
 }
 
-export function PublisherRecordContent({ publisher_id }: PublisherDetailContentProps) {
+export function PublisherRecordContent({ publisher_id }: PublisherRecordContentProps) {
   const { has_secretary } = usePermissions();
   const [selected_date, set_selected_date] = useState<string | null>(null);
   const { confidential_id, reports, isLoading } = usePublisherReports(publisher_id);

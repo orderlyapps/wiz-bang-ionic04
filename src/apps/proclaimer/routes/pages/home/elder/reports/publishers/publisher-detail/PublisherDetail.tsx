@@ -11,7 +11,11 @@ function PublisherDetailPage() {
   return (
     <IonPage>
       <IonHeader>
-        <PublisherRecordHeader publisher_name={publisher_name} publisher_id={publisher_id ?? ""} />
+        <PublisherRecordHeader
+          publisher_name={publisher_name}
+          publisher_id={publisher_id ?? ""}
+          default_href="/home/elder/reports/publishers"
+        />
       </IonHeader>
       <IonContent className="remove-top-padding">
         <PublisherRecordContent publisher_id={publisher_id ?? ""} />

@@ -1,17 +1,17 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 import { DownloadPublisherRecordButton } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-details-content/components/download-publisher-record-button/DownloadPublisherRecordButton";
 
-interface PublisherDetailHeaderProps {
+interface PublisherRecordHeaderProps {
   publisher_name: string;
   publisher_id: string;
-  default_href?: string;
+  default_href: string;
 }
 
 export function PublisherRecordHeader({
   publisher_name,
   publisher_id,
-  default_href = "/home/elder/reports/publishers",
-}: PublisherDetailHeaderProps) {
+  default_href,
+}: PublisherRecordHeaderProps) {
   return (
     <IonToolbar>
       <IonButtons slot="start">
