@@ -3,25 +3,15 @@ import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
-import {
-  IonList,
-  IonItem,
-  IonLabel,
-  IonIcon,
-  IonItemDivider,
-  IonGrid,
-  IonCol,
-  IonRow,
-} from "@ionic/react";
-import { checkmarkCircleOutline } from "ionicons/icons";
+import { IonList, IonLabel, IonItemDivider } from "@ionic/react";
 import { Heading } from "@ui/components/display/text/heading/Heading";
-import { Label } from "@ui/components/display/text/label/Label";
 import { getServiceYear } from "@util/format/service-year";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { Report } from "@shared/database/schemas/report";
 import { PublisherReportModal } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-report-modal/PublisherReportModal";
 import { usePublisherReports } from "@proclaimer-content/pages/home/reports/reports-content/hooks/usePublisherReports";
+import { ReportItem } from "@proclaimer-content/pages/home/reports/reports-content/components/report-item/ReportItem";
 import { Space } from "@ui/components/layout/space/Space";
 
 const PIONEER_TYPES = ["regular_pioneer"];
@@ -124,59 +114,18 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                 )}
               </IonItemDivider>
               {year_reports.map((report) => (
-                <IonItem
+                <ReportItem
                   key={`${report.confidential_id || "placeholder"}-${report.date}`}
-                  lines="full"
+                  label={formatMonth(report.date).toUpperCase()}
+                  active={report.active}
+                  hours={report.hours}
+                  bible_studies={report.bible_studies}
+                  credit_hours={report.credit_hours}
+                  comments={report.comments}
                   button={has_secretary}
                   detail={has_secretary}
                   onClick={has_secretary ? () => set_selected_date(report.date) : undefined}
-                >
-                  <IonLabel>
-                    <IonGrid className="ion-no-padding">
-                      <IonRow>
-                        <IonCol>
-                          <Label>{formatMonth(report.date).toUpperCase()}</Label>
-                        </IonCol>
-                        <IonCol>
-                          {report.hours && <Body>{`${report.hours ?? "—"} hr`}</Body>}
-
-                          {report.bible_studies && (
-                            <Body className="ion-padding-start">{` ${report.bible_studies ?? "—"} st`}</Body>
-                          )}
-                        </IonCol>
-                      </IonRow>
-
-                      {report.credit_hours && Object.keys(report.credit_hours).length > 0 && (
-                        <IonRow>
-                          <IonCol className="ion-padding-start">
-                            {Object.entries(report.credit_hours).map(([key, val]) => (
-                              <div key={key}>
-                                <Body size="xs" color="medium">
-                                  {`${key.toUpperCase()}: ${val}hr`}
-                                </Body>
-                              </div>
-                            ))}
-                          </IonCol>
-                        </IonRow>
-                      )}
-
-                      <IonRow>
-                        <IonCol className="ion-padding-start">
-                          {report.comments && (
-                            <Body size="xs" color="medium">
-                              {report.comments}
-                            </Body>
-                          )}
-                        </IonCol>
-                      </IonRow>
-                    </IonGrid>
-                  </IonLabel>
-                  <IonIcon
-                    slot="end"
-                    icon={checkmarkCircleOutline}
-                    color={report.active === null ? "medium" : report.active ? "success" : "danger"}
-                  />
-                </IonItem>
+                />
               ))}
               <Space size="xl" />
             </Fragment>

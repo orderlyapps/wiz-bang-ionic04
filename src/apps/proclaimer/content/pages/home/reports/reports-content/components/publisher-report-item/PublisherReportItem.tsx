@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { IonItem, IonLabel, IonNote } from "@ionic/react";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { usePublisherReport } from "../../hooks/usePublisherReport";
+import { ReportItem } from "../report-item/ReportItem";
 import { PublisherReportModal } from "../publisher-report-modal/PublisherReportModal";
 
 interface PublisherReportItemProps {
@@ -13,19 +13,22 @@ interface PublisherReportItemProps {
 export function PublisherReportItem({ publisher, date }: PublisherReportItemProps) {
   const [is_open, set_is_open] = useState(false);
   const { confidential_id, report } = usePublisherReport(publisher.id, date);
-  const has_report = !!report;
   const publisher_name = getPublisherDisplayName(publisher, "last_first");
 
   return (
     <>
-      <IonItem button detail disabled={!confidential_id} onClick={() => set_is_open(true)}>
-        <IonLabel color={has_report ? "medium" : undefined}>{publisher_name}</IonLabel>
-        {has_report && (
-          <IonNote slot="end" color="medium">
-            Submitted
-          </IonNote>
-        )}
-      </IonItem>
+      <ReportItem
+        label={publisher_name}
+        active={report?.active ?? null}
+        hours={report?.hours ?? null}
+        bible_studies={report?.bible_studies ?? null}
+        credit_hours={report?.credit_hours ?? null}
+        comments={report?.comments ?? null}
+        button
+        detail
+        disabled={!confidential_id}
+        onClick={() => set_is_open(true)}
+      />
       {confidential_id && (
         <PublisherReportModal
           is_open={is_open}
