@@ -44,7 +44,13 @@ export function usePermissionedPublishers() {
   const has_access = is_congregation_admin || allowed_group_ids.length > 0;
 
   return {
-    publishers: (publishers ?? []).filter((p) => p.type !== "associate"),
+    publishers: (publishers ?? []).filter(
+      (p) =>
+        p.type !== "inactive" &&
+        p.type !== "speaker" &&
+        p.type !== "associate" &&
+        p.type !== "circuit_overseer",
+    ),
     has_access,
     isLoading: isLoading || session === undefined,
   };
