@@ -162,7 +162,7 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
                       </IonRow>
 
                       <IonRow>
-                        <IonCol size="8" className="ion-padding-start">
+                        <IonCol className="ion-padding-start">
                           {report.comments && (
                             <Body size="xs" color="medium">
                               {report.comments}
