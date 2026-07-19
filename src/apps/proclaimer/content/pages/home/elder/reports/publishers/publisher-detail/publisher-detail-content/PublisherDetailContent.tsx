@@ -1,8 +1,6 @@
 import { Fragment, useState } from "react";
 import { useLiveQuery, eq } from "@tanstack/react-db";
-import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { publisherCollection } from "@shared/database/collections/publisher";
-import { reportCollection } from "@shared/database/collections/report";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import {
@@ -23,6 +21,7 @@ import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { Report } from "@shared/database/schemas/report";
 import { PublisherReportModal } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-report-modal/PublisherReportModal";
+import { usePublisherReports } from "@proclaimer-content/pages/home/reports/reports-content/hooks/usePublisherReports";
 import { Space } from "@ui/components/layout/space/Space";
 
 const PIONEER_TYPES = ["regular_pioneer"];
@@ -34,13 +33,7 @@ interface PublisherDetailContentProps {
 export function PublisherDetailContent({ publisher_id }: PublisherDetailContentProps) {
   const { has_secretary } = usePermissions();
   const [selected_date, set_selected_date] = useState<string | null>(null);
-  const { data: local_data } = useLiveQuery(
-    (q) =>
-      q.from({ pl: publisherLocalCollection }).where(({ pl }) => eq(pl.publisher_id, publisher_id)),
-    [publisher_id],
-  );
-
-  const confidential_id = local_data?.[0]?.confidential_id;
+  const { confidential_id, reports, isLoading } = usePublisherReports(publisher_id);
 
   const { data: publisher_data } = useLiveQuery(
     (q) => q.from({ p: publisherCollection }).where(({ p }) => eq(p.id, publisher_id)),
@@ -48,16 +41,6 @@ export function PublisherDetailContent({ publisher_id }: PublisherDetailContentP
   );
 
   const is_pioneer = PIONEER_TYPES.includes(publisher_data?.[0]?.type);
-
-  const { data: reports, isLoading } = useLiveQuery(
-    (q) => {
-      if (!confidential_id) return undefined;
-      return q
-        .from({ r: reportCollection })
-        .where(({ r }) => eq(r.confidential_id, confidential_id));
-    },
-    [confidential_id],
-  );
 
   if (isLoading) {
     return <Spinner />;

@@ -1,9 +1,9 @@
 import { Document, Page, StyleSheet } from "@react-pdf/renderer";
-import { ServiceYearReport } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-details-content/components/publisher-record-pdf/components/service-year-report/ServiceYearReport";
+import { ServiceYearReport } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-record-pdf/components/service-year-report/ServiceYearReport";
 import type {
   PublisherRecordData,
   ServiceYearReportData,
-} from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-details-content/components/publisher-record-pdf/types";
+} from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-record-pdf/types";
 
 const styles = StyleSheet.create({
   page: { padding: 18, fontSize: 8 },

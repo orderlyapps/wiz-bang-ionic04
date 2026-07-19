@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IonSpinner, IonButton } from "@ionic/react";
 import { pdf } from "@react-pdf/renderer";
-import { PublisherRecordPdf } from "../publisher-record-pdf/PublisherRecordPdf";
+import { PublisherRecordPdf } from "@proclaimer-content/pages/home/reports/reports-content/components/publisher-record-pdf/PublisherRecordPdf";
 import { usePublisherRecordData } from "./hooks/usePublisherRecordData";
 import { Icon } from "@ui/components/icons/Icon";
 

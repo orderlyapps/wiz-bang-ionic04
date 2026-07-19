@@ -1,25 +1,16 @@
 import { useLiveQuery, eq, and, inArray, isNull } from "@tanstack/react-db";
-import { subMonths, format } from "date-fns";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { reportCollection } from "@shared/database/collections/report";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { getInactivePublisherIds } from "@proclaimer-content/pages/home/reports/reports-content/utils/inactive-publishers";
 
 const PUBLISHER_TYPES = ["publisher", "regular_pioneer", "special_pioneer", "continuous_auxiliary"];
-
-function getLastSixMonthDates(): string[] {
-  const dates: string[] = [];
-  for (let i = 1; i <= 6; i++) {
-    dates.push(format(subMonths(new Date(), i), "yyyy-MM-01"));
-  }
-  return dates;
-}
 
 export function useInactivePublishers() {
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
-  const six_month_dates = getLastSixMonthDates();
 
   const { data: publishers, isLoading } = useLiveQuery(
     (q) =>
@@ -50,15 +41,12 @@ export function useInactivePublishers() {
     }
   }
 
-  const inactive_publishers: Publisher[] = [];
-  for (const [confidential_id, publisher] of publisher_by_confidential) {
-    const publisher_reports = (reports ?? []).filter(
-      (r) => r.confidential_id === confidential_id && six_month_dates.includes(r.date),
-    );
-    if (publisher_reports.length > 0 && publisher_reports.every((r) => !r.active)) {
-      inactive_publishers.push(publisher);
-    }
-  }
+  const inactive_ids = getInactivePublisherIds(reports ?? [], [
+    ...publisher_by_confidential.keys(),
+  ]);
+  const inactive_publishers = inactive_ids
+    .map((id) => publisher_by_confidential.get(id))
+    .filter((p): p is Publisher => p != null);
 
   return { inactive_publishers, isLoading };
 }

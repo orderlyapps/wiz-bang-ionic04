@@ -1,14 +1,8 @@
 import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
+import { getPreviousMonthDate } from "@util/format/report-date";
 import { usePermissionedPublishers } from "./hooks/usePermissionedPublishers";
 import { PublisherReportItem } from "./components/publisher-report-item/PublisherReportItem";
-
-const getPreviousMonthDate = (): string => {
-  const now = new Date();
-  const year = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
-  const month = now.getMonth() === 0 ? 12 : now.getMonth();
-  return `${year}-${String(month).padStart(2, "0")}-01`;
-};
 
 export function ReportsContent() {
   const { publishers, has_access, isLoading } = usePermissionedPublishers();

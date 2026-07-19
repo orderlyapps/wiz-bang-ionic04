@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMinistryTime } from "@proclaimer-content/pages/home/ministry-time/ministry-time-content/hooks/useMinistryTime";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { getPreviousMonthValue } from "@util/format/report-date";
 import { loadMinistryReportForm, saveMinistryReportForm } from "./submit-ministry-time-storage";
 
 const MONTH_NAMES = [
@@ -18,12 +19,6 @@ const MONTH_NAMES = [
   "November",
   "December",
 ];
-
-function previousMonthValue(): string {
-  const now = new Date();
-  const d = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
 
 function generateMonthOptions(): { value: string; label: string }[] {
   const now = new Date();
@@ -68,7 +63,7 @@ export function useSubmitMinistryTime(): UseSubmitMinistryTimeResult {
   const publisher_name = publisher ? getPublisherDisplayName(publisher, "first_last") : "";
 
   const [phone, set_phone] = useState(stored?.phone ?? "");
-  const [selected_month, set_selected_month] = useState(previousMonthValue());
+  const [selected_month, set_selected_month] = useState(getPreviousMonthValue());
   const [bible_studies, set_bible_studies] = useState(stored?.bible_studies ?? 0);
   const [comments, set_comments] = useState(stored?.comments ?? "");
 
