@@ -6,9 +6,8 @@ export type AssignmentMonthGroup = {
   assignments: Assignment[];
 };
 
-const currentYear = new Date().getFullYear();
-
 export const groupAssignmentsByMonth = (assignments: Assignment[]): AssignmentMonthGroup[] => {
+  const currentYear = new Date().getFullYear();
   const groups: Map<string, Assignment[]> = new Map();
 
   for (const assignment of assignments) {

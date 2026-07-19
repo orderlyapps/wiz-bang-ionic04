@@ -8,26 +8,28 @@ export function useMidweekAssignments(
   congregation_id: string,
   publisher_id: string,
   today_str: string,
-): Assignment[] {
-  const { data: assignments } = useLiveQuery(
+): { assignments: Assignment[]; is_loading: boolean } {
+  const { data: assignments, isLoading: isLoadingAssignments } = useLiveQuery(
     (q) =>
-      q
-        .from({ a: midweekAssignmentCollection })
-        .where(({ a }) =>
-          and(
-            eq(a.congregation_id, congregation_id),
-            eq(a.participant_id, publisher_id),
-            gte(a.week_id, today_str),
-          ),
-        )
-        .orderBy(({ a }) => a.week_id),
+      congregation_id && publisher_id
+        ? q
+            .from({ a: midweekAssignmentCollection })
+            .where(({ a }) =>
+              and(
+                eq(a.congregation_id, congregation_id),
+                eq(a.participant_id, publisher_id),
+                gte(a.week_id, today_str),
+              ),
+            )
+            .orderBy(({ a }) => a.week_id)
+        : undefined,
     [congregation_id, publisher_id, today_str],
   );
 
   const week_ids = assignments?.map((a) => a.week_id) ?? [];
   const week_ids_key = week_ids.join(",");
 
-  const { data: meetingData } = useLiveQuery(
+  const { data: meetingData, isLoading: isLoadingMeetingData } = useLiveQuery(
     (q) =>
       week_ids.length > 0
         ? q.from({ m: midweekMeetingDataCollection }).where(({ m }) => inArray(m.week_id, week_ids))
@@ -35,7 +37,7 @@ export function useMidweekAssignments(
     [week_ids_key],
   );
 
-  const { data: allWeekAssignments } = useLiveQuery(
+  const { data: allWeekAssignments, isLoading: isLoadingWeekAssignments } = useLiveQuery(
     (q) =>
       week_ids.length > 0
         ? q
@@ -47,7 +49,11 @@ export function useMidweekAssignments(
     [congregation_id, week_ids_key],
   );
 
-  return (
+  const is_loading =
+    isLoadingAssignments ||
+    (week_ids.length > 0 && (isLoadingMeetingData || isLoadingWeekAssignments));
+
+  const mapped_assignments =
     assignments?.map((a) => {
       const week_data = meetingData?.find((m) => m.week_id === a.week_id);
       const week_assignments = allWeekAssignments?.filter((x) => x.week_id === a.week_id);
@@ -65,6 +71,7 @@ export function useMidweekAssignments(
         week_id: a.week_id,
         label,
       };
-    }) ?? []
-  );
+    }) ?? [];
+
+  return { assignments: mapped_assignments, is_loading };
 }

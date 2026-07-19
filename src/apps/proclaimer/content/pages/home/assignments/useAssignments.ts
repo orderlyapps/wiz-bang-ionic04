@@ -48,9 +48,6 @@ export function getAssignmentLabel(type: AssignmentType, assignmentId?: string):
     if (assignmentId === "reader") return `${base} (Watchtower)`;
     return base;
   }
-  if (type === "midweek" && assignmentId) {
-    return assignmentId.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  }
   return typeLabels[type];
 }
 
@@ -62,54 +59,64 @@ export function useAssignments() {
   const group_id = publisher?.group_id ?? "";
   const today_str = format(startOfWeek(new Date(), { weekStartsOn: 1 }), "yyyy-MM-dd");
 
-  const { data: av } = useLiveQuery(
+  const { data: av, isLoading: isLoadingAv } = useLiveQuery(
     (q) =>
-      q
-        .from({ a: avAssignmentCollection })
-        .where(({ a }) =>
-          and(
-            eq(a.congregation_id, congregation_id),
-            eq(a.participant_id, publisher_id),
-            gte(a.week_id, today_str),
-          ),
-        )
-        .orderBy(({ a }) => a.week_id),
+      congregation_id && publisher_id
+        ? q
+            .from({ a: avAssignmentCollection })
+            .where(({ a }) =>
+              and(
+                eq(a.congregation_id, congregation_id),
+                eq(a.participant_id, publisher_id),
+                gte(a.week_id, today_str),
+              ),
+            )
+            .orderBy(({ a }) => a.week_id)
+        : undefined,
     [congregation_id, publisher_id, today_str],
   );
 
-  const midweek = useMidweekAssignments(congregation_id, publisher_id, today_str);
+  const { assignments: midweek, is_loading: isLoadingMidweek } = useMidweekAssignments(
+    congregation_id,
+    publisher_id,
+    today_str,
+  );
 
-  const { data: weekend } = useLiveQuery(
+  const { data: weekend, isLoading: isLoadingWeekend } = useLiveQuery(
     (q) =>
-      q
-        .from({ a: weekendAssignmentCollection })
-        .where(({ a }) =>
-          and(
-            eq(a.congregation_id, congregation_id),
-            eq(a.participant_id, publisher_id),
-            gte(a.week_id, today_str),
-          ),
-        )
-        .orderBy(({ a }) => a.week_id),
+      congregation_id && publisher_id
+        ? q
+            .from({ a: weekendAssignmentCollection })
+            .where(({ a }) =>
+              and(
+                eq(a.congregation_id, congregation_id),
+                eq(a.participant_id, publisher_id),
+                gte(a.week_id, today_str),
+              ),
+            )
+            .orderBy(({ a }) => a.week_id)
+        : undefined,
     [congregation_id, publisher_id, today_str],
   );
 
-  const { data: speaker } = useLiveQuery(
+  const { data: speaker, isLoading: isLoadingSpeaker } = useLiveQuery(
     (q) =>
-      q
-        .from({ a: speakerAssignmentCollection })
-        .where(({ a }) =>
-          and(
-            eq(a.congregation_id, congregation_id),
-            eq(a.speaker_id, publisher_id),
-            gte(a.week_id, today_str),
-          ),
-        )
-        .orderBy(({ a }) => a.week_id),
+      congregation_id && publisher_id
+        ? q
+            .from({ a: speakerAssignmentCollection })
+            .where(({ a }) =>
+              and(
+                eq(a.congregation_id, congregation_id),
+                eq(a.speaker_id, publisher_id),
+                gte(a.week_id, today_str),
+              ),
+            )
+            .orderBy(({ a }) => a.week_id)
+        : undefined,
     [congregation_id, publisher_id, today_str],
   );
 
-  const { data: cleanMajor } = useLiveQuery(
+  const { data: cleanMajor, isLoading: isLoadingCleanMajor } = useLiveQuery(
     (q) =>
       group_id
         ? q
@@ -126,7 +133,7 @@ export function useAssignments() {
     [congregation_id, group_id, today_str],
   );
 
-  const { data: cleanMinor } = useLiveQuery(
+  const { data: cleanMinor, isLoading: isLoadingCleanMinor } = useLiveQuery(
     (q) =>
       group_id
         ? q
@@ -177,5 +184,13 @@ export function useAssignments() {
     })) ?? []),
   ].sort((a, b) => a.week_id.localeCompare(b.week_id));
 
-  return { assignments };
+  const is_loading =
+    isLoadingAv ||
+    isLoadingMidweek ||
+    isLoadingWeekend ||
+    isLoadingSpeaker ||
+    isLoadingCleanMajor ||
+    isLoadingCleanMinor;
+
+  return { assignments, is_loading };
 }
