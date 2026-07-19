@@ -1,7 +1,7 @@
 import { IonPage, IonHeader, IonContent } from "@ionic/react";
 import { useParams } from "react-router-dom";
-import { PublisherParticipationHeader } from "@proclaimer-content/pages/home/secretary/publishers/publisher-participation/publisher-participation-header/PublisherParticipationHeader";
-import { PublisherParticipationContent } from "@proclaimer-content/pages/home/secretary/publishers/publisher-participation/publisher-participation-content/PublisherParticipationContent";
+import { ParticipationHeader } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/participation/participation-header/ParticipationHeader";
+import { ParticipationContent } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/participation/participation-content/ParticipationContent";
 
 function AllPublishersParticipationPage() {
   const { publisher_id } = useParams<{ publisher_id: string }>();
@@ -9,10 +9,10 @@ function AllPublishersParticipationPage() {
   return (
     <IonPage>
       <IonHeader>
-        <PublisherParticipationHeader />
+        <ParticipationHeader />
       </IonHeader>
       <IonContent className="remove-top-padding">
-        <PublisherParticipationContent publisher_id={publisher_id ?? ""} />
+        <ParticipationContent publisher_id={publisher_id ?? ""} />
       </IonContent>
     </IonPage>
   );

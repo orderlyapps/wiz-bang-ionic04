@@ -5,7 +5,7 @@ interface PublisherAssignmentsHeaderProps {
   default_href?: string;
 }
 
-export function PublisherAssignmentsHeader({
+export function AssignmentsHeader({
   publisher_name,
   default_href = "/publishers/all",
 }: PublisherAssignmentsHeaderProps) {

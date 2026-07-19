@@ -7,7 +7,7 @@ interface PublisherDetailHeaderProps {
   default_href?: string;
 }
 
-export function PublisherDetailHeader({
+export function PublisherRecordHeader({
   publisher_name,
   publisher_id,
   default_href = "/home/elder/reports/publishers",

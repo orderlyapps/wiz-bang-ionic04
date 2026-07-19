@@ -5,7 +5,7 @@ import { groupAssignmentsByMonth } from "@proclaimer-content/pages/home/assignme
 import { AssignmentMonthGroup } from "@proclaimer-content/pages/home/assignments/components/assignment-month-group/AssignmentMonthGroup";
 import { usePublisherAssignments } from "../hooks/usePublisherAssignments";
 
-export function PublisherAssignmentsContent({ publisher_id }: { publisher_id: string }) {
+export function AssignmentsContent({ publisher_id }: { publisher_id: string }) {
   const { assignments } = usePublisherAssignments(publisher_id);
 
   if (!assignments.length) {

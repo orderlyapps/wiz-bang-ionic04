@@ -1,8 +1,8 @@
 import { IonPage, IonHeader, IonContent } from "@ionic/react";
 import { useParams } from "react-router-dom";
-import { PublisherDetailHeader } from "@proclaimer-content/pages/home/elder/reports/publishers/publisher-detail/publisher-detail-header/PublisherDetailHeader";
-import { PublisherDetailContent } from "@proclaimer-content/pages/home/elder/reports/publishers/publisher-detail/publisher-detail-content/PublisherDetailContent";
-import { usePublisherName } from "@proclaimer-content/pages/home/elder/reports/publishers/publisher-detail/hooks/usePublisherName";
+import { PublisherRecordHeader } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-record/publisher-record-header/PublisherRecordHeader";
+import { PublisherRecordContent } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-record/publisher-record-content/PublisherRecordContent";
+import { usePublisherName } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-record/hooks/usePublisherName";
 
 function PublisherDetailPage() {
   const { publisher_id } = useParams<{ publisher_id: string }>();
@@ -11,10 +11,10 @@ function PublisherDetailPage() {
   return (
     <IonPage>
       <IonHeader>
-        <PublisherDetailHeader publisher_name={publisher_name} publisher_id={publisher_id ?? ""} />
+        <PublisherRecordHeader publisher_name={publisher_name} publisher_id={publisher_id ?? ""} />
       </IonHeader>
       <IonContent className="remove-top-padding">
-        <PublisherDetailContent publisher_id={publisher_id ?? ""} />
+        <PublisherRecordContent publisher_id={publisher_id ?? ""} />
       </IonContent>
     </IonPage>
   );

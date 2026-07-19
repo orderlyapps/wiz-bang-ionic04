@@ -20,7 +20,7 @@ interface PublisherDetailContentProps {
   publisher_id: string;
 }
 
-export function PublisherDetailContent({ publisher_id }: PublisherDetailContentProps) {
+export function PublisherRecordContent({ publisher_id }: PublisherDetailContentProps) {
   const { has_secretary } = usePermissions();
   const [selected_date, set_selected_date] = useState<string | null>(null);
   const { confidential_id, reports, isLoading } = usePublisherReports(publisher_id);

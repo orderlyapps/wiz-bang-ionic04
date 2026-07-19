@@ -1,6 +1,6 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
-export function PublisherParticipationHeader() {
+export function ParticipationHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">

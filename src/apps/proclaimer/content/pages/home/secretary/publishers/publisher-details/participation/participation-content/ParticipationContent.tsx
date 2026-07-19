@@ -9,7 +9,7 @@ import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { ParticipationSection } from "./components/participation-section/ParticipationSection";
 
-export function PublisherParticipationContent({ publisher_id }: { publisher_id: string }) {
+export function ParticipationContent({ publisher_id }: { publisher_id: string }) {
   const { data: av, isLoading: isLoadingAv } = useLiveQuery((q) =>
     q.from({ ap: avParticipationCollection }),
   );
