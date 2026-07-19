@@ -84,6 +84,13 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
     b.localeCompare(a),
   );
 
+  const getCreditedHours = (r: ReportEntry): number => {
+    if (r.hours == null) return 0;
+    if (r.hours >= 55) return r.hours;
+    const credit_total = Object.values(r.credit_hours ?? {}).reduce((sum, h) => sum + (h ?? 0), 0);
+    return Math.min(55, r.hours + credit_total);
+  };
+
   const publisher = publisher_data?.[0];
   const publisher_name = publisher ? getPublisherDisplayName(publisher, "last_first") : "";
   const group_id = publisher?.group_id ?? null;
@@ -98,6 +105,10 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
         {years.map((year) => {
           const year_reports = merged.filter((r) => getYearKey(r.date) === year);
           const total_hours = year_reports.reduce((sum, r) => sum + (r.hours ?? 0), 0);
+          const total_credited_hours = year_reports.reduce(
+            (sum, r) => sum + getCreditedHours(r),
+            0,
+          );
           return (
             <Fragment key={year}>
               <IonItemDivider sticky className="ion-padding">
@@ -109,7 +120,7 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
                     <Body color="medium" bold>
                       {`TOTAL: `}
                     </Body>
-                    <Body color="medium">{`${total_hours}`}</Body>
+                    <Body color="medium">{`${total_hours} ${total_hours === total_credited_hours ? "" : `(${total_credited_hours})`}`}</Body>
                   </div>
                 )}
               </IonItemDivider>
