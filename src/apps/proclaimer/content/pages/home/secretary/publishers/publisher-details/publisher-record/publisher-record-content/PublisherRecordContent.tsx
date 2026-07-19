@@ -58,7 +58,7 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
     active: boolean | null;
     hours: number | null;
     bible_studies: number | null;
-    credit_hours: Partial<Record<"ldc" | "bethel" | "hlc", number>> | null;
+    credit_hours: Partial<Record<"ldc" | "bethel" | "hlc" | "school", number>> | null;
     comments: string | null;
     confidential_id: string;
   };

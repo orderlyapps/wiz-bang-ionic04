@@ -5,7 +5,7 @@ import { usePioneerSettings } from "./usePioneerSettings";
 
 const CONTINUOUS_AUXILIARY_MONTHLY_HOURS = 30;
 const SPECIAL_PIONEER_MONTHLY_HOURS = 100;
-const CREDIT_TYPES = ["ldc", "bethel", "hlc"];
+const CREDIT_TYPES = ["ldc", "bethel", "hlc", "school"];
 const MONTHLY_HOUR_CAP = 55;
 
 function toISODate(date: Date): string {

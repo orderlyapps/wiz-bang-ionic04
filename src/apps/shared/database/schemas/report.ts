@@ -9,7 +9,7 @@ export const reportSchema = z.object({
   hours: z.number().nullable(),
   bible_studies: z.number().nullable(),
   credit_hours: z
-    .object({ ldc: z.number(), bethel: z.number(), hlc: z.number() })
+    .object({ ldc: z.number(), bethel: z.number(), hlc: z.number(), school: z.number() })
     .partial()
     .nullable(),
   comments: z.string().nullable(),

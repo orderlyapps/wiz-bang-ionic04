@@ -7,7 +7,7 @@ import type { MinistryTimeEntry } from "../../hooks/useMinistryTime";
 import { MonthNavigation } from "./components/month-navigation/MonthNavigation";
 import { Space } from "@ui/components/layout/space/Space";
 
-const CREDIT_TYPES = ["ldc", "bethel", "hlc"];
+const CREDIT_TYPES = ["ldc", "bethel", "hlc", "school"];
 const MONTHLY_HOUR_CAP = 55;
 
 interface TimeEntryListProps {

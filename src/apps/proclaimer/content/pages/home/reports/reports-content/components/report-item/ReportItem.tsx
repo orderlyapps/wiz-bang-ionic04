@@ -8,7 +8,7 @@ interface ReportItemProps {
   active: boolean | null;
   hours: number | null;
   bible_studies: number | null;
-  credit_hours: Partial<Record<"ldc" | "bethel" | "hlc", number>> | null;
+  credit_hours: Partial<Record<"ldc" | "bethel" | "hlc" | "school", number>> | null;
   comments: string | null;
   onClick?: () => void;
   button?: boolean;

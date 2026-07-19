@@ -24,6 +24,7 @@ export const MINISTRY_TYPES = [
   "ldc",
   "bethel",
   "hlc",
+  "school",
 ] as const;
 
 export type MinistryType = (typeof MINISTRY_TYPES)[number];

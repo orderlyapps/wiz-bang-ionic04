@@ -7,7 +7,7 @@ import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { Space } from "@ui/components/layout/space/Space";
 import { NumberInput } from "@ui/components/inputs/number/NumberInput";
 
-export type CreditHours = Partial<Record<"ldc" | "bethel" | "hlc", number>>;
+export type CreditHours = Partial<Record<"ldc" | "bethel" | "hlc" | "school", number>>;
 
 interface HourCreditsModalProps {
   is_open: boolean;
@@ -20,6 +20,7 @@ const CREDIT_OPTIONS = [
   { label: "LDC", value: "ldc" },
   { label: "Bethel", value: "bethel" },
   { label: "HLC", value: "hlc" },
+  { label: "School", value: "school" },
 ];
 
 export function HourCreditsModal({
