@@ -8,7 +8,7 @@ function BranchReportPage() {
       <IonHeader>
         <BranchReportHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="remove-top-padding">
         <BranchReportContent />
       </IonContent>
     </IonPage>
