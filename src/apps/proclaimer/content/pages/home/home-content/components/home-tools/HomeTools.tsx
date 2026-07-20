@@ -135,7 +135,7 @@ export function HomeTools() {
               />
             )}
 
-            {is_chairman && (
+            {(is_chairman || permissions.has_clam_overseer) && (
               <NavItem
                 color={COLOR}
                 size="md"

@@ -4,6 +4,8 @@ import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiC
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
+import { WeekNavigation } from "@proclaimer-shared/components/navigation/week-navigation/WeekNavigation";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { midweekMeetingDataCollection } from "@shared/database/collections/midweek-meeting-data";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { publisherCollection } from "@shared/database/collections/publisher";
@@ -96,8 +98,14 @@ function ChairmanWeekSchedule({
   );
 }
 
-export function ClamChairmanContent() {
+interface ClamChairmanContentProps {
+  week_id: string;
+}
+
+export function ClamChairmanContent({ week_id }: ClamChairmanContentProps) {
+  const permissions = usePermissions();
   const { chairman_week_ids } = useChairmanWeeks();
+  const is_overseer = permissions.has_clam_overseer;
 
   const { data: allMeetingData } = useLiveQuery((q) =>
     q.from({ mmd: midweekMeetingDataCollection }),
@@ -110,12 +118,26 @@ export function ClamChairmanContent() {
 
   if (is_loading) return <Spinner className="flex-center" />;
 
+  if (is_overseer) {
+    return (
+      <>
+        <WeekNavigation week_id={week_id} />
+        <ChairmanWeekSchedule
+          week_id={week_id}
+          allMeetingData={allMeetingData as MidweekMeetingData[] | undefined}
+          allAssignments={allAssignments as MidweekAssignment[] | undefined}
+          publishers={publishers as Publisher[] | undefined}
+        />
+      </>
+    );
+  }
+
   return (
     <>
-      {chairman_week_ids.map((week_id) => (
+      {chairman_week_ids.map((w_id) => (
         <ChairmanWeekSchedule
-          key={week_id}
-          week_id={week_id}
+          key={w_id}
+          week_id={w_id}
           allMeetingData={allMeetingData as MidweekMeetingData[] | undefined}
           allAssignments={allAssignments as MidweekAssignment[] | undefined}
           publishers={publishers as Publisher[] | undefined}

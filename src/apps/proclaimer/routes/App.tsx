@@ -280,7 +280,7 @@ function App() {
         <Route path="/home/elder/stats" component={ElderStatsPageNew} exact />
         <Route path="/home/elder/clam" component={ElderClamPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
-        <Route path="/home/clam-chairman" component={ClamChairmanPage} exact />
+        <Route path="/home/clam-chairman/:week_id?" component={ClamChairmanPage} exact />
         <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
         <Route
           path="/home/clam-overseer/participation/chairman"
