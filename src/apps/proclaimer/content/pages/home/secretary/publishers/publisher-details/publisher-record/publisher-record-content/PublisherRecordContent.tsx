@@ -56,6 +56,7 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
   type ReportEntry = {
     date: string;
     active: boolean | null;
+    aux_pio: boolean | null;
     hours: number | null;
     bible_studies: number | null;
     credit_hours: Partial<Record<"ldc" | "bethel" | "hlc" | "school", number>> | null;
@@ -69,6 +70,7 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
     return {
       date: `${ym}-01`,
       active: null,
+      aux_pio: null,
       hours: null,
       bible_studies: null,
       credit_hours: null,
@@ -129,6 +131,7 @@ export function PublisherRecordContent({ publisher_id }: PublisherRecordContentP
                   key={`${report.confidential_id || "placeholder"}-${report.date}`}
                   label={formatMonth(report.date).toUpperCase()}
                   active={report.active}
+                  aux_pio={report.aux_pio}
                   hours={report.hours}
                   bible_studies={report.bible_studies}
                   credit_hours={report.credit_hours}

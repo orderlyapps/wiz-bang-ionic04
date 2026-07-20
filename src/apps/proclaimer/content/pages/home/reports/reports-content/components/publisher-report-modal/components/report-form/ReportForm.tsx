@@ -17,6 +17,7 @@ import {
 
 interface FormState {
   active: boolean;
+  aux_pio: boolean;
   hours: string;
   bible_studies: string;
   credit_hours: CreditHours;
@@ -25,6 +26,7 @@ interface FormState {
 
 const default_form: FormState = {
   active: false,
+  aux_pio: false,
   hours: "",
   bible_studies: "",
   credit_hours: {},
@@ -53,6 +55,7 @@ export function ReportForm({
   if (existing_report && !initialized) {
     set_form({
       active: existing_report.active,
+      aux_pio: existing_report.aux_pio,
       hours: existing_report.hours != null ? String(existing_report.hours) : "",
       bible_studies:
         existing_report.bible_studies != null ? String(existing_report.bible_studies) : "",
@@ -75,6 +78,7 @@ export function ReportForm({
       group_id,
       date,
       active: form.active,
+      aux_pio: form.aux_pio,
       hours: form.hours !== "" ? Number(form.hours) : null,
       bible_studies: form.bible_studies !== "" ? Number(form.bible_studies) : null,
       credit_hours: Object.keys(form.credit_hours).length > 0 ? form.credit_hours : null,
@@ -84,6 +88,7 @@ export function ReportForm({
     if (existing_report) {
       reportCollection.update(makeCompositeKey(confidential_id, congregation_id, date), (draft) => {
         draft.active = payload.active;
+        draft.aux_pio = payload.aux_pio;
         draft.hours = payload.hours;
         draft.bible_studies = payload.bible_studies;
         draft.credit_hours = payload.credit_hours;
@@ -119,11 +124,19 @@ export function ReportForm({
           set_form((prev) => ({
             ...prev,
             active: checked,
+            aux_pio: checked ? prev.aux_pio : false,
             hours: checked ? prev.hours : "",
             bible_studies: checked ? prev.bible_studies : "",
             credit_hours: checked ? prev.credit_hours : {},
           }));
         }}
+      />
+
+      <ToggleInput
+        label="Auxiliary Pioneer"
+        checked={form.aux_pio}
+        disabled={!form.active}
+        on_change={(checked) => updateField("aux_pio", checked)}
       />
 
       <NumberInput

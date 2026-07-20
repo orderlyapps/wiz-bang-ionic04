@@ -73,7 +73,7 @@ const baseOptions = queryCollectionOptions({
 const persistedOptions = persistedCollectionOptions({
   ...baseOptions,
   persistence,
-  schemaVersion: 3,
+  schemaVersion: 4,
 });
 
 export const reportCollection = createCollection({

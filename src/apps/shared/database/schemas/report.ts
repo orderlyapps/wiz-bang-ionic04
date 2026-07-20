@@ -13,6 +13,7 @@ export const reportSchema = z.object({
     .partial()
     .nullable(),
   comments: z.string().nullable(),
+  aux_pio: z.boolean().default(false),
 });
 
 export type Report = z.infer<typeof reportSchema>;

@@ -20,6 +20,7 @@ export function PublisherReportItem({ publisher, date }: PublisherReportItemProp
       <ReportItem
         label={publisher_name}
         active={report?.active ?? null}
+        aux_pio={report?.aux_pio ?? null}
         hours={report?.hours ?? null}
         bible_studies={report?.bible_studies ?? null}
         credit_hours={report?.credit_hours ?? null}

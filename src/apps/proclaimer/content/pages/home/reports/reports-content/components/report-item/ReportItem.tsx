@@ -6,6 +6,7 @@ import { Label } from "@ui/components/display/text/label/Label";
 interface ReportItemProps {
   label: string;
   active: boolean | null;
+  aux_pio: boolean | null;
   hours: number | null;
   bible_studies: number | null;
   credit_hours: Partial<Record<"ldc" | "bethel" | "hlc" | "school", number>> | null;
@@ -19,6 +20,7 @@ interface ReportItemProps {
 export function ReportItem({
   label,
   active,
+  aux_pio,
   hours,
   bible_studies,
   credit_hours,
@@ -43,6 +45,15 @@ export function ReportItem({
               )}
             </IonCol>
           </IonRow>
+          {aux_pio && (
+            <IonRow>
+              <IonCol className="ion-padding-start">
+                <Body size="xs" color="medium">
+                  Auxiliary Pioneer
+                </Body>
+              </IonCol>
+            </IonRow>
+          )}
           {credit_hours && Object.keys(credit_hours).length > 0 && (
             <IonRow>
               <IonCol className="ion-padding-start">
