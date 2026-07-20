@@ -11,7 +11,7 @@ function RegularPioneersPage() {
   return (
     <IonPage>
       <IonHeader>
-        <PublisherListHeader title="Regular Pioneers" />
+        <PublisherListHeader title="Pioneers" />
       </IonHeader>
       <IonContent className="content-wide">
         <PublisherListContent filter={filter} />
