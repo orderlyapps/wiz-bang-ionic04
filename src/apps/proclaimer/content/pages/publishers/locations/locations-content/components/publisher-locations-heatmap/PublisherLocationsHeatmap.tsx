@@ -33,8 +33,8 @@ const heatmapLayer: LayerProps = {
   },
 };
 
-export function PublisherLocationsHeatmap() {
-  const points = usePublisherAddressPoints();
+export function PublisherLocationsHeatmap({ group_id }: { group_id?: string | null }) {
+  const points = usePublisherAddressPoints(group_id);
   useFitBoundsToPoints(points?.map((p) => p.coordinates) ?? []);
   if (!points || points.length === 0) return null;
 

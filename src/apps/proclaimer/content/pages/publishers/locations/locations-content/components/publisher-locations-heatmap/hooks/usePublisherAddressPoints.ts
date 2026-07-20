@@ -8,21 +8,26 @@ export type AddressPoint = {
   coordinates: [number, number];
 };
 
-export function usePublisherAddressPoints(): AddressPoint[] | null {
+export function usePublisherAddressPoints(group_id?: string | null): AddressPoint[] | null {
   const { data: locals } = useLiveQuery((q) => q.from({ p: publisherLocalCollection }));
   const { data: publishers } = useLiveQuery((q) => q.from({ p: publisherCollection }));
   if (!locals || !publishers) return null;
 
-  const archivedIds = new Set<string>();
+  const excludedIds = new Set<string>();
   for (const publisher of publishers) {
-    if (publisher.id && publisher.archived_at) {
-      archivedIds.add(publisher.id);
+    if (!publisher.id) continue;
+    if (publisher.archived_at) {
+      excludedIds.add(publisher.id);
+      continue;
+    }
+    if (group_id && group_id !== "all" && publisher.group_id !== group_id) {
+      excludedIds.add(publisher.id);
     }
   }
 
   const points: AddressPoint[] = [];
   for (const publisher of locals) {
-    if (archivedIds.has(publisher.publisher_id)) continue;
+    if (excludedIds.has(publisher.publisher_id)) continue;
     for (const address of publisher.address ?? []) {
       const coords = address.coordinates;
       if (Array.isArray(coords) && coords.length >= 2) {

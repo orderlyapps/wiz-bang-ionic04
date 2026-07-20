@@ -14,8 +14,10 @@ export type AddressPublisherGroup = {
   publishers: PublisherAtAddress[];
 };
 
-export function useGroupedPublisherLocations(): AddressPublisherGroup[] | null {
-  const points = usePublisherAddressPoints();
+export function useGroupedPublisherLocations(
+  group_id?: string | null,
+): AddressPublisherGroup[] | null {
+  const points = usePublisherAddressPoints(group_id);
   const { data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
   if (!points || !data) return null;
 

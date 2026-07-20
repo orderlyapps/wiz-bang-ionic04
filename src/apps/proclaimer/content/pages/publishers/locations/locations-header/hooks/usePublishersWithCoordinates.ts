@@ -7,6 +7,7 @@ export type PublisherWithCoordinates = {
   publisher_id: string;
   display_name: string;
   coordinates: [number, number];
+  group_id: string | null;
 };
 
 export function usePublishersWithCoordinates(): PublisherWithCoordinates[] | null {
@@ -36,7 +37,12 @@ export function usePublishersWithCoordinates(): PublisherWithCoordinates[] | nul
 
     const display_name = getPublisherDisplayName(pub);
 
-    results.push({ publisher_id: pub.id, display_name, coordinates: coords });
+    results.push({
+      publisher_id: pub.id,
+      display_name,
+      coordinates: coords,
+      group_id: pub.group_id ?? null,
+    });
   }
 
   results.sort((a, b) => a.display_name.localeCompare(b.display_name));

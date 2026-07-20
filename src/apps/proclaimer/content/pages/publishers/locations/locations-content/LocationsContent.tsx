@@ -14,11 +14,13 @@ type ShareLocation = {
 };
 
 type LocationsContentProps = {
+  selected_group_id: string;
   fly_to_coordinates: [number, number] | null;
   on_fly_to_complete: () => void;
 };
 
 export function LocationsContent({
+  selected_group_id,
   fly_to_coordinates,
   on_fly_to_complete,
 }: LocationsContentProps) {
@@ -40,8 +42,8 @@ export function LocationsContent({
         on_long_press={(lngLat) => setShareLocation({ lat: lngLat.lat, lng: lngLat.lng })}
       >
         <MapMasterLayer />
-        <PublisherLocationsHeatmap />
-        <PublisherLocationsPoints />
+        <PublisherLocationsHeatmap group_id={selected_group_id} />
+        <PublisherLocationsPoints group_id={selected_group_id} />
         <FlyToPublisherController
           coordinates={fly_to_coordinates}
           on_complete={on_fly_to_complete}

@@ -37,8 +37,8 @@ const countLayer: LayerProps = {
   },
 };
 
-export function PublisherLocationsPoints() {
-  const groups = useGroupedPublisherLocations();
+export function PublisherLocationsPoints({ group_id }: { group_id?: string | null }) {
+  const groups = useGroupedPublisherLocations(group_id);
   const [selectedGroup, setSelectedGroup] = useState<AddressPublisherGroup | null>(null);
 
   if (!groups || groups.length === 0) return null;

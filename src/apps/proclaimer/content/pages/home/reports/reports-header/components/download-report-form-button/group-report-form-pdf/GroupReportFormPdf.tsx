@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   page: { padding: 24, fontSize: 10 },
   title: { fontSize: 14, fontWeight: "bold", textAlign: "center", marginBottom: 4 },
   subtitle: { fontSize: 11, textAlign: "center", marginBottom: 12 },
-  row: { flexDirection: "row",height: 25 },
+  row: { flexDirection: "row", height: 25 },
   cellView: { padding: 1, borderColor: "black" },
   cellText: { fontSize: 9, padding: 1, paddingHorizontal: 3 },
   headerText: { fontSize: 9, fontWeight: "bold", textAlign: "center" },
@@ -28,14 +28,7 @@ function borders(col: number, isHeader: boolean, isLast: boolean) {
 }
 
 function HeaderRow() {
-  const labels = [
-    "Name",
-    "Active",
-    "Studies",
-    "Aux",
-    "Hrs",
-    "Remarks",
-  ];
+  const labels = ["Name", "Active", "Studies", "Aux", "Hrs", "Remarks"];
   return (
     <View style={styles.row}>
       {labels.map((label, i) => (
