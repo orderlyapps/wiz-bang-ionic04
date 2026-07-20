@@ -11,6 +11,7 @@ export function SecretaryContent() {
         <NavItem label="Publisher Records" to="/home/secretary/publisher-records" />
         <NavItem label="Groups" to="/home/secretary/groups" />
         <NavItem label="Tools" to="/home/secretary/tools" />
+        <NavItem label="Branch Report" to="/home/secretary/branch-report" />
       </IonList>
       <Space />
       <ImportPublisherDataButton />

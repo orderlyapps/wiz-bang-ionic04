@@ -42,6 +42,7 @@ import PublisherRecordsPage from "@proclaimer-routes/pages/home/secretary/publis
 import GroupsPage from "@proclaimer-routes/pages/home/secretary/groups/Groups";
 import GroupDetailsPage from "@proclaimer-routes/pages/home/secretary/groups/group-details/GroupDetails";
 import SecretaryToolsPage from "@proclaimer-routes/pages/home/secretary/tools/Tools";
+import BranchReportPage from "@proclaimer-routes/pages/home/secretary/branch-report/BranchReport";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
 import AuthUsersPage from "@proclaimer-routes/pages/home/congregation-admin/auth-users/AuthUsers";
 import SuperAdminPage from "@proclaimer-routes/pages/home/super-admin/SuperAdmin";
@@ -178,6 +179,7 @@ function App() {
         <Route path="/home/secretary/groups" component={GroupsPage} exact />
         <Route path="/home/secretary/groups/:group_id" component={GroupDetailsPage} exact />
         <Route path="/home/secretary/tools" component={SecretaryToolsPage} exact />
+        <Route path="/home/secretary/branch-report" component={BranchReportPage} exact />
         <Route path="/home/congregation-admin" component={CongregationAdminPage} exact />
         <Route path="/home/congregation-admin/auth-users" component={AuthUsersPage} exact />
         <Route path="/home/congregation-admin/permissions" component={PermissionsPage} exact />
