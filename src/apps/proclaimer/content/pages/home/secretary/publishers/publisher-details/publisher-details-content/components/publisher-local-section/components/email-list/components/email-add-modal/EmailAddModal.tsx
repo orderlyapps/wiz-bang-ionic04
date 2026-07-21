@@ -49,16 +49,15 @@ export function EmailAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
     };
     publisherLocalCollection.update(publisher_id, (draft) => {
       if (!draft.email) draft.email = [];
-      const existing = draft.email.find((e) => e.id === id);
-      if (existing) {
-        Object.assign(existing, {
-          label,
-          address,
-          version: { ...existing.version, updated_at: Date.now() },
-        });
-      } else {
-        draft.email.push({ id, label, address, version });
+      const updated = draft.email.map((e) =>
+        e.id === id
+          ? { ...e, label, address, version: { ...e.version, updated_at: Date.now() } }
+          : e,
+      );
+      if (!draft.email.some((e) => e.id === id)) {
+        updated.push({ id, label, address, version });
       }
+      draft.email = updated;
     });
     on_dismiss();
   }
@@ -66,12 +65,7 @@ export function EmailAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
   function handle_delete() {
     if (!entry) return;
     publisherLocalCollection.update(publisher_id, (draft) => {
-      if (draft.email) {
-        const index = draft.email.findIndex((e) => e.id === entry.id);
-        if (index !== -1) {
-          draft.email.splice(index, 1);
-        }
-      }
+      draft.email = (draft.email ?? []).filter((e) => e.id !== entry.id);
     });
     on_dismiss();
   }

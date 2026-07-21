@@ -93,19 +93,22 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
     };
     publisherLocalCollection.update(publisher_id, (draft) => {
       if (!draft.emergency_contact) draft.emergency_contact = [];
-      const existing = draft.emergency_contact.find((c) => c.id === id);
-      if (existing) {
-        Object.assign(existing, { first_name, last_name, relationship, phone: phones });
-      } else {
-        draft.emergency_contact.push({
-          id,
-          first_name,
-          last_name,
-          relationship,
-          phone: phones,
-          version,
-        });
+      const updated = draft.emergency_contact.map((c) =>
+        c.id === id
+          ? {
+              ...c,
+              first_name,
+              last_name,
+              relationship,
+              phone: phones,
+              version: { ...c.version, updated_at: Date.now() },
+            }
+          : c,
+      );
+      if (!draft.emergency_contact.some((c) => c.id === id)) {
+        updated.push({ id, first_name, last_name, relationship, phone: phones, version });
       }
+      draft.emergency_contact = updated;
     });
     on_dismiss();
   }
@@ -113,12 +116,7 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
   function handle_delete() {
     if (!contact) return;
     publisherLocalCollection.update(publisher_id, (draft) => {
-      if (draft.emergency_contact) {
-        const index = draft.emergency_contact.findIndex((c) => c.id === contact.id);
-        if (index !== -1) {
-          draft.emergency_contact.splice(index, 1);
-        }
-      }
+      draft.emergency_contact = (draft.emergency_contact ?? []).filter((c) => c.id !== contact.id);
     });
     on_dismiss();
   }

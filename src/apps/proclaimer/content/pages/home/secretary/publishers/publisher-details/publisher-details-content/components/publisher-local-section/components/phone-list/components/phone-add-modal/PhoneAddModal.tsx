@@ -49,16 +49,15 @@ export function PhoneAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
     };
     publisherLocalCollection.update(publisher_id, (draft) => {
       if (!draft.phone) draft.phone = [];
-      const existing = draft.phone.find((p) => p.id === id);
-      if (existing) {
-        Object.assign(existing, {
-          label,
-          number,
-          version: { ...existing.version, updated_at: Date.now() },
-        });
-      } else {
-        draft.phone.push({ id, label, number, version });
+      const updated = draft.phone.map((p) =>
+        p.id === id
+          ? { ...p, label, number, version: { ...p.version, updated_at: Date.now() } }
+          : p,
+      );
+      if (!draft.phone.some((p) => p.id === id)) {
+        updated.push({ id, label, number, version });
       }
+      draft.phone = updated;
     });
     on_dismiss();
   }
@@ -66,12 +65,7 @@ export function PhoneAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
   function handle_delete() {
     if (!entry) return;
     publisherLocalCollection.update(publisher_id, (draft) => {
-      if (draft.phone) {
-        const index = draft.phone.findIndex((p) => p.id === entry.id);
-        if (index !== -1) {
-          draft.phone.splice(index, 1);
-        }
-      }
+      draft.phone = (draft.phone ?? []).filter((p) => p.id !== entry.id);
     });
     on_dismiss();
   }

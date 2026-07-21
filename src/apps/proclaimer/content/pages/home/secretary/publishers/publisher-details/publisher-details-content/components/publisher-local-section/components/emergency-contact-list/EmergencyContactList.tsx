@@ -51,7 +51,7 @@ export function EmergencyContactList({
           )}
         </IonItem>
         {emergency_contact.map((contact) =>
-          contact.phone.map((p) => (
+          (contact.phone ?? []).map((p) => (
             <LabelValueItem
               key={p.id}
               label={`${contact.first_name} ${contact.last_name} (${contact.relationship})`}

@@ -56,31 +56,25 @@ export function AddressAddModal({
       created_at: Date.now(),
       updated_at: Date.now(),
     };
+    const address_data = {
+      label,
+      suburb: address_value.suburb.id,
+      street: address_value.street?.id ?? "",
+      house_number: address_value.house_number ?? "",
+      unit_number: address_value.unit_number ?? "",
+      coordinates: address_value.coordinates,
+    };
     publisherLocalCollection.update(publisher_id, (draft) => {
       if (!draft.address) draft.address = [];
-      const existing = draft.address.find((a) => a.id === id);
-      if (existing) {
-        Object.assign(existing, {
-          label,
-          suburb: address_value.suburb.id,
-          street: address_value.street?.id ?? "",
-          house_number: address_value.house_number ?? "",
-          unit_number: address_value.unit_number ?? "",
-          coordinates: address_value.coordinates,
-          version: { ...existing.version, updated_at: Date.now() },
-        });
-      } else {
-        draft.address.push({
-          id,
-          label,
-          suburb: address_value.suburb.id,
-          street: address_value.street?.id ?? "",
-          house_number: address_value.house_number ?? "",
-          unit_number: address_value.unit_number ?? "",
-          coordinates: address_value.coordinates,
-          version,
-        });
+      const updated = draft.address.map((a) =>
+        a.id === id
+          ? { ...a, ...address_data, version: { ...a.version, updated_at: Date.now() } }
+          : a,
+      );
+      if (!draft.address.some((a) => a.id === id)) {
+        updated.push({ id, ...address_data, version });
       }
+      draft.address = updated;
     });
     on_dismiss();
   }
@@ -88,12 +82,7 @@ export function AddressAddModal({
   function handle_delete() {
     if (!entry) return;
     publisherLocalCollection.update(publisher_id, (draft) => {
-      if (draft.address) {
-        const index = draft.address.findIndex((a) => a.id === entry.id);
-        if (index !== -1) {
-          draft.address.splice(index, 1);
-        }
-      }
+      draft.address = (draft.address ?? []).filter((a) => a.id !== entry.id);
     });
     on_dismiss();
   }
