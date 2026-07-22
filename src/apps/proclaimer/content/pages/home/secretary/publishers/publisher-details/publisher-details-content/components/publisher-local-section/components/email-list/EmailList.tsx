@@ -80,19 +80,6 @@ export function EmailList({ publisher_id, email, read_only = false }: Props) {
             label={entry.label}
             value={entry.address}
             on_click={() => open_edit(entry)}
-            end_detail={
-              <IonButton
-                fill="clear"
-                size="small"
-                aria-label={`Email ${entry.label}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.location.href = `mailto:${entry.address}`;
-                }}
-              >
-                <IonIcon slot="icon-only" icon={mailOutline} />
-              </IonButton>
-            }
           />
         ),
       )}

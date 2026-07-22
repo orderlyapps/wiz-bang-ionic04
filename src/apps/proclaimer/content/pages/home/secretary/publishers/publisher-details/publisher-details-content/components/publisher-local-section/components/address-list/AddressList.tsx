@@ -137,24 +137,6 @@ export function AddressList({ publisher_id, address, read_only = false }: Props)
             label={entry.label}
             value={formatDisplayValue(entry)}
             on_click={() => open_edit(entry)}
-            end_detail={
-              entry.coordinates && entry.coordinates.length >= 2 ? (
-                <IonButton
-                  fill="clear"
-                  size="small"
-                  aria-label={`Share ${entry.label}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    set_share_coords({
-                      lat: entry.coordinates![1],
-                      lng: entry.coordinates![0],
-                    });
-                  }}
-                >
-                  <IonIcon slot="icon-only" icon={mapOutline} />
-                </IonButton>
-              ) : undefined
-            }
           />
         ),
       )}

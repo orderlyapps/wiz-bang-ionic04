@@ -94,32 +94,6 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
             label={entry.label}
             value={entry.number}
             on_click={() => open_edit(entry)}
-            end_detail={
-              <>
-                <IonButton
-                  fill="clear"
-                  size="small"
-                  aria-label={`SMS ${entry.label}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.location.href = `sms:${entry.number}`;
-                  }}
-                >
-                  <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
-                </IonButton>
-                <IonButton
-                  fill="clear"
-                  size="small"
-                  aria-label={`Call ${entry.label}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.location.href = `tel:${entry.number}`;
-                  }}
-                >
-                  <IonIcon slot="icon-only" icon={callOutline} />
-                </IonButton>
-              </>
-            }
           />
         ),
       )}

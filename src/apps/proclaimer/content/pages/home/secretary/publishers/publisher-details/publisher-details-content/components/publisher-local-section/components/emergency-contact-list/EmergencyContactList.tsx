@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
-import { addOutline, callOutline, chatbubbleEllipsesOutline } from "ionicons/icons";
+import { IonIcon, IonItem, IonLabel } from "@ionic/react";
+import { addOutline } from "ionicons/icons";
 import type { EmergencyContact } from "@shared/database/rxdb/collections/publisher";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { EmergencyContactModal } from "./components/emergency-contact-modal/EmergencyContactModal";
@@ -57,34 +57,6 @@ export function EmergencyContactList({
               label={`${contact.first_name} ${contact.last_name} (${contact.relationship})`}
               value={p.number}
               on_click={() => !read_only && open_edit(contact)}
-              end_detail={
-                <>
-                  <IonButton
-                    fill="clear"
-                    size="small"
-                    aria-label={`SMS ${contact.first_name}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.location.href = `sms:${p.number}`;
-                    }}
-                    className="ion-margin-end"
-                  >
-                    <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
-                  </IonButton>
-                  <IonButton
-                    fill="clear"
-                    size="small"
-                    aria-label={`Call ${contact.first_name}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.location.href = `tel:${p.number}`;
-                    }}
-                    className="ion-margin-start"
-                  >
-                    <IonIcon slot="icon-only" icon={callOutline} />
-                  </IonButton>
-                </>
-              }
             />
           )),
         )}
