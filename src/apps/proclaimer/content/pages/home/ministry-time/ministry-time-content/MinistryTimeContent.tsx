@@ -12,6 +12,7 @@ export function MinistryTimeContent() {
 
   return (
     <>
+      <Space size="sm" />
       <PioneerStats entries={entries} />
       <Space size="sm" />
       <TimeEntryList entries={entries} on_delete={deleteEntry} on_edit={set_editing_entry} />

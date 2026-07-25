@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { IonItem, IonItemDivider, IonLabel, IonList } from "@ionic/react";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
@@ -117,13 +117,14 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
   return (
     <>
       <MonthNavigation month={selectedMonth} on_change={setSelectedMonth} />
-      <IonItem
-        lines="none"
-        className="ion-padding-start ion-padding-end ion-padding-top ion-text-center"
-      >
+      <IonItem lines="none" className="ion-text-center">
         <IonLabel>
           <Body color="medium" size="sm">
-            Monthly Total: {formatMinutes(totalMinutes)}
+            Monthly Total
+          </Body>
+          <br />
+          <Body color="medium" size="xl" bold>
+            {formatMinutes(totalMinutes)}
             {totalMinutes !== creditedMinutes && ` (${formatMinutes(creditedMinutes)})`}
           </Body>
         </IonLabel>
@@ -163,9 +164,9 @@ export function TimeEntryList({ entries, on_delete, on_edit }: TimeEntryListProp
                 {weeks.map((week) => (
                   <Fragment key={week.start_date.toISOString()}>
                     <Space />
-                    <IonItemDivider sticky className="ion-padding-top">
-                      <Heading size="sm">{formatWeekRange(week.start_date, week.end_date)}</Heading>
-                    </IonItemDivider>
+                    <IonItem>
+                      <Heading>{formatWeekRange(week.start_date, week.end_date)}</Heading>
+                    </IonItem>
                     {week.entries.map((entry) => (
                       <LabelValueItem
                         key={entry.entry_id}
