@@ -8,7 +8,7 @@ function MinistryTimePage() {
       <IonHeader>
         <MinistryTimeHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="remove-top-padding">
         <MinistryTimeContent />
       </IonContent>
     </IonPage>
