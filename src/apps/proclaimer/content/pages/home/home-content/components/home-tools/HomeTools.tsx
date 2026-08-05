@@ -243,7 +243,7 @@ export function HomeTools() {
                 size="md"
                 lines="none"
                 label_class={CLASSNAME}
-                label="Watchtower"
+                label="WT Timer"
                 to="/home/watchtower"
               />
             )}
@@ -254,7 +254,7 @@ export function HomeTools() {
                 size="md"
                 lines="none"
                 label_class={CLASSNAME}
-                label="Congregation Bible Study"
+                label="CBS Timer"
                 to="/home/congregation-bible-study"
               />
             )}
