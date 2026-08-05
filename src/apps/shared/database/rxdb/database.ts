@@ -24,6 +24,10 @@ import {
   watchtowerSchemaLiteral,
   type WatchtowerLocal,
 } from "@shared/database/rxdb/collections/watchtower";
+import {
+  congregationBibleStudySchemaLiteral,
+  type CongregationBibleStudyLocal,
+} from "@shared/database/rxdb/collections/congregation-bible-study";
 
 addRxPlugin(RxDBMigrationSchemaPlugin);
 if (import.meta.env.DEV) addRxPlugin(RxDBDevModePlugin);
@@ -65,6 +69,9 @@ await rxdb.addCollections({
   },
   watchtower: {
     schema: watchtowerSchemaLiteral as RxJsonSchema<WatchtowerLocal>,
+  },
+  congregation_bible_study: {
+    schema: congregationBibleStudySchemaLiteral as RxJsonSchema<CongregationBibleStudyLocal>,
   },
 });
 
