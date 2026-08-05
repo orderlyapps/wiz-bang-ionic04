@@ -12,7 +12,8 @@ import { useState } from "react";
 import "./TimePicker.css";
 
 const HOURS = Array.from({ length: 12 }, (_, i) => i + 1);
-const MINUTES = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+const MINUTES_5 = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+const MINUTES_1 = Array.from({ length: 60 }, (_, i) => i);
 const PERIODS = ["AM", "PM"] as const;
 
 interface TimePickerProps {
@@ -20,12 +21,20 @@ interface TimePickerProps {
   value: string;
   on_change: (value: string) => void;
   on_close: () => void;
+  minute_step?: 1 | 5;
 }
 
-export function TimePicker({ is_open, value, on_change, on_close }: TimePickerProps) {
+export function TimePicker({
+  is_open,
+  value,
+  on_change,
+  on_close,
+  minute_step = 5,
+}: TimePickerProps) {
   const [hour, set_hour] = useState(12);
   const [minute, set_minute] = useState(0);
   const [period, set_period] = useState<"AM" | "PM">("AM");
+  const minutes = minute_step === 1 ? MINUTES_1 : MINUTES_5;
 
   function handle_open() {
     let h: number;
@@ -39,7 +48,7 @@ export function TimePicker({ is_open, value, on_change, on_close }: TimePickerPr
     }
     set_period(h >= 12 ? "PM" : "AM");
     set_hour(h % 12 === 0 ? 12 : h % 12);
-    set_minute((Math.round(m / 5) * 5) % 60);
+    set_minute((Math.round(m / minute_step) * minute_step) % 60);
   }
 
   function handle_confirm() {
@@ -76,7 +85,7 @@ export function TimePicker({ is_open, value, on_change, on_close }: TimePickerPr
           ))}
         </IonPickerColumn>
         <IonPickerColumn value={minute} onIonChange={(e) => set_minute(e.detail.value as number)}>
-          {MINUTES.map((m) => (
+          {minutes.map((m) => (
             <IonPickerColumnOption key={m} value={m}>
               {String(m).padStart(2, "0")}
             </IonPickerColumnOption>

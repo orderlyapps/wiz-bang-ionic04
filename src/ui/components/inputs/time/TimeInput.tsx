@@ -8,10 +8,17 @@ interface TimeInputProps {
   label: string;
   value: string;
   disabled?: boolean;
+  minute_step?: 1 | 5;
   on_change: (value: string) => void;
 }
 
-export function TimeInput({ label, value, disabled = false, on_change }: TimeInputProps) {
+export function TimeInput({
+  label,
+  value,
+  disabled = false,
+  minute_step = 5,
+  on_change,
+}: TimeInputProps) {
   const [is_open, set_is_open] = useState(false);
   useThemeColorWhileOpen(is_open);
 
@@ -33,6 +40,7 @@ export function TimeInput({ label, value, disabled = false, on_change }: TimeInp
       <TimePicker
         is_open={is_open}
         value={value}
+        minute_step={minute_step}
         on_change={on_change}
         on_close={() => set_is_open(false)}
       />
