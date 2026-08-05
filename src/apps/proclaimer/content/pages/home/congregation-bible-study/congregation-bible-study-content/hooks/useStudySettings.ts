@@ -3,7 +3,7 @@ import type { StudySection, UseStudiesReturn } from "./useStudies";
 
 const MIN_DURATION = 15;
 const MAX_DURATION = 3600;
-const NEW_SECTION_DURATION = 300;
+const NEW_SECTION_DURATION = 210;
 const NEW_SECTION_NAME = "New Section";
 
 interface UseStudySettingsReturn {

@@ -22,9 +22,10 @@ const ACTIVE_FEATURE = "congregation_bible_study";
 const ACTIVE_KEY = "active_study_id";
 const ACTIVE_SETTING_ID = makeCompositeKey(ACTIVE_FEATURE, ACTIVE_KEY);
 
-const DEFAULT_SECTION_NAME = "Congregation Bible Study";
-const DEFAULT_SECTION_DURATION = 1800;
 const DEFAULT_STUDY_NAME = "My Study";
+const INTRO_DURATION = 45;
+const READING_DURATION = 120;
+const CONCLUSION_DURATION = 45;
 
 function versionData() {
   const now = Date.now();
@@ -40,8 +41,18 @@ function createDefaultSections(): StudySection[] {
   return [
     {
       id: crypto.randomUUID(),
-      name: DEFAULT_SECTION_NAME,
-      duration_seconds: DEFAULT_SECTION_DURATION,
+      name: "Intro",
+      duration_seconds: INTRO_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Reading",
+      duration_seconds: READING_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Conclusion",
+      duration_seconds: CONCLUSION_DURATION,
     },
   ];
 }
