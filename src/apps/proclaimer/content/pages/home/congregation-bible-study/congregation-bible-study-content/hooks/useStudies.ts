@@ -23,8 +23,13 @@ const ACTIVE_KEY = "active_study_id";
 const ACTIVE_SETTING_ID = makeCompositeKey(ACTIVE_FEATURE, ACTIVE_KEY);
 
 const DEFAULT_STUDY_NAME = "My Study";
+const DEFAULT_END_TIME = "20:37";
 const INTRO_DURATION = 45;
-const READING_DURATION = 120;
+const READING_DURATION = 300;
+const DISCUSSION_DURATION = 120;
+const DIG_DURATION = 120;
+const REFLECT_DURATION = 120;
+const MEDITATE_DURATION = 150;
 const CONCLUSION_DURATION = 45;
 
 function versionData() {
@@ -48,6 +53,61 @@ function createDefaultSections(): StudySection[] {
       id: crypto.randomUUID(),
       name: "Reading",
       duration_seconds: READING_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Discussion",
+      duration_seconds: DISCUSSION_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Dig Q1",
+      duration_seconds: DIG_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Dig Q2",
+      duration_seconds: DIG_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Dig Q3",
+      duration_seconds: DIG_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Dig Q4",
+      duration_seconds: DIG_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Reflect Q1",
+      duration_seconds: REFLECT_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Reflect Q2",
+      duration_seconds: REFLECT_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Reflect Q3",
+      duration_seconds: REFLECT_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Meditate Q1",
+      duration_seconds: MEDITATE_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Meditate Q2",
+      duration_seconds: MEDITATE_DURATION,
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Meditate Q3",
+      duration_seconds: MEDITATE_DURATION,
     },
     {
       id: crypto.randomUUID(),
@@ -142,7 +202,7 @@ export function useStudies(): UseStudiesReturn {
       study_id,
       name,
       sections: JSON.stringify(createDefaultSections()),
-      end_time: "",
+      end_time: DEFAULT_END_TIME,
       version: versionData(),
     });
     return study_id;

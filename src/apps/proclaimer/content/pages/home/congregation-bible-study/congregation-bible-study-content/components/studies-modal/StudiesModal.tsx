@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IonContent, IonList, IonLabel } from "@ionic/react";
+import { IonContent, IonList, IonHeader, IonToolbar, IonTitle, IonButtons } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { AlertTextInput } from "@ui/components/inputs/alert-text/AlertTextInput";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
@@ -41,13 +41,14 @@ export function StudiesModal({
 
   return (
     <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
-      <div
-        className="ion-padding-horizontal ion-padding-top"
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-      >
-        <IonLabel>Studies</IonLabel>
-        <CloseIconButton on_click={on_dismiss} skip_confirmation />
-      </div>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Studies</IonTitle>
+          <IonButtons slot="end">
+            <CloseIconButton on_click={on_dismiss} skip_confirmation />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="ion-padding">
         <IonList inset>
           {studies.map((study) => (
