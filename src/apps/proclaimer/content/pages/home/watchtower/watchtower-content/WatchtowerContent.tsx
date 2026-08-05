@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
 import { play, pause } from "ionicons/icons";
 import { Heading } from "@ui/components/display/text/heading/Heading";
@@ -47,7 +48,16 @@ export function WatchtowerContent({ show_settings, on_dismiss_settings }: Watcht
   const current = timer.current_section;
   const is_overtime = timer.section_remaining_seconds < 0;
 
-  const time_difference = timer.time_difference;
+  const frozen_section_ref = useRef(timer.current_section_index);
+  const frozen_difference_ref = useRef(timer.time_difference);
+  if (timer.current_section_index !== frozen_section_ref.current) {
+    frozen_section_ref.current = timer.current_section_index;
+    frozen_difference_ref.current = timer.time_difference;
+  }
+  const is_section_finished = timer.section_remaining_seconds <= 0;
+  const time_difference = is_section_finished
+    ? timer.time_difference
+    : frozen_difference_ref.current;
 
   return (
     <>
