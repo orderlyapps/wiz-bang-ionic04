@@ -4,6 +4,7 @@ import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { useChairmanWeeks } from "@proclaimer-content/pages/home/clam-chairman/useChairmanWeeks";
+import { useIsCbsConductor } from "@proclaimer-content/pages/home/congregation-bible-study/useIsCbsConductor";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
 import { useAccordionState } from "@util/hooks/use-accordion-state/useAccordionState";
@@ -21,6 +22,7 @@ export function HomeTools() {
     publisher?.type === "continuous_auxiliary";
 
   const { is_chairman } = useChairmanWeeks();
+  const { is_cbs_conductor } = useIsCbsConductor();
   const { value, onIonChange } = useAccordionState(localStorageKeys.homeToolsAccordion, "tools");
 
   const hasAnyTool =
@@ -42,6 +44,7 @@ export function HomeTools() {
     permissions.has_watchtower ||
     permissions.has_ministerial_servant ||
     is_chairman ||
+    is_cbs_conductor ||
     isPioneer;
 
   if (!permissions.is_loaded || !hasAnyTool) {
@@ -242,6 +245,17 @@ export function HomeTools() {
                 label_class={CLASSNAME}
                 label="Watchtower"
                 to="/home/watchtower"
+              />
+            )}
+
+            {is_cbs_conductor && (
+              <NavItem
+                color={COLOR}
+                size="md"
+                lines="none"
+                label_class={CLASSNAME}
+                label="Congregation Bible Study"
+                to="/home/congregation-bible-study"
               />
             )}
 

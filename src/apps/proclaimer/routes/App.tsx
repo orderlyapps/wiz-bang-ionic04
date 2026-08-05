@@ -133,6 +133,7 @@ import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import MinistryTimePage from "@proclaimer-routes/pages/home/ministry-time/MinistryTime";
 import WatchtowerToolPage from "@proclaimer-routes/pages/home/watchtower/Watchtower";
+import CongregationBibleStudyPage from "@proclaimer-routes/pages/home/congregation-bible-study/CongregationBibleStudy";
 import { Icon } from "@ui/components/icons/Icon";
 import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
 // import { getPlatforms } from "@ionic/react";
@@ -434,6 +435,7 @@ function App() {
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         <Route path="/home/ministry-time" component={MinistryTimePage} exact />
         <Route path="/home/watchtower" component={WatchtowerToolPage} exact />
+        <Route path="/home/congregation-bible-study" component={CongregationBibleStudyPage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />
         <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />
