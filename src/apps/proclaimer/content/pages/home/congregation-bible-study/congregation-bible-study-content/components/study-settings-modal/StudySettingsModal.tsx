@@ -50,7 +50,12 @@ export function StudySettingsModal({
           <div className="ion-text-center ion-padding-bottom">
             <IonLabel color="medium">Total: {formatDuration(total)}</IonLabel>
           </div>
-          <TimeInput label="End Time" value={end_time} on_change={(val) => on_set_end_time(val)} />
+          <TimeInput
+            label="End Time"
+            value={end_time}
+            on_change={(val) => on_set_end_time(val)}
+            minute_step={1}
+          />
           <StudySettingsSectionList sections={sections} on_select={setEditingSectionId} />
         </IonContent>
       </ResponsiveModal>
