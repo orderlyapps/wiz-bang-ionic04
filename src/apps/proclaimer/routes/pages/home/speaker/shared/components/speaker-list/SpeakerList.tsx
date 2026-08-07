@@ -35,14 +35,12 @@ export function SpeakerList({ speakers, empty_label, is_loading, get_href }: Spe
     <IonList>
       {speakers.map((speaker, index) => (
         <IonItem key={speaker.id ?? index} routerLink={get_href?.(speaker)} button={!!get_href}>
-          <IonLabel>
-            {getPublisherDisplayName(speaker)}
-            {speaker.subtitle && (
-              <Body color="medium" size="sm">
-                {speaker.subtitle}
-              </Body>
-            )}
-          </IonLabel>
+          <IonLabel>{getPublisherDisplayName(speaker)}</IonLabel>
+          {speaker.subtitle && (
+            <Body slot="end" color="medium" size="sm">
+              {speaker.subtitle}
+            </Body>
+          )}
         </IonItem>
       ))}
     </IonList>
