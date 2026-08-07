@@ -17,7 +17,6 @@ export function CircuitVisitForm(props: EventFormFieldProps) {
   return (
     <>
       <TextInput label="Name" value={props.name} on_change={(v) => on_change("name", v)} />
-      <TextInput label="Address" value={props.address} on_change={(v) => on_change("address", v)} />
       <WeekSelect value={props.start_date} on_change={handleWeekChange} />
       <TextInput
         label="Midweek Theme"
