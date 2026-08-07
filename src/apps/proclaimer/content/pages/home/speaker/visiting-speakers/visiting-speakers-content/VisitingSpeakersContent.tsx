@@ -1,5 +1,9 @@
 import { VisitingSpeakersList } from "@proclaimer-routes/pages/home/speaker/visiting-speakers/components/visiting-speakers-list/VisitingSpeakersList";
 
-export function VisitingSpeakersContent() {
-  return <VisitingSpeakersList />;
+type VisitingSpeakersContentProps = {
+  search: string;
+};
+
+export function VisitingSpeakersContent({ search }: VisitingSpeakersContentProps) {
+  return <VisitingSpeakersList search={search} />;
 }
