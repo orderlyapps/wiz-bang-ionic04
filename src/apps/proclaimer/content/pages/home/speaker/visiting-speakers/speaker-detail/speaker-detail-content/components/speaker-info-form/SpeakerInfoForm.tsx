@@ -1,29 +1,13 @@
-import {
-  IonItem,
-  IonInput,
-  IonSelect,
-  IonSelectOption,
-  IonList,
-  IonListHeader,
-  IonLabel,
-} from "@ionic/react";
-import { useLiveQuery } from "@tanstack/react-db";
+import { IonItem, IonInput, IonList, IonListHeader, IonLabel } from "@ionic/react";
 import { publisherCollection } from "@shared/database/collections/publisher";
-import { congregationCollection } from "@shared/database/collections/congregation";
 import type { Publisher } from "@shared/database/schemas/publisher";
-import type { Congregation } from "@shared/database/schemas/congregation";
+import { CongregationSelect } from "./components/congregation-select/CongregationSelect";
 
 interface SpeakerInfoFormProps {
   speaker: Publisher;
 }
 
 export function SpeakerInfoForm({ speaker }: SpeakerInfoFormProps) {
-  const { data: congregations_data } = useLiveQuery((q) =>
-    q.from({ c: congregationCollection }).orderBy(({ c }) => c.name),
-  );
-
-  const congregations = (congregations_data as Congregation[] | undefined) ?? [];
-
   function handleFirstNameChange(value: string) {
     if (!speaker.id) return;
     publisherCollection.update(speaker.id, (draft) => {
@@ -38,10 +22,10 @@ export function SpeakerInfoForm({ speaker }: SpeakerInfoFormProps) {
     });
   }
 
-  function handleCongregationChange(value: string) {
+  function handleCongregationChange(congregation_id: string) {
     if (!speaker.id) return;
     publisherCollection.update(speaker.id, (draft) => {
-      draft.congregation_id = value;
+      draft.congregation_id = congregation_id;
     });
   }
 
@@ -68,20 +52,7 @@ export function SpeakerInfoForm({ speaker }: SpeakerInfoFormProps) {
           onIonBlur={(e) => handleLastNameChange((e.target as HTMLIonInputElement).value as string)}
         />
       </IonItem>
-      <IonItem>
-        <IonSelect
-          label="Congregation"
-          labelPlacement="stacked"
-          value={speaker.congregation_id}
-          onIonChange={(e) => handleCongregationChange(e.detail.value)}
-        >
-          {congregations.map((c) => (
-            <IonSelectOption key={c.id} value={c.id}>
-              {c.name}
-            </IonSelectOption>
-          ))}
-        </IonSelect>
-      </IonItem>
+      <CongregationSelect value={speaker.congregation_id} on_change={handleCongregationChange} />
     </IonList>
   );
 }

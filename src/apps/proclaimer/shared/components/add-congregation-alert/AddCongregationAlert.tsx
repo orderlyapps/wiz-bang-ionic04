@@ -23,7 +23,12 @@ export function AddCongregationAlert({ is_open, on_dismiss, on_add }: AddCongreg
         {
           text: "Save",
           handler: async (data) => {
-            await on_add((data as { text: string }).text);
+            try {
+              await on_add((data as { text: string }).text);
+              return true;
+            } catch {
+              return false;
+            }
           },
         },
       ]}
