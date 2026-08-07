@@ -28,6 +28,7 @@ export const typeOptions = [
   { label: "Inactive", value: "inactive" },
   { label: "Associate", value: "associate" },
   { label: "Speaker", value: "speaker" },
+  { label: "Circuit Overseer", value: "circuit_overseer" },
 ];
 
 export interface FilterInputItem {
