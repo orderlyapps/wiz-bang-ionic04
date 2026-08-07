@@ -1,7 +1,8 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { StudySection } from "./useStudies";
 
 interface UseStudyTimerProps {
+  study_id: string;
   sections: StudySection[];
   end_time: string;
 }
@@ -29,30 +30,34 @@ function parseEndTime(end_time: string): number | null {
   const end = new Date();
   end.setHours(parseInt(match[1], 10), parseInt(match[2], 10), 0, 0);
   const diff_ms = end.getTime() - now.getTime();
-  return diff_ms > 0 ? diff_ms / 1000 : null;
+  return Math.max(0, diff_ms / 1000);
 }
 
 function getTotalSectionsDuration(sections: StudySection[]): number {
   return sections.reduce((sum, s) => sum + s.duration_seconds, 0);
 }
 
-export function useStudyTimer({ sections, end_time }: UseStudyTimerProps): UseStudyTimerReturn {
+export function useStudyTimer({
+  study_id,
+  sections,
+  end_time,
+}: UseStudyTimerProps): UseStudyTimerReturn {
   const [is_playing, setIsPlaying] = useState(false);
   const [current_section_index, setCurrentSectionIndex] = useState(0);
   const [elapsed_seconds, setElapsedSeconds] = useState(0);
   const [section_start_elapsed, setSectionStartElapsed] = useState(0);
   const interval_ref = useRef<ReturnType<typeof setInterval> | null>(null);
-  const sections_ref = useRef(sections);
+  const previous_study_id_ref = useRef(study_id);
 
+  // Reset the timer only when a different study becomes active.
   useEffect(() => {
-    if (sections_ref.current !== sections) {
-      sections_ref.current = sections;
-      setIsPlaying(false);
-      setCurrentSectionIndex(0);
-      setElapsedSeconds(0);
-      setSectionStartElapsed(0);
-    }
-  }, [sections]);
+    if (previous_study_id_ref.current === study_id) return;
+    previous_study_id_ref.current = study_id;
+    setIsPlaying(false);
+    setCurrentSectionIndex(0);
+    setElapsedSeconds(0);
+    setSectionStartElapsed(0);
+  }, [study_id]);
 
   const total_duration = getTotalSectionsDuration(sections);
   const end_time_seconds = parseEndTime(end_time);
@@ -94,37 +99,32 @@ export function useStudyTimer({ sections, end_time }: UseStudyTimerProps): UseSt
     };
   }, [is_playing]);
 
-  const play = useCallback(() => {
+  const play = () => {
     setIsPlaying(true);
-  }, []);
+  };
 
-  const pause = useCallback(() => {
+  const pause = () => {
     setIsPlaying(false);
-  }, []);
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setIsPlaying(false);
     setCurrentSectionIndex(0);
     setElapsedSeconds(0);
     setSectionStartElapsed(0);
-  }, []);
+  };
 
-  const next_section = useCallback(() => {
-    setCurrentSectionIndex((prev_idx) => {
-      if (prev_idx + 1 >= sections.length) return prev_idx;
-      setSectionStartElapsed(elapsed_seconds);
-      return prev_idx + 1;
-    });
-  }, [elapsed_seconds, sections.length]);
+  const next_section = () => {
+    if (current_section_index + 1 >= sections.length) return;
+    setSectionStartElapsed(elapsed_seconds);
+    setCurrentSectionIndex(current_section_index + 1);
+  };
 
-  const prev_section = useCallback(() => {
-    setCurrentSectionIndex((prev_idx) => {
-      if (prev_idx <= 0) return 0;
-      const new_idx = prev_idx - 1;
-      setSectionStartElapsed(elapsed_seconds);
-      return new_idx;
-    });
-  }, [elapsed_seconds]);
+  const prev_section = () => {
+    if (current_section_index <= 0) return;
+    setSectionStartElapsed(elapsed_seconds);
+    setCurrentSectionIndex(current_section_index - 1);
+  };
 
   useEffect(() => {
     if (current_section_index >= sections.length) {

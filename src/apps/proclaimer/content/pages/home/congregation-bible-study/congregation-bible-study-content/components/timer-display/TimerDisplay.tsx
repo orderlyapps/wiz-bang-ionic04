@@ -14,7 +14,6 @@ interface TimerDisplayProps {
   current_section: StudySection | null;
   section_remaining_seconds: number;
   overall_remaining_seconds: number;
-  time_difference: number;
   is_overtime: boolean;
   time_difference_display: number;
 }
@@ -23,7 +22,6 @@ export function TimerDisplay({
   current_section,
   section_remaining_seconds,
   overall_remaining_seconds,
-  time_difference,
   is_overtime,
   time_difference_display,
 }: TimerDisplayProps) {
@@ -55,9 +53,9 @@ export function TimerDisplay({
           <IonCol>
             <IonText
               style={{ fontSize: "40px" }}
-              color={time_difference >= 0 ? "success" : "danger"}
+              color={time_difference_display >= 0 ? "success" : "danger"}
             >
-              {time_difference >= 0 ? "+" : ""}
+              {time_difference_display >= 0 ? "+" : ""}
               {formatCountdown(time_difference_display)}
             </IonText>
           </IonCol>

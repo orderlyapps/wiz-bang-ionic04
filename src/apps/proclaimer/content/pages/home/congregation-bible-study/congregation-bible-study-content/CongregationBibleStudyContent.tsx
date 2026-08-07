@@ -43,7 +43,11 @@ export function CongregationBibleStudyContent({
         on_rename={settings.rename_section}
         on_set_end_time={settings.set_end_time}
       />
-      <CongregationBibleStudyTimer sections={settings.sections} end_time={settings.end_time} />
+      <CongregationBibleStudyTimer
+        study_id={studies.active_study?.study_id ?? ""}
+        sections={settings.sections}
+        end_time={settings.end_time}
+      />
     </>
   );
 }
