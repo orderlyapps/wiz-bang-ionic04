@@ -24,7 +24,9 @@ export function useAssignmentRows(
   base_path: string,
 ): AssignmentRow[] {
   return meetingParts.map((part) => {
-    const assignedName = getAssignedPublisherName(assignments, publishers, part.assignmentId);
+    const assignedName =
+      part.publisher_override ??
+      getAssignedPublisherName(assignments, publishers, part.assignmentId);
     const assistantName = part.assistantId
       ? getAssignedPublisherName(assignments, publishers, part.assistantId)
       : undefined;
@@ -37,6 +39,7 @@ export function useAssignmentRows(
       publisher: assignedName,
       assistant: assistantName,
       pin_to_first_column: part.pin_to_first_column,
+      is_read_only: part.is_read_only,
       base_path,
     };
   });

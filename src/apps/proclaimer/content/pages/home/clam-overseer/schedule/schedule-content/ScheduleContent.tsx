@@ -11,11 +11,14 @@ import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignm
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { AssignmentCard } from "./components/assignment-card/AssignmentCard";
 import { getMeetingParts } from "./helper/get-meeting-parts";
+import { useCircuitVisitEvent } from "./helper/use-circuit-visit-event";
 import { useAssignmentRows } from "./helper/use-assignment-rows";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { ScheduleContentProps, AssignmentRow } from "./helper/types";
 import { Space } from "@ui/components/layout/space/Space";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
+import { CircuitVisitBanner } from "@proclaimer-content/pages/schedules/midweek-meeting/midweek-meeting-content/components/circuit-visit-banner/CircuitVisitBanner";
 
 export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
   const permissions = usePermissions();
@@ -39,7 +42,22 @@ export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
 
   const show_school_2 = assignments?.some((a) => a.assignment_id === "chairman_2") ?? false;
 
-  const meetingParts = weekData ? getMeetingParts(weekData, assignments, show_school_2) : [];
+  const { event: circuit_visit_event, is_loading: events_loading } = useCircuitVisitEvent(week_id);
+
+  const midweek_theme = circuit_visit_event?.details?.midweek_theme ?? "";
+  const overseer = (publishers as Publisher[] | undefined)?.find(
+    (p) => p.id === circuit_visit_event?.name,
+  );
+  const circuit_visit = midweek_theme
+    ? {
+        theme: midweek_theme,
+        overseer_name: overseer ? getPublisherDisplayName(overseer) : undefined,
+      }
+    : undefined;
+
+  const meetingParts = weekData
+    ? getMeetingParts(weekData, assignments, show_school_2, circuit_visit, can_edit)
+    : [];
 
   const rows = useAssignmentRows(
     meetingParts,
@@ -50,13 +68,18 @@ export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
   );
 
   const is_loading =
-    allMeetingData === undefined || allAssignments === undefined || publishers === undefined;
+    allMeetingData === undefined ||
+    allAssignments === undefined ||
+    publishers === undefined ||
+    events_loading;
 
   if (is_loading) return <Spinner className="flex-center" />;
 
   return (
     <>
       <WeekNavigation week_id={week_id} />
+      <CircuitVisitBanner week_id={week_id} />
+
       <IonList inset>
         <MultiColumnList<AssignmentRow>
           items={rows}
@@ -64,7 +87,7 @@ export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
           render_item={(row) => <AssignmentCard {...row} />}
           pin_to_first_column={(row) => row.pin_to_first_column ?? false}
         />
-        {!show_school_2 && can_edit && (
+        {!show_school_2 && can_edit && !circuit_visit_event && (
           <>
             <Space />
             <TextButton

@@ -4,12 +4,20 @@ import type { AssignmentItem } from "./types";
 import { formatLabel } from "./format-label";
 import { hasAssignment } from "./has-assignment";
 
+export type CircuitVisitInfo = {
+  theme: string;
+  overseer_name?: string;
+};
+
 export function getMeetingParts(
   data: MidweekMeetingData,
   assignments: MidweekAssignment[] | undefined,
   show_school_2: boolean,
+  circuit_visit?: CircuitVisitInfo,
+  can_edit: boolean = false,
 ): AssignmentItem[] {
   const parts: AssignmentItem[] = [];
+  const show_circuit_theme = !!circuit_visit?.theme;
 
   // Chairman
   parts.push({
@@ -196,7 +204,7 @@ export function getMeetingParts(
       color: "jw_red",
     });
   }
-  if (data.mwb_lc_cbs_title) {
+  if (data.mwb_lc_cbs_title && (!show_circuit_theme || can_edit)) {
     parts.push({
       title: data.mwb_lc_cbs_title,
       time: null,
@@ -205,15 +213,27 @@ export function getMeetingParts(
       assistantId: "cbs_reader",
     });
   }
+  if (show_circuit_theme && circuit_visit) {
+    parts.push({
+      title: circuit_visit.theme,
+      time: null,
+      assignmentId: "circuit_visit_theme",
+      color: "jw_red",
+      publisher_override: circuit_visit.overseer_name,
+      is_read_only: true,
+    });
+  }
 
   // Closing
-  parts.push({
-    title: "Closing Prayer",
-    time: null,
-    assignmentId: "prayer_2",
-    color: "medium",
-    pin_to_first_column: true,
-  });
+  if (!show_circuit_theme || can_edit) {
+    parts.push({
+      title: "Closing Prayer",
+      time: null,
+      assignmentId: "prayer_2",
+      color: "medium",
+      pin_to_first_column: true,
+    });
+  }
 
   return parts;
 }

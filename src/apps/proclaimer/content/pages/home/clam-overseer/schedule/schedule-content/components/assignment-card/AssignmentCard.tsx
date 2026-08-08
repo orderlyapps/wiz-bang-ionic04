@@ -11,6 +11,7 @@ export function AssignmentCard({
   color,
   publisher,
   assistant,
+  is_read_only,
   base_path,
 }: AssignmentRow) {
   const permissions = usePermissions();
@@ -25,7 +26,9 @@ export function AssignmentCard({
       label_size={sectionLabels.includes(id) ? "lg" : "sm"}
       value_2={assistant}
       value_2_color="medium"
-      router_link={can_edit ? `${base_path}/${week_id}/assignment/${id}` : undefined}
+      router_link={
+        can_edit && !is_read_only ? `${base_path}/${week_id}/assignment/${id}` : undefined
+      }
     />
   );
 }
