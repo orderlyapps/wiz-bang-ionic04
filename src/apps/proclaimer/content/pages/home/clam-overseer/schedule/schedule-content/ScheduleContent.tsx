@@ -48,9 +48,9 @@ export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
   const overseer = (publishers as Publisher[] | undefined)?.find(
     (p) => p.id === circuit_visit_event?.name,
   );
-  const circuit_visit = midweek_theme
+  const circuit_visit = circuit_visit_event
     ? {
-        theme: midweek_theme,
+        theme: midweek_theme || "Theme: TBC",
         overseer_name: overseer ? getPublisherDisplayName(overseer) : undefined,
       }
     : undefined;
